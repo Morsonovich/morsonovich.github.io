@@ -1,15 +1,15 @@
 /* =================================================================
-   MORSONOVICH BIOLINK - PREMIUM CYBER GLASSMORPHISM DESIGN
+   MORSONOVICH BIOLINK - PREMIUM CYBER & COSMIC DESIGN
    ================================================================= */
 
 :root {
-  --bg-deep: #06070b;
-  --card-bg: rgba(13, 14, 22, 0.78);
+  --bg-deep: #050609;
+  --card-bg: rgba(12, 13, 20, 0.82);
   --card-border: rgba(255, 255, 255, 0.12);
   --accent-cyan: #00f0ff;
-  --accent-green: #10b981;
+  --accent-red: #ff2a55;
   --accent-purple: #a855f7;
-  --accent-blue: #3b82f6;
+  --accent-green: #10b981;
   
   --text-main: #ffffff;
   --text-muted: #94a3b8;
@@ -27,13 +27,13 @@
 
 html, body {
   width: 100%;
-  height: 100%;
-  overflow-x: hidden;
+  min-height: 100%;
   background-color: var(--bg-deep);
   color: var(--text-main);
   font-family: 'Outfit', sans-serif;
   user-select: none;
   -webkit-user-select: none;
+  overflow-x: hidden;
 }
 
 body {
@@ -45,7 +45,57 @@ body {
   min-height: 100vh;
 }
 
-/* ================= ФОНОВЫЕ ЭФФЕКТЫ ================= */
+/* ================= 1. КРУТОЙ КОСМИЧЕСКИЙ НЕОНОВЫЙ ФОН ================= */
+.cosmic-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -5;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.45;
+  animation: floatNebula 18s infinite alternate ease-in-out;
+}
+
+.nebula-1 {
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.45) 0%, transparent 70%);
+  top: -150px;
+  left: -100px;
+}
+
+.nebula-2 {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(255, 42, 85, 0.35) 0%, transparent 70%);
+  bottom: -200px;
+  right: -150px;
+  animation-duration: 22s;
+  animation-delay: -5s;
+}
+
+.nebula-3 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+  top: 40%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  animation-duration: 15s;
+}
+
+@keyframes floatNebula {
+  0% { transform: scale(0.9) translate(0, 0); }
+  50% { transform: scale(1.15) translate(40px, -30px); }
+  100% { transform: scale(1) translate(-30px, 40px); }
+}
+
 #cyberCanvas {
   position: fixed;
   inset: 0;
@@ -55,33 +105,50 @@ body {
   pointer-events: none;
 }
 
-.cyber-glow-bg {
-  position: fixed;
-  inset: 0;
-  background: 
-    radial-gradient(circle at 50% 15%, rgba(0, 240, 255, 0.12) 0%, transparent 60%),
-    radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 20% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
-  z-index: -2;
-  pointer-events: none;
-}
-
 .cyber-grid {
   position: fixed;
   inset: 0;
   background-image: 
     linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 50px 50px;
-  z-index: -1;
+  background-size: 60px 60px;
+  z-index: -2;
   pointer-events: none;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
-/* ================= ВЕРХНЯЯ ПАНЕЛЬ ================= */
+/* Видео фона (если есть) */
+.video-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -4;
+  pointer-events: none;
+}
+
+#backgroundVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  filter: brightness(0.35) contrast(1.15);
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(5, 6, 9, 0.5) 0%, rgba(5, 6, 9, 0.95) 100%);
+}
+
+/* ================= 2. ВЕРХНЯЯ ПАНЕЛЬ ================= */
 .top-nav {
   position: fixed;
-  top: 20px;
+  top: 18px;
   left: 0;
   right: 0;
   padding: 0 28px;
@@ -129,7 +196,7 @@ body {
 }
 
 .nav-btn {
-  background: rgba(20, 22, 34, 0.75);
+  background: rgba(18, 20, 30, 0.8);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -147,60 +214,71 @@ body {
 }
 
 .nav-btn:hover {
-  background: rgba(30, 34, 52, 0.9);
+  background: rgba(28, 32, 48, 0.95);
   border-color: var(--accent-cyan);
   color: var(--accent-cyan);
   transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(0, 240, 255, 0.2);
 }
 
-/* ================= ГЛАВНАЯ ЧАСТЬ НА ВЕСЬ ЭКРАН ================= */
+/* Кнопка Моргенштерна с анимированным эквалайзером */
+.music-btn.playing {
+  border-color: #ff2a55 !important;
+  color: #ff758f !important;
+  box-shadow: 0 0 25px rgba(255, 42, 85, 0.35) !important;
+}
+
+.equalizer-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+}
+
+.equalizer-bars span {
+  width: 3px;
+  background: currentColor;
+  border-radius: 2px;
+  animation: barBounce 1s infinite alternate ease-in-out;
+}
+
+.equalizer-bars span:nth-child(1) { height: 60%; animation-delay: 0.1s; }
+.equalizer-bars span:nth-child(2) { height: 100%; animation-delay: 0.3s; }
+.equalizer-bars span:nth-child(3) { height: 40%; animation-delay: 0.2s; }
+.equalizer-bars span:nth-child(4) { height: 80%; animation-delay: 0.4s; }
+
+@keyframes barBounce {
+  0% { height: 20%; }
+  100% { height: 100%; }
+}
+
+/* ================= 3. ГЛАВНАЯ КАРТОЧКА (СТАБИЛЬНАЯ, БЕЗ НАКЛОНА) ================= */
 .main-fullscreen {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 20px 40px;
+  padding: 85px 20px 45px;
   z-index: 10;
-}
-
-.card-perspective {
-  perspective: 1200px;
 }
 
 .profile-card {
   position: relative;
-  width: 460px;
-  max-width: 92vw;
+  width: 480px;
+  max-width: 94vw;
   background: var(--card-bg);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
   border: 1px solid var(--card-border);
   border-radius: 28px;
   overflow: hidden;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 240, 255, 0.08);
-  transform-style: preserve-3d;
-  transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), 0 0 40px rgba(0, 240, 255, 0.1);
+  transform: none !important; /* Убран наклон за курсором */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .profile-card:hover {
   border-color: rgba(0, 240, 255, 0.35);
-  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.9), 0 0 50px rgba(0, 240, 255, 0.2);
-}
-
-/* Блик */
-.card-glare {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
-  pointer-events: none;
-  z-index: 50;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.profile-card:hover .card-glare {
-  opacity: 1;
+  box-shadow: 0 35px 85px rgba(0, 0, 0, 0.9), 0 0 50px rgba(0, 240, 255, 0.18);
 }
 
 /* Шапка карточки */
@@ -208,7 +286,7 @@ body {
   position: relative;
   width: 100%;
   height: 110px;
-  background: linear-gradient(135deg, #09101c 0%, #151b2e 50%, #0c182a 100%);
+  background: linear-gradient(135deg, #090e17 0%, #171a2a 50%, #0d1222 100%);
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
@@ -218,7 +296,7 @@ body {
 .banner-gradient {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top right, rgba(0, 240, 255, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle at top right, rgba(0, 240, 255, 0.35) 0%, transparent 70%);
 }
 
 .banner-tag {
@@ -227,7 +305,7 @@ body {
   font-weight: 800;
   letter-spacing: 2px;
   color: var(--accent-cyan);
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(0, 240, 255, 0.3);
   padding: 4px 10px;
   border-radius: 20px;
@@ -244,7 +322,7 @@ body {
   margin-top: -55px;
 }
 
-/* Аватар */
+/* Аватарка */
 .avatar-container {
   position: relative;
   width: 106px;
@@ -256,7 +334,7 @@ body {
   position: absolute;
   inset: -3px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-cyan), #ffffff, var(--accent-purple));
+  background: linear-gradient(135deg, var(--accent-cyan), #ffffff, var(--accent-red));
   animation: spinRing 7s linear infinite;
   z-index: 1;
 }
@@ -272,9 +350,9 @@ body {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #0b0c14;
+  border: 4px solid #090a10;
   z-index: 2;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
 }
 
 .status-badge {
@@ -284,7 +362,7 @@ body {
   width: 18px;
   height: 18px;
   background: var(--accent-green);
-  border: 3px solid #0b0c14;
+  border: 3px solid #090a10;
   border-radius: 50%;
   z-index: 5;
   box-shadow: 0 0 12px var(--accent-green);
@@ -318,6 +396,7 @@ body {
   color: var(--text-muted);
   margin-bottom: 18px;
   min-height: 20px;
+  text-align: center;
 }
 
 .blinking-cursor {
@@ -330,30 +409,121 @@ body {
   50% { opacity: 0; }
 }
 
+/* Закладки / Бейджи языков */
 .badge-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .badge-item {
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  padding: 5px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.4px;
+  padding: 5px 11px;
+  border-radius: 18px;
   background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.badge-item.cyan { color: #a5f3fc; border-color: rgba(0, 240, 255, 0.3); }
-.badge-item.green { color: #86efac; border-color: rgba(16, 185, 129, 0.3); }
-.badge-item.purple { color: #d8b4fe; border-color: rgba(168, 85, 247, 0.3); }
-.badge-item.blue { color: #93c5fd; border-color: rgba(59, 130, 246, 0.3); }
+.badge-item.py { color: #60a5fa; border-color: rgba(96, 165, 250, 0.3); background: rgba(96, 165, 250, 0.06); }
+.badge-item.jv { color: #fb923c; border-color: rgba(251, 146, 60, 0.3); background: rgba(251, 146, 60, 0.06); }
+.badge-item.rs { color: #f87171; border-color: rgba(248, 113, 113, 0.3); background: rgba(248, 113, 113, 0.06); }
+.badge-item.js { color: #facc15; border-color: rgba(250, 204, 21, 0.3); background: rgba(250, 204, 21, 0.06); }
+.badge-item.mint { color: #34d399; border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.06); }
 
-/* ================= СЕКЦИЯ СОЦИАЛЬНЫХ СЕТЕЙ (КРУПНЫЕ КАРТОЧКИ) ================= */
+/* Кнопка раскрытия подробного Досье */
+.dossier-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 16px;
+  margin-bottom: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-smooth);
+}
+
+.dossier-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+.dossier-arrow {
+  transition: transform 0.3s ease;
+}
+
+.dossier-toggle-btn.open .dossier-arrow {
+  transform: rotate(180deg);
+}
+
+/* Раскрывающийся блок Досье */
+.dossier-panel {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s var(--ease-smooth), opacity 0.3s ease;
+  opacity: 0;
+  margin-bottom: 0;
+}
+
+.dossier-panel.open {
+  max-height: 600px;
+  opacity: 1;
+  margin-bottom: 20px;
+}
+
+.dossier-inner {
+  background: rgba(7, 8, 14, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 13px;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.dossier-item .d-title {
+  display: block;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  margin-bottom: 4px;
+}
+
+.dossier-item p {
+  color: var(--text-muted);
+}
+
+.dossier-item ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dossier-item ul li {
+  color: #cbd5e1;
+  font-size: 12px;
+}
+
+.dossier-item ul li strong {
+  color: #fff;
+}
+
+/* ================= 4. КНОПКИ СОЦИАЛЬНЫХ СЕТЕЙ ================= */
 .social-section {
   width: 100%;
   margin-bottom: 20px;
@@ -387,6 +557,9 @@ body {
   transition: all 0.25s var(--ease-smooth);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
 }
 
 .social-card-btn::before {
@@ -424,9 +597,9 @@ body {
   box-shadow: 0 8px 30px rgba(88, 101, 242, 0.3);
 }
 
-.social-card-btn.steam:hover {
-  border-color: #00f0ff;
-  box-shadow: 0 8px 30px rgba(0, 240, 255, 0.25);
+.social-card-btn.bmc:hover {
+  border-color: #10b981;
+  box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3);
 }
 
 .social-card-icon {
@@ -440,10 +613,15 @@ body {
   margin-right: 14px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition: transform 0.25s ease;
+  flex-shrink: 0;
 }
 
 .social-card-btn:hover .social-card-icon {
   transform: scale(1.08);
+}
+
+.bmc-icon {
+  color: #10b981;
 }
 
 .social-card-info {
@@ -472,6 +650,17 @@ body {
 .social-card-btn:hover .social-arrow {
   transform: translateX(4px);
   color: var(--accent-cyan);
+}
+
+.social-copy-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(88, 101, 242, 0.2);
+  border: 1px solid rgba(88, 101, 242, 0.4);
+  color: #818cf8;
+  letter-spacing: 1px;
 }
 
 /* Нижний блок со статистикой */
@@ -505,6 +694,30 @@ body {
   color: var(--text-sub);
 }
 
+/* Всплывающий тост */
+.copy-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(16, 185, 129, 0.95);
+  color: #000;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 10px 22px;
+  border-radius: 30px;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.copy-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
 /* ================= МОБИЛЬНАЯ ВЕРСИЯ ================= */
 @media (max-width: 520px) {
   .main-fullscreen {
@@ -526,43 +739,4 @@ body {
   .user-nickname {
     font-size: 26px;
   }
-}
-
-.nav-btn.music-btn.playing {
-  border-color: #ff2a55 !important;
-  color: #ff758f !important;
-  box-shadow: 0 0 20px rgba(255, 42, 85, 0.4) !important;
-  animation: pulseMusic 1.5s infinite alternate;
-}
-
-@keyframes pulseMusic {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.03); }
-}
-
-.video-container {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  z-index: -4;
-  pointer-events: none;
-}
-
-#backgroundVideo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-  filter: brightness(0.4) contrast(1.15);
-}
-
-.video-overlay {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(6, 7, 11, 0.4) 0%, rgba(6, 7, 11, 0.9) 100%);
 }
