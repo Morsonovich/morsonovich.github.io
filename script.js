@@ -189,16 +189,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // dossier accordion toggle
+  // dossier accordion toggle (клик в любом месте по карточке, кнопке или экрану)
   const dossierToggleBtn = document.getElementById('dossierToggleBtn');
   const dossierPanel = document.getElementById('dossierPanel');
+  const staticCard = document.getElementById('staticCard');
 
-  if (dossierToggleBtn && dossierPanel) {
-    dossierToggleBtn.addEventListener('click', () => {
-      dossierToggleBtn.classList.toggle('open');
-      dossierPanel.classList.toggle('open');
+  function toggleDossier(e) {
+    if (!dossierPanel) return;
+
+    if (e) {
+      // Игнорируем клики по соцсетям, ссылкам, музыке и экрану входа
+      if (e.target.closest('a') || 
+          e.target.closest('.social-card-btn') || 
+          e.target.closest('#discordCopyBtn') || 
+          e.target.closest('.top-actions') || 
+          e.target.closest('#enterOverlay')) {
+        return;
+      }
+      // Если досье уже открыто и кликают внутри для чтения/выделения — не закрываем
+      if (dossierPanel.classList.contains('open') && e.target.closest('.dossier-inner')) {
+        return;
+      }
+    }
+
+    const isOpen = dossierPanel.classList.toggle('open');
+    if (dossierToggleBtn) {
+      dossierToggleBtn.classList.toggle('open', isOpen);
+    }
+  }
+
+  if (dossierToggleBtn) {
+    dossierToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDossier();
     });
   }
+
+  if (staticCard) {
+    staticCard.addEventListener('click', toggleDossier);
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.profile-card') && !e.target.closest('.top-nav')) {
+      toggleDossier(e);
+    }
+  });
 
   // discord copy to clipboard
   const discordCopyBtn = document.getElementById('discordCopyBtn');
@@ -282,128 +317,130 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ================= ЧЕРНЫЙ КОТИК С ФИОЛЕТОВЫМИ ГЛАЗАМИ =================
-  if (window.matchMedia('(pointer: fine)').matches) {
-    const catContainer = document.createElement('div');
-    catContainer.className = 'cursor-cat';
-    catContainer.innerHTML = `
-      <div class="cat-wrapper" id="catWrapper">
-        <svg class="cat-svg" viewBox="0 0 48 42" width="46" height="40">
-          <defs>
-            <filter id="purpleCatGlow" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="1.2" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-          </defs>
-          <!-- Хвост -->
-          <path class="cat-tail" d="M 8 26 C 2 24, 0 16, 5 12 C 7 10, 9 12, 7 15 C 4 19, 6 22, 10 24" fill="none" stroke="#0e0f17" stroke-width="3.5" stroke-linecap="round" />
+  const catContainer = document.createElement('div');
+  catContainer.className = 'cursor-cat';
+  catContainer.innerHTML = `
+    <div class="cat-wrapper" id="catWrapper">
+      <svg class="cat-svg" viewBox="0 0 48 42" width="50" height="44">
+        <defs>
+          <filter id="purpleCatGlow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
+        <!-- Хвост -->
+        <path class="cat-tail" d="M 8 26 C 2 24, 0 16, 5 12 C 7 10, 9 12, 7 15 C 4 19, 6 22, 10 24" fill="none" stroke="#1c1d2c" stroke-width="3.8" stroke-linecap="round" />
+        <path d="M 8 26 C 2 24, 0 16, 5 12" fill="none" stroke="#a855f7" stroke-width="0.8" opacity="0.6" />
+
+        <!-- Задние лапки -->
+        <ellipse class="cat-paw back-paw" cx="13" cy="34" rx="4" ry="2.8" fill="#25273c" stroke="#a855f7" stroke-width="0.6" stroke-opacity="0.4" />
+        <ellipse class="cat-paw back-paw-2" cx="19" cy="34" rx="4" ry="2.8" fill="#25273c" stroke="#a855f7" stroke-width="0.6" stroke-opacity="0.4" />
+        
+        <!-- Тело -->
+        <ellipse cx="22" cy="25" rx="14" ry="10" fill="#1b1c2b" stroke="#a855f7" stroke-width="0.9" stroke-opacity="0.5" />
+        
+        <!-- Передние лапки -->
+        <ellipse class="cat-paw front-paw" cx="28" cy="34" rx="4" ry="2.8" fill="#25273c" stroke="#a855f7" stroke-width="0.6" stroke-opacity="0.4" />
+        <ellipse class="cat-paw front-paw-2" cx="34" cy="34" rx="4" ry="2.8" fill="#25273c" stroke="#a855f7" stroke-width="0.6" stroke-opacity="0.4" />
+        
+        <!-- Голова -->
+        <circle cx="33" cy="18" r="9.5" fill="#1b1c2b" stroke="#a855f7" stroke-width="0.9" stroke-opacity="0.5" />
+        
+        <!-- Ушки с фиолетовыми вставками -->
+        <polygon points="27,13 25,3 32,9" fill="#1b1c2b" stroke="#a855f7" stroke-width="0.6" />
+        <polygon points="28,12 26,5 31,9" fill="#9333ea" />
+        
+        <polygon points="35,11 39,3 41,12" fill="#1b1c2b" stroke="#a855f7" stroke-width="0.6" />
+        <polygon points="36,10 39,5 40,11" fill="#9333ea" />
+        
+        <!-- Яркие светящиеся фиолетовые глаза -->
+        <g class="cat-eyes" filter="url(#purpleCatGlow)">
+          <ellipse class="cat-eye" cx="30" cy="18" rx="2.8" ry="3.8" fill="#d8b4fe" />
+          <ellipse class="cat-pupil" cx="30.2" cy="18" rx="0.9" ry="3" fill="#18042b" />
+          <circle cx="31.2" cy="16.5" r="0.9" fill="#ffffff" />
           
-          <!-- Задние лапки -->
-          <ellipse class="cat-paw back-paw" cx="13" cy="34" rx="4" ry="2.5" fill="#141520" />
-          <ellipse class="cat-paw back-paw-2" cx="19" cy="34" rx="4" ry="2.5" fill="#141520" />
-          
-          <!-- Тело -->
-          <ellipse cx="22" cy="25" rx="14" ry="10" fill="#0e0f17" />
-          
-          <!-- Передние лапки -->
-          <ellipse class="cat-paw front-paw" cx="28" cy="34" rx="4" ry="2.5" fill="#141520" />
-          <ellipse class="cat-paw front-paw-2" cx="34" cy="34" rx="4" ry="2.5" fill="#141520" />
-          
-          <!-- Голова -->
-          <circle cx="33" cy="18" r="9.5" fill="#0e0f17" />
-          
-          <!-- Ушки с фиолетовыми вставками -->
-          <polygon points="27,13 25,3 32,9" fill="#0e0f17" />
-          <polygon points="28,12 26,5 31,9" fill="#581c87" />
-          
-          <polygon points="35,11 39,3 41,12" fill="#0e0f17" />
-          <polygon points="36,10 39,5 40,11" fill="#581c87" />
-          
-          <!-- Светящиеся фиолетовые глаза -->
-          <g class="cat-eyes" filter="url(#purpleCatGlow)">
-            <ellipse class="cat-eye" cx="30" cy="18" rx="2.5" ry="3.5" fill="#c084fc" />
-            <ellipse class="cat-pupil" cx="30.2" cy="18" rx="0.9" ry="2.8" fill="#18042b" />
-            <circle cx="31" cy="16.5" r="0.8" fill="#ffffff" />
-            
-            <ellipse class="cat-eye" cx="37" cy="18" rx="2.5" ry="3.5" fill="#c084fc" />
-            <ellipse class="cat-pupil" cx="37.2" cy="18" rx="0.9" ry="2.8" fill="#18042b" />
-            <circle cx="38" cy="16.5" r="0.8" fill="#ffffff" />
-          </g>
+          <ellipse class="cat-eye" cx="37" cy="18" rx="2.8" ry="3.8" fill="#d8b4fe" />
+          <ellipse class="cat-pupil" cx="37.2" cy="18" rx="0.9" ry="3" fill="#18042b" />
+          <circle cx="38.2" cy="16.5" r="0.9" fill="#ffffff" />
+        </g>
 
-          <!-- Закрытые глазки для сна -->
-          <g class="cat-closed-eyes">
-            <path d="M 28 19 Q 30 21 32 19" fill="none" stroke="#c084fc" stroke-width="1.3" stroke-linecap="round" />
-            <path d="M 35 19 Q 37 21 39 19" fill="none" stroke="#c084fc" stroke-width="1.3" stroke-linecap="round" />
-          </g>
-          
-          <!-- Носик и усики -->
-          <polygon points="33,21.5 34.5,21.5 33.75,22.5" fill="#c084fc" />
-          <line x1="26" y1="20" x2="21" y2="19" stroke="#475569" stroke-width="0.8" />
-          <line x1="26" y1="22" x2="20" y2="23" stroke="#475569" stroke-width="0.8" />
-          <line x1="41" y1="20" x2="46" y2="19" stroke="#475569" stroke-width="0.8" />
-          <line x1="41" y1="22" x2="47" y2="23" stroke="#475569" stroke-width="0.8" />
-        </svg>
-        <div class="cat-sleep-z">z</div>
-      </div>
-    `;
-    document.body.appendChild(catContainer);
+        <!-- Закрытые глазки для сна -->
+        <g class="cat-closed-eyes">
+          <path d="M 28 19 Q 30 21.5 32 19" fill="none" stroke="#d8b4fe" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M 35 19 Q 37 21.5 39 19" fill="none" stroke="#d8b4fe" stroke-width="1.5" stroke-linecap="round" />
+        </g>
+        
+        <!-- Носик и усики -->
+        <polygon points="33,21.5 34.5,21.5 33.75,22.5" fill="#c084fc" />
+        <line x1="26" y1="20" x2="20" y2="19" stroke="#94a3b8" stroke-width="0.9" stroke-opacity="0.8" />
+        <line x1="26" y1="22" x2="19" y2="23" stroke="#94a3b8" stroke-width="0.9" stroke-opacity="0.8" />
+        <line x1="41" y1="20" x2="47" y2="19" stroke="#94a3b8" stroke-width="0.9" stroke-opacity="0.8" />
+        <line x1="41" y1="22" x2="48" y2="23" stroke="#94a3b8" stroke-width="0.9" stroke-opacity="0.8" />
+      </svg>
+      <div class="cat-sleep-z">z</div>
+    </div>
+  `;
+  document.body.appendChild(catContainer);
 
-    const catWrapper = document.getElementById('catWrapper');
-    let catX = window.innerWidth / 2;
-    let catY = window.innerHeight / 2;
-    let targetX = catX;
-    let targetY = catY;
-    let lastMoveTime = Date.now();
-    let isSleeping = false;
-    let facingDirection = 1;
+  const catWrapper = document.getElementById('catWrapper');
+  let catX = window.innerWidth / 2 + 60;
+  let catY = window.innerHeight / 2 + 60;
+  let targetX = catX;
+  let targetY = catY;
+  let lastMoveTime = Date.now();
+  let isSleeping = false;
+  let facingDirection = 1;
 
-    window.addEventListener('mousemove', (e) => {
-      targetX = e.clientX;
-      targetY = e.clientY;
-      lastMoveTime = Date.now();
-      if (isSleeping) {
-        isSleeping = false;
-        catContainer.classList.remove('sleeping');
-      }
-    });
-
-    function updateCat() {
-      const offsetX = facingDirection === 1 ? -28 : 28;
-      const offsetY = 20;
-      const desiredX = targetX + offsetX;
-      const desiredY = targetY + offsetY;
-
-      const dx = desiredX - catX;
-      const dy = desiredY - catY;
-      const dist = Math.hypot(dx, dy);
-
-      if (dist > 16) {
-        catContainer.classList.add('running');
-        catContainer.classList.remove('sleeping');
-        isSleeping = false;
-
-        const speed = Math.min(14, Math.max(3.5, dist * 0.1));
-        catX += (dx / dist) * speed;
-        catY += (dy / dist) * speed;
-
-        if (dx > 3) {
-          facingDirection = 1;
-          catWrapper.style.transform = 'scaleX(1)';
-        } else if (dx < -3) {
-          facingDirection = -1;
-          catWrapper.style.transform = 'scaleX(-1)';
-        }
-      } else {
-        catContainer.classList.remove('running');
-
-        if (!isSleeping && Date.now() - lastMoveTime > 3200) {
-          isSleeping = true;
-          catContainer.classList.add('sleeping');
-        }
-      }
-
-      catContainer.style.transform = `translate3d(${catX}px, ${catY}px, 0) translate(-50%, -50%)`;
-      requestAnimationFrame(updateCat);
+  const onPointerMove = (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+    lastMoveTime = Date.now();
+    if (isSleeping) {
+      isSleeping = false;
+      catContainer.classList.remove('sleeping');
     }
+  };
+
+  window.addEventListener('mousemove', onPointerMove, { passive: true });
+  window.addEventListener('pointermove', onPointerMove, { passive: true });
+
+  function updateCat() {
+    const offsetX = facingDirection === 1 ? -28 : 28;
+    const offsetY = 20;
+    const desiredX = targetX + offsetX;
+    const desiredY = targetY + offsetY;
+
+    const dx = desiredX - catX;
+    const dy = desiredY - catY;
+    const dist = Math.hypot(dx, dy);
+
+    if (dist > 14) {
+      catContainer.classList.add('running');
+      catContainer.classList.remove('sleeping');
+      isSleeping = false;
+
+      const speed = Math.min(15, Math.max(3.5, dist * 0.12));
+      catX += (dx / dist) * speed;
+      catY += (dy / dist) * speed;
+
+      if (dx > 3) {
+        facingDirection = 1;
+        catWrapper.style.transform = 'scaleX(1)';
+      } else if (dx < -3) {
+        facingDirection = -1;
+        catWrapper.style.transform = 'scaleX(-1)';
+      }
+    } else {
+      catContainer.classList.remove('running');
+
+      if (!isSleeping && Date.now() - lastMoveTime > 3000) {
+        isSleeping = true;
+        catContainer.classList.add('sleeping');
+      }
+    }
+
+    catContainer.style.transform = `translate3d(${catX}px, ${catY}px, 0) translate(-50%, -50%)`;
     requestAnimationFrame(updateCat);
   }
+  requestAnimationFrame(updateCat);
 });
