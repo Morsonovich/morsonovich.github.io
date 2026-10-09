@@ -5,17 +5,25 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Автозапуск фонового видео
+  // ================= 1. АВТОЗАПУСК ФОНОВОГО ВИДЕО =================
   const bgVideo = document.getElementById('backgroundVideo');
   if (bgVideo) {
     bgVideo.muted = true;
-    bgVideo.play().catch(e => console.log('Video autoplay error:', e));
-    document.addEventListener('click', () => {
-      if (bgVideo.paused) bgVideo.play().catch(() => {});
-    }, { once: true });
+    bgVideo.defaultMuted = true;
+    bgVideo.setAttribute('playsinline', '');
+    bgVideo.setAttribute('muted', '');
+    bgVideo.setAttribute('autoplay', '');
+    
+    const playVid = () => {
+      bgVideo.play().catch(e => console.log('Video play policy waiting:', e));
+    };
+    playVid();
+    ['click', 'touchstart', 'pointerdown', 'scroll'].forEach(evt => {
+      document.addEventListener(evt, playVid, { once: true });
+    });
   }
 
-  // ================= 1. АНИМАЦИЯ НАЗВАНИЯ ВКЛАДКИ =================
+  // ================= 2. АНИМАЦИЯ НАЗВАНИЯ ВКЛАДКИ =================
   const titleFrames = [
     '@M',
     '@Mo',
@@ -44,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     titleIndex++;
   }, 260);
 
-  // ================= 2. АВТОЗАПУСК МУЗЫКИ (MORGENSHTERN — КРАСНЫЙ ФЛАГ) =================
+  // ================= 3. АВТОЗАПУСК МУЗЫКИ (MORGENSHTERN — КРАСНЫЙ ФЛАГ) =================
   const bgAudio = document.getElementById('bgAudio');
   const musicToggleBtn = document.getElementById('musicToggleBtn');
   const musicStatusText = document.getElementById('musicStatusText');
@@ -91,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ================= 3. РАСКРЫТИЕ ПОДРОБНОГО ДОСЬЕ =================
+  // ================= 4. РАСКРЫТИЕ ПОДРОБНОГО ДОСЬЕ =================
   const dossierToggleBtn = document.getElementById('dossierToggleBtn');
   const dossierPanel = document.getElementById('dossierPanel');
 
@@ -102,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ================= 4. КОПИРОВАНИЕ ДИСКОРДА =================
+  // ================= 5. КОПИРОВАНИЕ ДИСКОРДА =================
   const discordCopyBtn = document.getElementById('discordCopyBtn');
   if (discordCopyBtn) {
     discordCopyBtn.addEventListener('click', () => {
@@ -129,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2500);
   }
 
-  // ================= 5. БЕГУЩАЯ СТРОКА НА ОСНОВЕ ВАШЕГО ДОСЬЕ =================
+  // ================= 6. БЕГУЩАЯ СТРОКА НА ОСНОВЕ ВАШЕГО ДОСЬЕ =================
   const roleTextElem = document.getElementById('roleText');
   const roles = [
     'Артём • Морс • Морсонович',
@@ -168,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   typeWriter();
 
-  // ================= 6. ПОЛНОЭКРАННЫЙ РЕЖИМ (FULLSCREEN) =================
+  // ================= 7. ПОЛНОЭКРАННЫЙ РЕЖИМ (FULLSCREEN) =================
   const fullscreenBtn = document.getElementById('fullscreenToggleBtn');
   if (fullscreenBtn) {
     fullscreenBtn.addEventListener('click', () => {
@@ -184,72 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ================= 7. CANVAS ЧАСТИЦЫ =================
-  const canvas = document.getElementById('cyberCanvas');
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let particles = [];
-
-  function resizeCanvas() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  const particleCount = Math.min(window.innerWidth < 768 ? 35 : 65, 75);
-  for (let i = 0; i < particleCount; i++) {
-    particles.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.7,
-      vy: (Math.random() - 0.5) * 0.7,
-      radius: Math.random() * 2 + 1,
-      color: Math.random() > 0.5 ? 'rgba(0, 240, 255,' : 'rgba(255, 42, 85,'
-    });
-  }
-
-  function animateParticles() {
-    ctx.clearRect(0, 0, width, height);
-
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if (p.x < 0) p.x = width;
-      if (p.x > width) p.x = 0;
-      if (p.y < 0) p.y = height;
-      if (p.y > height) p.y = 0;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = p.color + '0.7)';
-      ctx.shadowBlur = 8;
-      ctx.shadowColor = '#00f0ff';
-      ctx.fill();
-
-      for (let j = i + 1; j < particles.length; j++) {
-        const p2 = particles[j];
-        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-        if (dist < 110) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(0, 240, 255, ${0.12 * (1 - dist / 110)})`;
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
-        }
-      }
-    }
-
-    requestAnimationFrame(animateParticles);
-  }
-  animateParticles();
-
   // ================= 8. СЧЁТЧИК ПРОСМОТРОВ =================
   const viewCountText = document.getElementById('viewCountText');
-  let views = parseInt(localStorage.getItem('morsonovich-views') || '1338', 10);
+  let views = parseInt(localStorage.getItem('morsonovich-views') || '1341', 10);
   views += 1;
   localStorage.setItem('morsonovich-views', views);
   if (viewCountText) {
@@ -260,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.fairyDustCursor) {
     try {
       new fairyDustCursor({
-        colors: ['#00f0ff', '#ff2a55', '#a855f7']
+        colors: ['#00f0ff', '#ff2a55', '#ffffff']
       });
     } catch (e) {}
   }

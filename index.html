@@ -20,16 +20,7 @@
 </head>
 <body>
 
-  <!-- ================= 1. КРУТОЙ НЕОНОВЫЙ АНИМИРОВАННЫЙ ФОН ================= -->
-  <div class="cosmic-bg">
-    <div class="nebula nebula-1"></div>
-    <div class="nebula nebula-2"></div>
-    <div class="nebula nebula-3"></div>
-  </div>
-  <canvas id="cyberCanvas"></canvas>
-  <div class="cyber-grid"></div>
-
-  <!-- Фоновое видео (если загружено) -->
+  <!-- ================= 1. АТМОСФЕРНЫЙ Ч/Б ВИДЕО-ФОН (СИГАРЕТА И ДЫМ) ================= -->
   <div class="video-container">
     <video id="backgroundVideo" muted loop playsinline autoplay preload="auto">
       <source src="background.mp4" type="video/mp4">
@@ -37,6 +28,9 @@
     </video>
     <div class="video-overlay"></div>
   </div>
+
+  <!-- Дымовой Canvas поверх видео -->
+  <canvas id="cyberCanvas"></canvas>
 
   <!-- ================= 2. ФОНОВАЯ МУЗЫКА (MORGENSHTERN - КРАСНЫЙ ФЛАГ) ================= -->
   <audio id="bgAudio" loop preload="auto">
@@ -71,7 +65,7 @@
     </div>
   </header>
 
-  <!-- ================= 4. ГЛАВНАЯ КАРТОЧКА MORSONOVICH (СТАБИЛЬНАЯ, БЕЗ НАКЛОНА) ================= -->
+  <!-- ================= 4. ГЛАВНАЯ КАРТОЧКА MORSONOVICH ================= -->
   <main class="main-fullscreen">
     <div class="profile-card" id="staticCard">
 
@@ -199,10 +193,9 @@
               <div class="social-copy-badge">COPY</div>
             </button>
 
-            <!-- 4. BLACKMINECRAFT (ВМЕСТО STEAM) -->
+            <!-- 4. BLACKMINECRAFT -->
             <a href="https://black-minecraft.com/members/retr0gradn1y.259287/" target="_blank" rel="noopener noreferrer" class="social-card-btn bmc" id="bmcLink">
               <div class="social-card-icon bmc-icon">
-                <!-- Кастомный стильный кубик Minecraft / BlackMinecraft -->
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                   <path d="M12 1L2 6.5v11L12 23l10-5.5v-11L12 1zm0 2.4l7.6 4.1-3.6 2-7.6-4.1 3.6-2zm-8 6l7 3.8v7.4l-7-3.8V9.4zm16 7.4l-7 3.8v-7.4l7-3.8v7.4z"/>
                 </svg>
@@ -224,7 +217,7 @@
               <ellipse cx="12" cy="12" rx="9" ry="5"/>
               <circle cx="12" cy="12" r="2.5" fill="#00f0ff"/>
             </svg>
-            <span id="viewCountText">1,338</span>
+            <span id="viewCountText">1,341</span>
             <span class="views-text">просмотров</span>
           </div>
         </div>
