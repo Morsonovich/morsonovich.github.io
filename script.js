@@ -1,11 +1,5 @@
-/**
- * =================================================================
- * MORSONOVICH BIOLINK - INTERACTIVE JAVASCRIPT
- * =================================================================
- */
-
 document.addEventListener('DOMContentLoaded', () => {
-  // ================= 1. АВТОЗАПУСК ФОНОВОГО ВИДЕО =================
+  // background video autoplay
   const bgVideo = document.getElementById('backgroundVideo');
   if (bgVideo) {
     bgVideo.muted = true;
@@ -15,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     bgVideo.setAttribute('autoplay', '');
     
     const playVid = () => {
-      bgVideo.play().catch(e => console.log('Video play policy waiting:', e));
+      bgVideo.play().catch(() => {});
     };
     playVid();
     ['click', 'touchstart', 'pointerdown', 'scroll'].forEach(evt => {
@@ -23,28 +17,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ================= 2. АНИМАЦИЯ НАЗВАНИЯ ВКЛАДКИ =================
+  // title ticker animation
   const titleFrames = [
-    '@M',
-    '@Mo',
-    '@Mor',
-    '@Mors',
-    '@Morso',
-    '@Morson',
-    '@Morsonov',
-    '@Morsonovi',
-    '@Morsonovic',
-    '@Morsonovich',
-    '@Morsonovich ⚡',
-    '@Morsonovich',
-    '@Morsonovic',
-    '@Morsonovi',
-    '@Morsonov',
-    '@Morson',
-    '@Morso',
-    '@Mors',
-    '@Mor',
-    '@Mo'
+    '@m',
+    '@mo',
+    '@mor',
+    '@mors',
+    '@morso',
+    '@morson',
+    '@morsonov',
+    '@morsonovi',
+    '@morsonovic',
+    '@morsonovich',
+    '@morsonovich ⚡',
+    '@morsonovich',
+    '@morsonovic',
+    '@morsonovi',
+    '@morsonov',
+    '@morson',
+    '@morso',
+    '@mors',
+    '@mor',
+    '@mo'
   ];
   let titleIndex = 0;
   setInterval(() => {
@@ -52,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     titleIndex++;
   }, 260);
 
-  // ================= 3. АВТОЗАПУСК МУЗЫКИ (MORGENSHTERN — КРАСНЫЙ ФЛАГ) =================
+  // audio autoplay & unlock manager
   const bgAudio = document.getElementById('bgAudio');
   const musicToggleBtn = document.getElementById('musicToggleBtn');
   const musicStatusText = document.getElementById('musicStatusText');
@@ -60,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let isPlaying = false;
   let hasUnlocked = false;
+  let isUnlocking = false;
 
   function hideOverlay() {
     if (enterOverlay && !enterOverlay.classList.contains('hidden')) {
@@ -81,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startMusic() {
-    if (!bgAudio) return Promise.reject(new Error('bgAudio not found'));
+    if (!bgAudio) return Promise.reject(new Error('audio element not found'));
     bgAudio.volume = 0.65;
     const p = bgAudio.play();
     if (p !== undefined) {
@@ -90,14 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return Promise.resolve();
   }
 
-  let isUnlocking = false;
-
   function unlockAndPlay() {
     if (hasUnlocked && isPlaying) return;
     if (isUnlocking) return;
     isUnlocking = true;
 
-    // Снимаем блокировку аудио-подсистемы Web Audio API (для iOS/Safari/Chrome)
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (AudioCtx) {
@@ -113,8 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
       isUnlocking = false;
       handlePlaybackSuccess();
     }).catch(err => {
-      console.warn('Playback error on user gesture:', err);
-      // Повторная попытка через 100мс
+      console.warn('Playback error on gesture:', err);
       setTimeout(() => {
         startMusic().then(() => {
           hasUnlocked = true;
@@ -130,17 +121,15 @@ document.addEventListener('DOMContentLoaded', () => {
     hideOverlay();
   }
 
-  // 1. Попытка немедленного автозапуска без клика (если браузер позволяет)
+  // initial attempt (if browser allows cold autoplay)
   startMusic().then(() => {
-    // Автозапуск удался сразу при входе!
     hasUnlocked = true;
     handlePlaybackSuccess();
-  }).catch((err) => {
-    // Браузер заблокировал холодный автоплей без взаимодействия (NotAllowedError)
-    console.log('Autoplay blocked by browser policy, awaiting user touch/click:', err);
+  }).catch(() => {
+    // waiting for interaction
   });
 
-  // 2. Любой клик или тап в любом месте экрана мгновенно запускает трек
+  // gesture triggers
   if (enterOverlay) {
     enterOverlay.addEventListener('click', unlockAndPlay);
     enterOverlay.addEventListener('touchstart', unlockAndPlay, { passive: true });
@@ -150,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener(evt, unlockAndPlay, { passive: true });
   });
 
-  // Слушатели событий самого аудио-элемента
   if (bgAudio) {
     bgAudio.addEventListener('playing', () => {
       isPlaying = true;
@@ -165,15 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Резервный перезапуск при завершении трека (гарантия непрерывного зацикливания)
     bgAudio.addEventListener('ended', () => {
       bgAudio.currentTime = 0;
       startMusic().catch(() => {});
     });
 
-    // Обработка ошибок декодирования: автопереключение на резервный файл
-    bgAudio.addEventListener('error', (e) => {
-      console.warn('bgAudio error, attempting fallback source...', e);
+    bgAudio.addEventListener('error', () => {
       if (!bgAudio.src.includes('media/audio/background.mp3')) {
         bgAudio.src = 'media/audio/background.mp3';
         bgAudio.load();
@@ -182,14 +167,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Возобновление при возвращении на вкладку
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && hasUnlocked && bgAudio && bgAudio.paused && isPlaying) {
       startMusic().catch(() => {});
     }
   });
 
-  // Кнопка ручного переключения в шапке
   if (musicToggleBtn) {
     musicToggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -206,26 +189,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ================= 4. РАСКРЫТИЕ ПОДРОБНОГО ДОСЬЕ =================
+  // bio / dossier accordion
   const dossierToggleBtn = document.getElementById('dossierToggleBtn');
   const dossierPanel = document.getElementById('dossierPanel');
 
   if (dossierToggleBtn && dossierPanel) {
     dossierToggleBtn.addEventListener('click', () => {
-      dossierToggleBtn.classList.toggle('open');
-      dossierPanel.classList.toggle('open');
+      const isOpen = dossierPanel.classList.toggle('open');
+      const stateSpan = dossierToggleBtn.querySelector('.bio-toggle-state');
+      if (stateSpan) {
+        stateSpan.textContent = isOpen ? 'свернуть' : 'инфо';
+      }
     });
   }
 
-  // ================= 5. КОПИРОВАНИЕ ДИСКОРДА =================
+  // discord copy
   const discordCopyBtn = document.getElementById('discordCopyBtn');
   if (discordCopyBtn) {
     discordCopyBtn.addEventListener('click', () => {
-      const discordTag = 'morsonovich';
-      navigator.clipboard.writeText(discordTag).then(() => {
-        showToast('✅ Дискорд morsonovich скопирован!');
+      const tag = 'morsonovich';
+      navigator.clipboard.writeText(tag).then(() => {
+        showToast('✓ скопировано: morsonovich');
       }).catch(() => {
-        showToast('Дискорд: morsonovich');
+        showToast('discord: morsonovich');
       });
     });
   }
@@ -241,24 +227,24 @@ document.addEventListener('DOMContentLoaded', () => {
     toast.classList.add('show');
     setTimeout(() => {
       toast.classList.remove('show');
-    }, 2500);
+    }, 2200);
   }
 
-  // ================= 6. БЕГУЩАЯ СТРОКА НА ОСНОВЕ ВАШЕГО ДОСЬЕ =================
+  // typewriter effect
   const roleTextElem = document.getElementById('roleText');
   const roles = [
     'Артём • Морс • Морсонович',
-    'Экс-создатель MintStudio (Minecraft)',
-    'Python Developer (3 года опыта)',
-    'Java Developer (2 года опыта)',
-    'Rust Developer (2 года опыта)',
-    'JavaScript Developer (2 года опыта)'
+    'Minecraft plugin dev',
+    'ex-founder @ MintStudio',
+    'Python / Rust / Java / JS',
+    't.me/retr0gradn1y'
   ];
   let roleIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
 
   function typeWriter() {
+    if (!roleTextElem) return;
     const currentRole = roles[roleIndex];
     if (isDeleting) {
       roleTextElem.textContent = currentRole.substring(0, charIndex - 1);
@@ -268,29 +254,27 @@ document.addEventListener('DOMContentLoaded', () => {
       charIndex++;
     }
 
-    let speed = isDeleting ? 30 : 65;
+    let speed = isDeleting ? 25 : 55;
 
     if (!isDeleting && charIndex === currentRole.length) {
-      speed = 2200;
+      speed = 2000;
       isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
       isDeleting = false;
       roleIndex = (roleIndex + 1) % roles.length;
-      speed = 350;
+      speed = 300;
     }
 
     setTimeout(typeWriter, speed);
   }
   typeWriter();
 
-  // ================= 7. ПОЛНОЭКРАННЫЙ РЕЖИМ (FULLSCREEN) =================
+  // fullscreen toggle
   const fullscreenBtn = document.getElementById('fullscreenToggleBtn');
   if (fullscreenBtn) {
     fullscreenBtn.addEventListener('click', () => {
       if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => {
-          console.log('Fullscreen error:', err);
-        });
+        document.documentElement.requestFullscreen().catch(() => {});
       } else {
         if (document.exitFullscreen) {
           document.exitFullscreen();
@@ -299,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ================= 8. СЧЁТЧИК ПРОСМОТРОВ =================
+  // view counter
   const viewCountText = document.getElementById('viewCountText');
   let views = parseInt(localStorage.getItem('morsonovich-views') || '1341', 10);
   views += 1;
@@ -308,12 +292,37 @@ document.addEventListener('DOMContentLoaded', () => {
     viewCountText.textContent = views.toLocaleString();
   }
 
-  // ================= 9. ЭФФЕКТ КУРСОРА =================
-  if (window.fairyDustCursor) {
-    try {
-      new fairyDustCursor({
-        colors: ['#00f0ff', '#ff2a55', '#ffffff']
-      });
-    } catch (e) {}
+  // bespoke smooth custom cursor (desktop only)
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorOutline = document.getElementById('cursorOutline');
+
+  if (cursorDot && cursorOutline && window.matchMedia('(pointer: fine)').matches) {
+    let mouseX = -100;
+    let mouseY = -100;
+    let outlineX = -100;
+    let outlineY = -100;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.left = `${mouseX}px`;
+      cursorDot.style.top = `${mouseY}px`;
+    });
+
+    const animateCursor = () => {
+      outlineX += (mouseX - outlineX) * 0.18;
+      outlineY += (mouseY - outlineY) * 0.18;
+      cursorOutline.style.left = `${outlineX}px`;
+      cursorOutline.style.top = `${outlineY}px`;
+      requestAnimationFrame(animateCursor);
+    };
+    requestAnimationFrame(animateCursor);
+
+    // hover reactions on links/buttons
+    const hoverTargets = document.querySelectorAll('a, button, .social-card-btn, .bio-toggle, .enter-box');
+    hoverTargets.forEach(el => {
+      el.addEventListener('mouseenter', () => cursorOutline.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hovered'));
+    });
   }
 });
