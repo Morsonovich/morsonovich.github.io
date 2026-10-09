@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
       vx: (Math.random() - 0.5) * 0.8,
       vy: (Math.random() - 0.5) * 0.8,
       radius: Math.random() * 2 + 1,
-      color: Math.random() > 0.5 ? 'rgba(0, 240, 255,' : 'rgba(168, 85, 247,'
+      color: Math.random() > 0.5 ? 'rgba(0, 240, 255,' : 'rgba(239, 68, 68,' // с красным оттенком под Красный флаг
     });
   }
 
@@ -78,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
       ctx.fillStyle = p.color + '0.7)';
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = '#00f0ff';
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = '#ff2a55';
       ctx.fill();
 
       // Линии между близкими частицами
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 * (1 - dist / 110)})`;
+          ctx.strokeStyle = `rgba(255, 60, 100, ${0.14 * (1 - dist / 110)})`;
           ctx.lineWidth = 0.8;
           ctx.stroke();
         }
@@ -117,48 +117,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ================= 4. МУЗЫКА =================
+  // ================= 4. МУЗЫКА: MORGENSHTERN — КРАСНЫЙ ФЛАГ =================
   const bgAudio = document.getElementById('bgAudio');
   const musicToggleBtn = document.getElementById('musicToggleBtn');
   const musicStatusText = document.getElementById('musicStatusText');
   let isPlaying = false;
 
-  if (musicToggleBtn && bgAudio) {
-    musicToggleBtn.addEventListener('click', () => {
-      if (!isPlaying) {
-        bgAudio.volume = 0.5;
-        bgAudio.play().then(() => {
-          isPlaying = true;
-          musicStatusText.textContent = 'Музыка: Вкл';
-          musicToggleBtn.style.borderColor = 'var(--accent-cyan)';
-          musicToggleBtn.style.color = 'var(--accent-cyan)';
-        }).catch(err => {
-          console.log('Audio autoplay prevented:', err);
-        });
-      } else {
-        bgAudio.pause();
-        isPlaying = false;
-        musicStatusText.textContent = 'Музыка: Выкл';
-        musicToggleBtn.style.borderColor = 'rgba(255, 255, 255, 0.12)';
-        musicToggleBtn.style.color = '#fff';
-      }
-    });
-
-    // Авто-попытка воспроизведения при первом клике в любом месте
-    const playOnFirstInteraction = () => {
-      if (!isPlaying) {
-        bgAudio.volume = 0.5;
-        bgAudio.play().then(() => {
-          isPlaying = true;
-          musicStatusText.textContent = 'Музыка: Вкл';
-          musicToggleBtn.style.borderColor = 'var(--accent-cyan)';
-          musicToggleBtn.style.color = 'var(--accent-cyan)';
-        }).catch(() => {});
-      }
-      document.removeEventListener('click', playOnFirstInteraction);
-    };
-    document.addEventListener('click', playOnFirstInteraction, { once: true });
+  function toggleMusic() {
+    if (!bgAudio) return;
+    if (!isPlaying) {
+      bgAudio.volume = 0.6;
+      bgAudio.play().then(() => {
+        isPlaying = true;
+        musicStatusText.textContent = '▶ MORGENSHTERN — Красный флаг';
+        musicToggleBtn.classList.add('playing');
+      }).catch(err => {
+        console.log('Audio playback waiting for user click:', err);
+      });
+    } else {
+      bgAudio.pause();
+      isPlaying = false;
+      musicStatusText.textContent = '⏸ MORGENSHTERN — Красный флаг';
+      musicToggleBtn.classList.remove('playing');
+    }
   }
+
+  if (musicToggleBtn) {
+    musicToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMusic();
+    });
+  }
+
+  // Автозапуск при первом клике в любой точке экрана
+  const playOnFirstInteraction = () => {
+    if (!isPlaying && bgAudio) {
+      bgAudio.volume = 0.6;
+      bgAudio.play().then(() => {
+        isPlaying = true;
+        musicStatusText.textContent = '▶ MORGENSHTERN — Красный флаг';
+        if (musicToggleBtn) musicToggleBtn.classList.add('playing');
+      }).catch(() => {});
+    }
+    document.removeEventListener('click', playOnFirstInteraction);
+  };
+  document.addEventListener('click', playOnFirstInteraction, { once: true });
 
   // ================= 5. 3D TILT НАКЛОН КАРТОЧКИ =================
   const tiltCard = document.getElementById('tiltCard');
@@ -246,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.fairyDustCursor) {
     try {
       new fairyDustCursor({
-        colors: ['#00f0ff', '#ffffff', '#a855f7']
+        colors: ['#00f0ff', '#ff2a55', '#ffffff']
       });
     } catch (e) {}
   }

@@ -527,3 +527,15 @@ body {
     font-size: 26px;
   }
 }
+
+.nav-btn.music-btn.playing {
+  border-color: #ff2a55 !important;
+  color: #ff758f !important;
+  box-shadow: 0 0 20px rgba(255, 42, 85, 0.4) !important;
+  animation: pulseMusic 1.5s infinite alternate;
+}
+
+@keyframes pulseMusic {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.03); }
+}
