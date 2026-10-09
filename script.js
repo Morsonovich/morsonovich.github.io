@@ -5,6 +5,16 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Автозапуск фонового видео
+  const bgVideo = document.getElementById('backgroundVideo');
+  if (bgVideo) {
+    bgVideo.muted = true;
+    bgVideo.play().catch(e => console.log('Video autoplay error:', e));
+    document.addEventListener('click', () => {
+      if (bgVideo.paused) bgVideo.play().catch(() => {});
+    }, { once: true });
+  }
+
   // ================= 1. АНИМАЦИЯ НАЗВАНИЯ ВКЛАДКИ =================
   const titleFrames = [
     '@M',
