@@ -20,6 +20,33 @@
 </head>
 <body>
 
+  <!-- ================= 0. SPLASH-ЭКРАН ДЛЯ МГНОВЕННОГО ВХОДА И ОБХОДА АВТОПЛЕЯ ================= -->
+  <div id="enterOverlay" class="enter-overlay">
+    <div class="enter-box">
+      <div class="enter-avatar-wrap">
+        <div class="enter-avatar-glow"></div>
+        <img src="avatar.png" alt="Morsonovich" class="enter-avatar-img" onerror="this.src='media/images/avatar.png'">
+      </div>
+      <div class="enter-user">
+        <span class="enter-name">Morsonovich</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="#00f0ff" class="enter-verified">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+      </div>
+      <div class="enter-track-badge">
+        <div class="enter-wave">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <span>MORGENSHTERN — Красный флаг</span>
+      </div>
+      <div class="enter-btn-pulse">
+        <span class="pulse-sparkle">⚡</span>
+        <span class="pulse-text">НАЖМИТЕ В ЛЮБОМ МЕСТЕ ДЛЯ ВХОДА</span>
+        <span class="pulse-sparkle">⚡</span>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= 1. АТМОСФЕРНЫЙ Ч/Б ВИДЕО-ФОН (СИГАРЕТА И ДЫМ) ================= -->
   <div class="video-container">
     <video id="backgroundVideo" muted loop playsinline autoplay preload="auto">
@@ -33,7 +60,7 @@
   <canvas id="cyberCanvas"></canvas>
 
   <!-- ================= 2. ФОНОВАЯ МУЗЫКА (MORGENSHTERN - КРАСНЫЙ ФЛАГ) ================= -->
-  <audio id="bgAudio" loop preload="auto">
+  <audio id="bgAudio" loop preload="auto" playsinline webkit-playsinline>
     <source src="background.mp3" type="audio/mpeg">
     <source src="media/audio/background.mp3" type="audio/mpeg">
     <source src="media/audio/morgenshtern_krasnyy_flag.mp3" type="audio/mpeg">

@@ -56,31 +56,137 @@ document.addEventListener('DOMContentLoaded', () => {
   const bgAudio = document.getElementById('bgAudio');
   const musicToggleBtn = document.getElementById('musicToggleBtn');
   const musicStatusText = document.getElementById('musicStatusText');
+  const enterOverlay = document.getElementById('enterOverlay');
+
   let isPlaying = false;
+  let hasUnlocked = false;
+
+  function hideOverlay() {
+    if (enterOverlay && !enterOverlay.classList.contains('hidden')) {
+      enterOverlay.classList.add('hidden');
+      setTimeout(() => {
+        enterOverlay.style.display = 'none';
+      }, 500);
+    }
+  }
+
+  function handlePlaybackSuccess() {
+    isPlaying = true;
+    hideOverlay();
+    if (musicStatusText) musicStatusText.textContent = 'MORGENSHTERN — Красный флаг';
+    if (musicToggleBtn) musicToggleBtn.classList.add('playing');
+    if (bgVideo && bgVideo.paused) {
+      bgVideo.play().catch(() => {});
+    }
+  }
 
   function startMusic() {
-    if (!bgAudio) return;
+    if (!bgAudio) return Promise.reject(new Error('bgAudio not found'));
     bgAudio.volume = 0.65;
-    bgAudio.play().then(() => {
-      isPlaying = true;
-      if (musicStatusText) musicStatusText.textContent = 'MORGENSHTERN — Красный флаг';
-      if (musicToggleBtn) musicToggleBtn.classList.add('playing');
+    const p = bgAudio.play();
+    if (p !== undefined) {
+      return p;
+    }
+    return Promise.resolve();
+  }
+
+  let isUnlocking = false;
+
+  function unlockAndPlay() {
+    if (hasUnlocked && isPlaying) return;
+    if (isUnlocking) return;
+    isUnlocking = true;
+
+    // Снимаем блокировку аудио-подсистемы Web Audio API (для iOS/Safari/Chrome)
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        const ctx = new AudioCtx();
+        if (ctx.state === 'suspended') {
+          ctx.resume();
+        }
+      }
+    } catch (e) {}
+
+    startMusic().then(() => {
+      hasUnlocked = true;
+      isUnlocking = false;
+      handlePlaybackSuccess();
     }).catch(err => {
-      console.log('Autoplay blocked by browser policy, awaiting interaction:', err);
+      console.warn('Playback error on user gesture:', err);
+      // Повторная попытка через 100мс
+      setTimeout(() => {
+        startMusic().then(() => {
+          hasUnlocked = true;
+          isUnlocking = false;
+          handlePlaybackSuccess();
+        }).catch(e => {
+          isUnlocking = false;
+          console.error('Final playback attempt failed:', e);
+        });
+      }, 100);
+    });
+
+    hideOverlay();
+  }
+
+  // 1. Попытка немедленного автозапуска без клика (если браузер позволяет)
+  startMusic().then(() => {
+    // Автозапуск удался сразу при входе!
+    hasUnlocked = true;
+    handlePlaybackSuccess();
+  }).catch((err) => {
+    // Браузер заблокировал холодный автоплей без взаимодействия (NotAllowedError)
+    console.log('Autoplay blocked by browser policy, awaiting user touch/click:', err);
+  });
+
+  // 2. Любой клик или тап в любом месте экрана мгновенно запускает трек
+  if (enterOverlay) {
+    enterOverlay.addEventListener('click', unlockAndPlay);
+    enterOverlay.addEventListener('touchstart', unlockAndPlay, { passive: true });
+    enterOverlay.addEventListener('pointerdown', unlockAndPlay);
+  }
+  ['click', 'touchstart', 'pointerdown', 'keydown'].forEach(evt => {
+    window.addEventListener(evt, unlockAndPlay, { passive: true });
+  });
+
+  // Слушатели событий самого аудио-элемента
+  if (bgAudio) {
+    bgAudio.addEventListener('playing', () => {
+      isPlaying = true;
+      handlePlaybackSuccess();
+    });
+
+    bgAudio.addEventListener('pause', () => {
+      if (hasUnlocked) {
+        isPlaying = false;
+        if (musicToggleBtn) musicToggleBtn.classList.remove('playing');
+        if (musicStatusText) musicStatusText.textContent = 'Музыка на паузе';
+      }
+    });
+
+    // Резервный перезапуск при завершении трека (гарантия непрерывного зацикливания)
+    bgAudio.addEventListener('ended', () => {
+      bgAudio.currentTime = 0;
+      startMusic().catch(() => {});
+    });
+
+    // Обработка ошибок декодирования: автопереключение на резервный файл
+    bgAudio.addEventListener('error', (e) => {
+      console.warn('bgAudio error, attempting fallback source...', e);
+      if (!bgAudio.src.includes('media/audio/background.mp3')) {
+        bgAudio.src = 'media/audio/background.mp3';
+        bgAudio.load();
+        if (hasUnlocked) startMusic().catch(() => {});
+      }
     });
   }
 
-  // Попытка запустить сразу при загрузке страницы
-  startMusic();
-
-  // Запуск при первом клике/касании в любом месте экрана (обход политики автоплея браузеров)
-  const triggerAudioOnInteraction = () => {
-    if (!isPlaying) {
-      startMusic();
+  // Возобновление при возвращении на вкладку
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && hasUnlocked && bgAudio && bgAudio.paused && isPlaying) {
+      startMusic().catch(() => {});
     }
-  };
-  ['click', 'touchstart', 'pointerdown', 'keydown'].forEach(evt => {
-    document.addEventListener(evt, triggerAudioOnInteraction, { once: true });
   });
 
   // Кнопка ручного переключения в шапке
@@ -91,10 +197,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isPlaying) {
         bgAudio.pause();
         isPlaying = false;
-        musicStatusText.textContent = 'Музыка на паузе';
-        musicToggleBtn.classList.remove('playing');
+        if (musicStatusText) musicStatusText.textContent = 'Музыка на паузе';
+        if (musicToggleBtn) musicToggleBtn.classList.remove('playing');
       } else {
-        startMusic();
+        hasUnlocked = true;
+        startMusic().then(handlePlaybackSuccess).catch(console.error);
       }
     });
   }
