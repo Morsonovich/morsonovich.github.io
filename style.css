@@ -539,3 +539,30 @@ body {
   0% { transform: scale(1); }
   100% { transform: scale(1.03); }
 }
+
+.video-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -4;
+  pointer-events: none;
+}
+
+#backgroundVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  filter: brightness(0.4) contrast(1.15);
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(6, 7, 11, 0.4) 0%, rgba(6, 7, 11, 0.9) 100%);
+}

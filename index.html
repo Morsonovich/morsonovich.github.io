@@ -20,19 +20,27 @@
 </head>
 <body>
 
-  <!-- ================= ФОН (CANVAS ЧАСТИЦЫ + НЕОНОВЫЙ ГРАДИЕНТ) ================= -->
+  <!-- ================= 1. ФОНОВОЕ ВИДЕО (СЖАТО ДО 13.7 МБ) ================= -->
+  <div class="video-container">
+    <video id="backgroundVideo" muted loop playsinline autoplay preload="auto">
+      <source src="background.mp4" type="video/mp4">
+      <source src="media/video/background.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+  </div>
+
+  <!-- Canvas частицы и кибер-сетка поверх видео -->
   <canvas id="cyberCanvas"></canvas>
   <div class="cyber-glow-bg"></div>
-  <div class="cyber-grid"></div>
 
-  <!-- ================= ФОНОВАЯ МУЗЫКА (MORGENSHTERN - КРАСНЫЙ ФЛАГ) ================= -->
+  <!-- ================= 2. ФОНОВАЯ МУЗЫКА (MORGENSHTERN - КРАСНЫЙ ФЛАГ) ================= -->
   <audio id="bgAudio" loop preload="auto">
     <source src="background.mp3" type="audio/mpeg">
     <source src="media/audio/background.mp3" type="audio/mpeg">
     <source src="media/audio/morgenshtern_krasnyy_flag.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- ================= ВЕРХНЯЯ ПАНЕЛЬ УПРАВЛЕНИЯ ================= -->
+  <!-- ================= 3. ВЕРХНЯЯ ПАНЕЛЬ УПРАВЛЕНИЯ ================= -->
   <header class="top-nav">
     <!-- Статус -->
     <div class="online-pill">
@@ -59,7 +67,7 @@
     </div>
   </header>
 
-  <!-- ================= ГЛАВНАЯ КАРТОЧКА MORSONOVICH ================= -->
+  <!-- ================= 4. ГЛАВНАЯ КАРТОЧКА MORSONOVICH ================= -->
   <main class="main-fullscreen">
     <div class="card-perspective">
       <div class="profile-card" id="tiltCard">
@@ -67,7 +75,7 @@
         <!-- Световой блик (glare) -->
         <div class="card-glare" id="cardGlare"></div>
 
-        <!-- Стильная верхняя шапка карточки -->
+        <!-- Шапка карточки -->
         <div class="card-banner">
           <div class="banner-gradient"></div>
           <div class="banner-tag">MORSONOVICH &bull; OFFICIAL</div>
@@ -76,7 +84,7 @@
         <!-- Контент профиля -->
         <div class="card-content">
           
-          <!-- Аватарка пользователя -->
+          <!-- Аватарка пользователя (новая, без ИИ) -->
           <div class="avatar-container">
             <div class="avatar-neon-ring"></div>
             <img src="avatar.png" alt="Morsonovich" class="avatar-img" id="userAvatar" onerror="this.src='media/images/avatar.png'">
