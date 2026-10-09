@@ -1,37 +1,11 @@
 /**
  * =================================================================
- * MORSONOVICH BIOLINK - INTERACTIVE LOGIC & EFFECTS
+ * MORSONOVICH BIOLINK - INTERACTIVE JAVASCRIPT
  * =================================================================
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Элементы страницы
-  const welcomeScreen = document.getElementById('welcomeScreen');
-  const bgAudio = document.getElementById('backgroundAudio');
-  const bgVideo = document.getElementById('backgroundVideo');
-  const volumeSlider = document.getElementById('volumeSlider');
-  const volumeBtn = document.getElementById('volumeBtn');
-  const volIconHigh = document.getElementById('volIconHigh');
-  const volIconLow = document.getElementById('volIconLow');
-  const volIconMuted = document.getElementById('volIconMuted');
-
-  const tiltCard = document.getElementById('tiltCard');
-  const cardGlare = document.getElementById('cardGlare');
-
-  const infoBtn = document.getElementById('infoBtn');
-  const infoModal = document.getElementById('infoModal');
-  const closeInfoBtn = document.getElementById('closeInfoBtn');
-
-  const openCabinetBtn = document.getElementById('openCabinetBtn');
-  const closeCabinetBtn = document.getElementById('closeCabinetBtn');
-  const cabinetOverlay = document.getElementById('cabinetOverlay');
-  const tabButtons = document.querySelectorAll('.tab-btn');
-  const projectCards = document.querySelectorAll('.project-card');
-
-  const viewsCountElem = document.getElementById('viewsCount');
-  const roleTextElem = document.getElementById('roleText');
-
-  // ================= 1. АНИМАЦИЯ НАЗВАНИЯ ВКЛАДКИ (DOCUMENT.TITLE) =================
+  // ================= 1. АНИМАЦИЯ НАЗВАНИЯ ВКЛАДКИ =================
   const titleFrames = [
     '@M',
     '@Mo',
@@ -58,99 +32,142 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(() => {
     document.title = titleFrames[titleIndex % titleFrames.length];
     titleIndex++;
-  }, 280);
+  }, 260);
 
-  // ================= 2. ЭКРАН ВХОДА (CLICK TO ENTER) =================
-  welcomeScreen.addEventListener('click', handleEnter);
-  welcomeScreen.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') handleEnter();
-  });
+  // ================= 2. CANVAS АНИМАЦИЯ КИБЕР-ЧАСТИЦ =================
+  const canvas = document.getElementById('cyberCanvas');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let particles = [];
 
-  function handleEnter() {
-    welcomeScreen.classList.add('hidden');
+  function resizeCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
 
-    // Запуск фонового видео
-    if (bgVideo) {
-      bgVideo.play().catch(e => console.log('Video play error:', e));
-    }
+  const particleCount = Math.min(window.innerWidth < 768 ? 35 : 75, 80);
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8,
+      radius: Math.random() * 2 + 1,
+      color: Math.random() > 0.5 ? 'rgba(0, 240, 255,' : 'rgba(168, 85, 247,'
+    });
+  }
 
-    // Запуск фоновой музыки
-    if (bgAudio) {
-      const savedVolume = localStorage.getItem('morsonovich-volume');
-      const targetVolume = savedVolume !== null ? parseFloat(savedVolume) : 0.5;
-      bgAudio.volume = targetVolume;
-      volumeSlider.value = targetVolume;
-      updateVolumeIcon(targetVolume);
+  let mouseX = width / 2;
+  let mouseY = height / 2;
 
-      bgAudio.play().catch(err => {
-        console.log('Audio autoplay blocked, requires manual interaction:', err);
-      });
-    }
+  function animateParticles() {
+    ctx.clearRect(0, 0, width, height);
 
-    // Инициализация шлейфа курсора с частицами (fairy dust)
-    if (window.fairyDustCursor) {
-      try {
-        new fairyDustCursor({
-          colors: ['#00f0ff', '#ffffff', '#a855f7']
-        });
-      } catch (err) {
-        console.log('Cursor effects init:', err);
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0) p.x = width;
+      if (p.x > width) p.x = 0;
+      if (p.y < 0) p.y = height;
+      if (p.y > height) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + '0.7)';
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = '#00f0ff';
+      ctx.fill();
+
+      // Линии между близкими частицами
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+        if (dist < 110) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 * (1 - dist / 110)})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
       }
     }
+
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  // ================= 3. ПОЛНОЭКРАННЫЙ РЕЖИМ (FULLSCREEN) =================
+  const fullscreenBtn = document.getElementById('fullscreenToggleBtn');
+  if (fullscreenBtn) {
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.log('Fullscreen error:', err);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    });
   }
 
-  // ================= 3. РЕГУЛЯТОР ГРОМКОСТИ =================
-  function updateVolumeIcon(vol) {
-    if (vol <= 0.01) {
-      volIconHigh.style.display = 'none';
-      volIconLow.style.display = 'none';
-      volIconMuted.style.display = 'block';
-    } else if (vol <= 0.45) {
-      volIconHigh.style.display = 'none';
-      volIconLow.style.display = 'block';
-      volIconMuted.style.display = 'none';
-    } else {
-      volIconHigh.style.display = 'block';
-      volIconLow.style.display = 'none';
-      volIconMuted.style.display = 'none';
-    }
+  // ================= 4. МУЗЫКА =================
+  const bgAudio = document.getElementById('bgAudio');
+  const musicToggleBtn = document.getElementById('musicToggleBtn');
+  const musicStatusText = document.getElementById('musicStatusText');
+  let isPlaying = false;
+
+  if (musicToggleBtn && bgAudio) {
+    musicToggleBtn.addEventListener('click', () => {
+      if (!isPlaying) {
+        bgAudio.volume = 0.5;
+        bgAudio.play().then(() => {
+          isPlaying = true;
+          musicStatusText.textContent = 'Музыка: Вкл';
+          musicToggleBtn.style.borderColor = 'var(--accent-cyan)';
+          musicToggleBtn.style.color = 'var(--accent-cyan)';
+        }).catch(err => {
+          console.log('Audio autoplay prevented:', err);
+        });
+      } else {
+        bgAudio.pause();
+        isPlaying = false;
+        musicStatusText.textContent = 'Музыка: Выкл';
+        musicToggleBtn.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+        musicToggleBtn.style.color = '#fff';
+      }
+    });
+
+    // Авто-попытка воспроизведения при первом клике в любом месте
+    const playOnFirstInteraction = () => {
+      if (!isPlaying) {
+        bgAudio.volume = 0.5;
+        bgAudio.play().then(() => {
+          isPlaying = true;
+          musicStatusText.textContent = 'Музыка: Вкл';
+          musicToggleBtn.style.borderColor = 'var(--accent-cyan)';
+          musicToggleBtn.style.color = 'var(--accent-cyan)';
+        }).catch(() => {});
+      }
+      document.removeEventListener('click', playOnFirstInteraction);
+    };
+    document.addEventListener('click', playOnFirstInteraction, { once: true });
   }
 
-  volumeSlider.addEventListener('input', (e) => {
-    const val = parseFloat(e.target.value);
-    if (bgAudio) {
-      bgAudio.volume = val;
-      bgAudio.muted = (val <= 0.01);
-    }
-    localStorage.setItem('morsonovich-volume', val);
-    updateVolumeIcon(val);
-  });
-
-  let previousVolume = 0.5;
-  volumeBtn.addEventListener('click', () => {
-    if (!bgAudio) return;
-    if (bgAudio.volume > 0.01 && !bgAudio.muted) {
-      previousVolume = bgAudio.volume;
-      bgAudio.volume = 0;
-      bgAudio.muted = true;
-      volumeSlider.value = 0;
-      updateVolumeIcon(0);
-      localStorage.setItem('morsonovich-volume', 0);
-    } else {
-      const restore = previousVolume > 0.05 ? previousVolume : 0.5;
-      bgAudio.volume = restore;
-      bgAudio.muted = false;
-      volumeSlider.value = restore;
-      updateVolumeIcon(restore);
-      localStorage.setItem('morsonovich-volume', restore);
-      bgAudio.play().catch(() => {});
-    }
-  });
-
-  // ================= 4. 3D TILT-ЭФФЕКТ КАРТОЧКИ =================
-  let isHoveringCard = false;
+  // ================= 5. 3D TILT НАКЛОН КАРТОЧКИ =================
+  const tiltCard = document.getElementById('tiltCard');
+  const cardGlare = document.getElementById('cardGlare');
 
   document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
     if (!tiltCard) return;
 
     const rect = tiltCard.getBoundingClientRect();
@@ -160,17 +177,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const deltaX = (e.clientX - cardCenterX) / (window.innerWidth / 2);
     const deltaY = (e.clientY - cardCenterY) / (window.innerHeight / 2);
 
-    const maxTilt = 14; // градусы
+    const maxTilt = 10;
     const rotateY = deltaX * maxTilt;
     const rotateX = -deltaY * maxTilt;
 
     tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
 
-    // Динамический блик света
     if (cardGlare) {
       const glareX = ((e.clientX - rect.left) / rect.width) * 100;
       const glareY = ((e.clientY - rect.top) / rect.height) * 100;
-      cardGlare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255, 255, 255, 0.16) 0%, transparent 65%)`;
+      cardGlare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255, 255, 255, 0.14) 0%, transparent 60%)`;
     }
   });
 
@@ -180,19 +196,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ================= 5. АНИМАЦИЯ СМЕНЫ РОЛЕЙ (TYPEWRITER) =================
+  // ================= 6. ПЕЧАТНАЯ МАШИНКА ДЛЯ РОЛЕЙ =================
+  const roleTextElem = document.getElementById('roleText');
   const roles = [
-    'Senior Fullstack & Java Architect',
-    'MORSPVO Lead Developer',
+    'Lead Java & Web Developer',
+    'MORSPVO System Creator',
     'HighLoad Minecraft Architect',
-    'Founder of EZ Clan',
-    'Custom GUI & Raytracing Specialist'
+    'Founder of EZ Clan'
   ];
   let roleIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
 
-  function typeWriterEffect() {
+  function typeWriter() {
     const currentRole = roles[roleIndex];
     if (isDeleting) {
       roleTextElem.textContent = currentRole.substring(0, charIndex - 1);
@@ -202,113 +218,36 @@ document.addEventListener('DOMContentLoaded', () => {
       charIndex++;
     }
 
-    let typeSpeed = isDeleting ? 40 : 80;
+    let speed = isDeleting ? 35 : 75;
 
     if (!isDeleting && charIndex === currentRole.length) {
-      typeSpeed = 2200; // Пауза после завершения строки
+      speed = 2000;
       isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
       isDeleting = false;
       roleIndex = (roleIndex + 1) % roles.length;
-      typeSpeed = 400; // Пауза перед новым словом
+      speed = 300;
     }
 
-    setTimeout(typeWriterEffect, typeSpeed);
+    setTimeout(typeWriter, speed);
   }
-  typeWriterEffect();
+  typeWriter();
 
-  // ================= 6. ИНФО МОДАЛКА =================
-  infoBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    infoModal.classList.toggle('active');
-  });
-
-  closeInfoBtn.addEventListener('click', () => {
-    infoModal.classList.remove('active');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!infoModal.contains(e.target) && !infoBtn.contains(e.target)) {
-      infoModal.classList.remove('active');
-    }
-  });
-
-  // ================= 7. ЛИЧНЫЙ КАБИНЕТ (SHOWCASE) =================
-  openCabinetBtn.addEventListener('click', () => {
-    cabinetOverlay.classList.add('active');
-  });
-
-  closeCabinetBtn.addEventListener('click', () => {
-    cabinetOverlay.classList.remove('active');
-  });
-
-  cabinetOverlay.addEventListener('click', (e) => {
-    if (e.target === cabinetOverlay) {
-      cabinetOverlay.classList.remove('active');
-    }
-  });
-
-  // Фильтрация проектов по табам
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const filter = btn.dataset.tab;
-      projectCards.forEach(card => {
-        if (filter === 'all' || card.dataset.category === filter) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
-  });
-
-  // ================= 8. РЕАЛИСТИЧНЫЙ СЧЁТЧИК ПРОСМОТРОВ =================
+  // ================= 7. СЧЁТЧИК ПРОСМОТРОВ =================
+  const viewCountText = document.getElementById('viewCountText');
   let views = parseInt(localStorage.getItem('morsonovich-views') || '1337', 10);
   views += 1;
   localStorage.setItem('morsonovich-views', views);
-  if (viewsCountElem) {
-    viewsCountElem.textContent = views.toLocaleString();
+  if (viewCountText) {
+    viewCountText.textContent = views.toLocaleString();
   }
 
-  // ================= 9. СЕКРЕТНЫЙ РЕЖИМ (E + Z) =================
-  const pressedKeys = new Set();
-  document.addEventListener('keydown', (e) => {
-    pressedKeys.add(e.key.toLowerCase());
-    if (pressedKeys.has('e') && pressedKeys.has('z')) {
-      showToast('🔥 Режим разработчика EZ активирован!');
-    }
-  });
-  document.addEventListener('keyup', (e) => {
-    pressedKeys.delete(e.key.toLowerCase());
-  });
-
-  function showToast(msg) {
-    const existing = document.querySelector('.mors-toast');
-    if (existing) existing.remove();
-
-    const toast = document.createElement('div');
-    toast.className = 'mors-toast';
-    toast.textContent = msg;
-    toast.style.cssText = `
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 240, 255, 0.95);
-      color: #000;
-      font-weight: 700;
-      padding: 10px 24px;
-      border-radius: 30px;
-      box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
-      z-index: 10000;
-      font-size: 13px;
-      letter-spacing: 0.5px;
-      animation: toastFade 3s ease forwards;
-    `;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
+  // ================= 8. ЭФФЕКТ КУРСОРА =================
+  if (window.fairyDustCursor) {
+    try {
+      new fairyDustCursor({
+        colors: ['#00f0ff', '#ffffff', '#a855f7']
+      });
+    } catch (e) {}
   }
 });
