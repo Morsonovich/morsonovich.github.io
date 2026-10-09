@@ -17,34 +17,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // title ticker animation
-  const titleFrames = [
-    '@m',
-    '@mo',
-    '@mor',
-    '@mors',
-    '@morso',
-    '@morson',
-    '@morsonov',
-    '@morsonovi',
-    '@morsonovic',
-    '@morsonovich',
-    '@morsonovich ⚡',
-    '@morsonovich',
-    '@morsonovic',
-    '@morsonovi',
-    '@morsonov',
-    '@morson',
-    '@morso',
-    '@mors',
-    '@mor',
-    '@mo'
-  ];
-  let titleIndex = 0;
-  setInterval(() => {
-    document.title = titleFrames[titleIndex % titleFrames.length];
-    titleIndex++;
-  }, 260);
+  // title ticker animation (35% chance for 'писька', otherwise 'morsonovich')
+  let titleWord = Math.random() < 0.35 ? 'писька' : 'morsonovich';
+  let titleCharIndex = 1;
+  let titleIsDeleting = false;
+
+  function updateTitleTicker() {
+    if (!titleIsDeleting) {
+      document.title = titleWord.slice(0, titleCharIndex);
+      titleCharIndex++;
+      if (titleCharIndex > titleWord.length) {
+        titleIsDeleting = true;
+        setTimeout(updateTitleTicker, 1600);
+        return;
+      }
+    } else {
+      titleCharIndex--;
+      document.title = titleWord.slice(0, titleCharIndex) || titleWord[0];
+      if (titleCharIndex <= 1) {
+        titleIsDeleting = false;
+        titleWord = Math.random() < 0.35 ? 'писька' : 'morsonovich';
+        titleCharIndex = 1;
+        setTimeout(updateTitleTicker, 320);
+        return;
+      }
+    }
+    setTimeout(updateTitleTicker, titleIsDeleting ? 160 : 240);
+  }
+  updateTitleTicker();
 
   // audio autoplay & unlock manager
   const bgAudio = document.getElementById('bgAudio');
