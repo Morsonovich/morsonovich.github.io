@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // title ticker animation (35% chance for 'писька', otherwise 'morsonovich')
+  // title ticker animation (NO '@', 35% chance for 'писька', otherwise 'morsonovich')
   let titleWord = Math.random() < 0.35 ? 'писька' : 'morsonovich';
   let titleCharIndex = 1;
   let titleIsDeleting = false;
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
     }
-    setTimeout(updateTitleTicker, titleIsDeleting ? 160 : 240);
+    setTimeout(updateTitleTicker, titleIsDeleting ? 150 : 230);
   }
   updateTitleTicker();
 
@@ -189,29 +189,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // bio / dossier accordion
+  // dossier accordion toggle
   const dossierToggleBtn = document.getElementById('dossierToggleBtn');
   const dossierPanel = document.getElementById('dossierPanel');
 
   if (dossierToggleBtn && dossierPanel) {
     dossierToggleBtn.addEventListener('click', () => {
-      const isOpen = dossierPanel.classList.toggle('open');
-      const stateSpan = dossierToggleBtn.querySelector('.bio-toggle-state');
-      if (stateSpan) {
-        stateSpan.textContent = isOpen ? 'свернуть' : 'инфо';
-      }
+      dossierToggleBtn.classList.toggle('open');
+      dossierPanel.classList.toggle('open');
     });
   }
 
-  // discord copy
+  // discord copy to clipboard
   const discordCopyBtn = document.getElementById('discordCopyBtn');
   if (discordCopyBtn) {
     discordCopyBtn.addEventListener('click', () => {
       const tag = 'morsonovich';
       navigator.clipboard.writeText(tag).then(() => {
-        showToast('✓ скопировано: morsonovich');
+        showToast('✅ Дискорд morsonovich скопирован!');
       }).catch(() => {
-        showToast('discord: morsonovich');
+        showToast('Дискорд: morsonovich');
       });
     });
   }
@@ -230,14 +227,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2200);
   }
 
-  // typewriter effect
+  // typewriter effect for roles
   const roleTextElem = document.getElementById('roleText');
   const roles = [
     'Артём • Морс • Морсонович',
-    'Minecraft plugin dev',
-    'ex-founder @ MintStudio',
-    'Python / Rust / Java / JS',
-    't.me/retr0gradn1y'
+    'Экс-создатель MintStudio (Minecraft)',
+    'Python Developer (3 года опыта)',
+    'Java Developer (2 года опыта)',
+    'Rust Developer (2 года опыта)',
+    'JavaScript Developer (2 года опыта)'
   ];
   let roleIndex = 0;
   let charIndex = 0;
@@ -257,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let speed = isDeleting ? 25 : 55;
 
     if (!isDeleting && charIndex === currentRole.length) {
-      speed = 2000;
+      speed = 2200;
       isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
       isDeleting = false;
@@ -290,39 +288,5 @@ document.addEventListener('DOMContentLoaded', () => {
   localStorage.setItem('morsonovich-views', views);
   if (viewCountText) {
     viewCountText.textContent = views.toLocaleString();
-  }
-
-  // bespoke smooth custom cursor (desktop only)
-  const cursorDot = document.getElementById('cursorDot');
-  const cursorOutline = document.getElementById('cursorOutline');
-
-  if (cursorDot && cursorOutline && window.matchMedia('(pointer: fine)').matches) {
-    let mouseX = -100;
-    let mouseY = -100;
-    let outlineX = -100;
-    let outlineY = -100;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursorDot.style.left = `${mouseX}px`;
-      cursorDot.style.top = `${mouseY}px`;
-    });
-
-    const animateCursor = () => {
-      outlineX += (mouseX - outlineX) * 0.18;
-      outlineY += (mouseY - outlineY) * 0.18;
-      cursorOutline.style.left = `${outlineX}px`;
-      cursorOutline.style.top = `${outlineY}px`;
-      requestAnimationFrame(animateCursor);
-    };
-    requestAnimationFrame(animateCursor);
-
-    // hover reactions on links/buttons
-    const hoverTargets = document.querySelectorAll('a, button, .social-card-btn, .bio-toggle, .enter-box');
-    hoverTargets.forEach(el => {
-      el.addEventListener('mouseenter', () => cursorOutline.classList.add('hovered'));
-      el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hovered'));
-    });
   }
 });
