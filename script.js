@@ -46,11 +46,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   updateTitleTicker();
 
+  // Автоматическая очистка кэша браузера при входе
+  if ('caches' in window) {
+    try {
+      caches.keys().then(keys => keys.forEach(k => caches.delete(k))).catch(() => { });
+    } catch (e) { }
+  }
+
   // audio autoplay & unlock manager
   const bgAudio = document.getElementById('bgAudio');
   const musicToggleBtn = document.getElementById('musicToggleBtn');
   const musicStatusText = document.getElementById('musicStatusText');
   const enterOverlay = document.getElementById('enterOverlay');
+
+  // Динамический timestamp для 100% обхода кэша без действий от пользователя
+  if (bgAudio) {
+    const antiCacheUrl = 'bremenskie.mp3?t=' + Date.now();
+    bgAudio.src = antiCacheUrl;
+    bgAudio.load();
+  }
 
   let isPlaying = false;
   let hasUnlocked = false;
@@ -159,8 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     bgAudio.addEventListener('error', () => {
-      if (!bgAudio.src.includes('media/audio/background.mp3')) {
-        bgAudio.src = 'media/audio/background.mp3';
+      const fallbackUrl = 'media/audio/bremenskie.mp3?t=' + Date.now();
+      if (!bgAudio.src.includes('media/audio/bremenskie.mp3')) {
+        bgAudio.src = fallbackUrl;
         bgAudio.load();
         if (hasUnlocked) startMusic().catch(() => { });
       }
