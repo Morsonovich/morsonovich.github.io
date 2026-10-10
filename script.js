@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function handlePlaybackSuccess() {
     isPlaying = true;
     hideOverlay();
-    if (musicStatusText) musicStatusText.textContent = 'MORGENSHTERN — Красный флаг';
+    if (musicStatusText) musicStatusText.textContent = 'MORGENSHTERN — Бременские музыканты';
     if (musicToggleBtn) musicToggleBtn.classList.add('playing');
     if (bgVideo && bgVideo.paused) {
       bgVideo.play().catch(() => { });
