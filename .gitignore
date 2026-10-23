@@ -1,0 +1,19 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backups & drafts
+backup_v1/
+*.bak
+*.tmp
+*.swp
+
+# IDE & editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Local server logs
+*.log
