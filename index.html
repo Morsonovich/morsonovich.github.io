@@ -13,18 +13,18 @@
   <!-- fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css?v=2.1">
+  <link rel="stylesheet" href="style.css?v=nocache_20261011_3">
 </head>
-<body data-theme="cyan">
+<body>
 
-  <!-- splash -->
+  <!-- enter splash (sound unlock) -->
   <div id="enterOverlay" class="enter-overlay">
     <div class="enter-box">
       <div class="enter-avatar-wrap">
         <div class="enter-avatar-glow"></div>
-        <img src="avatar.png" alt="Morsonovich" class="enter-avatar-img">
+        <img src="avatar.png" alt="Morsonovich" class="enter-avatar-img" onerror="this.src='media/images/avatar.png'">
       </div>
       <div class="enter-user">
         <span class="enter-name">Morsonovich</span>
@@ -33,909 +33,204 @@
         <div class="enter-wave">
           <span></span><span></span><span></span><span></span>
         </div>
-        <span id="splashTrackTitle">MORGENSHTERN — Бременские музыканты</span>
+        <span>MORGENSHTERN — Бременские музыканты</span>
       </div>
       <div class="enter-btn-pulse">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-          <path d="M8 5v14l11-7z"/>
-        </svg>
         <span>НАЖМИТЕ В ЛЮБОМ МЕСТЕ ДЛЯ ВХОДА</span>
       </div>
     </div>
   </div>
 
-  <!-- background video & canvas -->
+  <!-- background video -->
   <div class="video-container">
     <video id="backgroundVideo" muted loop playsinline autoplay preload="auto">
       <source src="background.mp4" type="video/mp4">
+      <source src="media/video/background.mp4" type="video/mp4">
     </video>
-    <canvas id="matrixCanvas" class="matrix-canvas"></canvas>
     <div class="video-overlay"></div>
   </div>
 
   <!-- audio -->
   <audio id="bgAudio" loop preload="auto" playsinline webkit-playsinline>
-    <source src="bremenskie.mp3" type="audio/mpeg">
+    <source src="bremenskie.mp3?v=nocache_20261011_3" type="audio/mpeg">
+    <source src="media/audio/bremenskie.mp3?v=nocache_20261011_3" type="audio/mpeg">
+    <source src="media/audio/morgenshtern_bremenskie_muzykanty.mp3?v=nocache_20261011_3" type="audio/mpeg">
   </audio>
 
-  <!-- top navigation -->
+  <!-- top nav -->
   <header class="top-nav">
-    <div class="top-left-group">
-      <div class="online-pill">
-        <span class="pulse-dot"></span>
-        <span class="online-text">ONLINE</span>
-      </div>
-      <div class="presence-badge" title="Статус">
-        <span class="presence-icon">🛡️</span>
-        <span class="presence-text">MintStudio • dev</span>
-      </div>
+    <div class="online-pill">
+      <span class="pulse-dot"></span>
+      <span>ONLINE</span>
     </div>
 
-    <!-- tabs -->
-    <nav class="nav-tabs-pill" aria-label="Разделы">
-      <button class="nav-tab active" data-tab="bio" id="tabBio">
-        <span class="tab-icon">👤</span>
-        <span class="tab-label">Профиль</span>
-      </button>
-      <button class="nav-tab" data-tab="projects" id="tabProjects">
-        <span class="tab-icon">🚀</span>
-        <span class="tab-label">Проекты</span>
-        <span class="tab-count">6</span>
-      </button>
-      <button class="nav-tab" data-tab="skills" id="tabSkills">
-        <span class="tab-icon">⚡</span>
-        <span class="tab-label">Стек</span>
-      </button>
-      <button class="nav-tab" data-tab="mint" id="tabMint">
-        <span class="tab-icon">🛡️</span>
-        <span class="tab-label">MintStudio</span>
-      </button>
-      <button class="nav-tab" data-tab="terminal" id="tabTerminal">
-        <span class="tab-icon">💻</span>
-        <span class="tab-label">Терминал</span>
-      </button>
-    </nav>
-
-    <!-- controls -->
     <div class="top-actions">
-      <!-- music -->
-      <div class="music-control-wrap">
-        <button class="nav-btn music-btn playing" id="musicToggleBtn" title="Включить / Выключить звук" aria-label="Музыка">
-          <div class="equalizer-bars">
-            <span></span><span></span><span></span><span></span>
-          </div>
-          <span id="musicStatusText">MORGENSHTERN — Бременские</span>
-        </button>
-        <div class="volume-popover" id="volumePopover">
-          <span class="vol-label">ГРОМКОСТЬ:</span>
-          <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.65" class="vol-slider" aria-label="Громкость">
-          <span id="volValText" class="vol-val">65%</span>
+      <button class="nav-btn music-btn playing" id="musicToggleBtn" title="Включить / Выключить звук" aria-label="Музыка">
+        <div class="equalizer-bars">
+          <span></span><span></span><span></span><span></span>
         </div>
-      </div>
-
-      <!-- sfx -->
-      <button class="nav-btn icon-only-btn active" id="sfxToggleBtn" title="Звуки интерфейса" aria-label="Звуки">
-        <span id="sfxIcon">🔊</span>
+        <span id="musicStatusText">MORGENSHTERN — Бременские музыканты</span>
       </button>
 
-      <!-- theme -->
-      <div class="theme-dropdown-wrap">
-        <button class="nav-btn theme-btn" id="themePickerBtn" title="Тема" aria-label="Тема">
-          <span class="theme-color-dot"></span>
-          <span class="theme-text">Тема</span>
-        </button>
-        <div class="theme-popover" id="themePopover">
-          <button class="theme-choice active" data-set-theme="cyan" title="Cyan">
-            <span class="dot" style="background: #00f0ff;"></span>
-            <span>Cyan</span>
-          </button>
-          <button class="theme-choice" data-set-theme="purple" title="Violet">
-            <span class="dot" style="background: #c084fc;"></span>
-            <span>Violet</span>
-          </button>
-          <button class="theme-choice" data-set-theme="mint" title="Mint">
-            <span class="dot" style="background: #10b981;"></span>
-            <span>Mint</span>
-          </button>
-          <button class="theme-choice" data-set-theme="red" title="Crimson">
-            <span class="dot" style="background: #ff2a55;"></span>
-            <span>Crimson</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- hire cta -->
-      <button class="nav-btn cta-btn" id="openContactBtn" title="Связаться" aria-label="Связаться">
-        <span>📬 Связь</span>
-      </button>
-
-      <!-- fullscreen -->
-      <button class="nav-btn icon-only-btn" id="fullscreenToggleBtn" title="На весь экран" aria-label="Полноэкранный режим">
+      <button class="nav-btn" id="fullscreenToggleBtn" title="На весь экран" aria-label="Полноэкранный режим">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
         </svg>
+        <span>На весь экран</span>
       </button>
     </div>
   </header>
 
-  <!-- main views -->
+  <!-- main card -->
   <main class="main-fullscreen">
-    
-    <!-- view: profile -->
-    <section class="portfolio-view active" id="viewBio">
-      <div class="profile-card tilt-card" id="staticCard">
+    <div class="profile-card" id="staticCard">
 
-        <div class="card-banner">
-          <div class="banner-gradient"></div>
-          <div class="banner-tag">MORSONOVICH &bull; OFFICIAL</div>
+      <div class="card-banner">
+        <div class="banner-gradient"></div>
+        <div class="banner-tag">MORSONOVICH &bull; OFFICIAL</div>
+      </div>
+
+      <div class="card-content">
+        
+        <div class="avatar-container">
+          <div class="avatar-neon-ring"></div>
+          <img src="avatar.png" alt="Morsonovich" class="avatar-img" id="userAvatar" onerror="this.src='media/images/avatar.png'">
+          <div class="status-badge" title="В сети"></div>
         </div>
 
-        <div class="card-content">
-          
-          <div class="avatar-container">
-            <div class="avatar-neon-ring"></div>
-            <img src="avatar.png" alt="Morsonovich" class="avatar-img" id="userAvatar">
-            <div class="status-badge" title="В сети"></div>
-          </div>
-
-          <div class="user-heading">
-            <h1 class="user-nickname">Morsonovich</h1>
-            <span class="verified-icon" title="Verified Creator">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="var(--accent)">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-            </span>
-          </div>
-
-          <div class="typing-container">
-            <span id="roleText">Артём • Морсонович</span>
-            <span class="blinking-cursor">|</span>
-          </div>
-
-          <!-- rich presence activity -->
-          <div class="activity-chip">
-            <div class="activity-pulse-dot"></div>
-            <div class="activity-details">
-              <span class="activity-title">Разрабатываю: <strong>MORSPVO & MTownyRaid</strong></span>
-              <span class="activity-subtitle">Nexo / ItemsAdder • Towny Warfare Ecosystem</span>
-            </div>
-          </div>
-
-          <!-- stats grid -->
-          <div class="stats-counter-grid">
-            <div class="stat-pill">
-              <span class="stat-number">15+</span>
-              <span class="stat-label">Проектов</span>
-            </div>
-            <div class="stat-pill">
-              <span class="stat-number">4+</span>
-              <span class="stat-label">Языка</span>
-            </div>
-            <div class="stat-pill">
-              <span class="stat-number">3+</span>
-              <span class="stat-label">Года опыта</span>
-            </div>
-            <div class="stat-pill">
-              <span class="stat-number">50k+</span>
-              <span class="stat-label">Игроков</span>
-            </div>
-          </div>
-
-          <!-- skills pills -->
-          <div class="badge-row">
-            <span class="badge-item py">🐍 Python (3 года)</span>
-            <span class="badge-item jv">☕ Java (2 года)</span>
-            <span class="badge-item rs">🦀 Rust (2 года)</span>
-            <span class="badge-item js">⚡ JavaScript (2 года)</span>
-            <span class="badge-item mint">⭐ Ex-MintStudio</span>
-          </div>
-
-          <!-- action buttons -->
-          <div class="hero-actions-row">
-            <button class="hero-action-btn primary" id="exploreProjectsBtn" type="button">
-              <span class="btn-icon">🚀</span>
-              <span>Мои проекты</span>
-            </button>
-            <button class="hero-action-btn secondary" id="heroHireBtn" type="button">
-              <span class="btn-icon">💬</span>
-              <span>Связаться / Заказ</span>
-            </button>
-          </div>
-
-          <!-- dossier accordion -->
-          <button class="dossier-toggle-btn" id="dossierToggleBtn" type="button">
-            <span>🌟 Подробное досье обо мне</span>
-            <svg class="dossier-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M6 9l6 6 6-6"/>
+        <div class="user-heading">
+          <h1 class="user-nickname">Morsonovich</h1>
+          <span class="verified-icon" title="Verified Creator">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#00f0ff">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
             </svg>
-          </button>
-
-          <div class="dossier-panel" id="dossierPanel">
-            <div class="dossier-inner">
-              <div class="dossier-item">
-                <span class="d-title">🌟 Приветствие:</span>
-                <p>Привет! Зовут меня <strong>Артём</strong>, но в больших кругах меня зовут <strong>Морс</strong>, <strong>Морсонович</strong>.</p>
-              </div>
-              <div class="dossier-item">
-                <span class="d-title">🌟 Опыт и статус:</span>
-                <p>Бывший создатель студии <strong>MintStudio</strong> (разработка плагинов для Minecraft).</p>
-              </div>
-              <div class="dossier-item">
-                <span class="d-title">🌟 Стек разработки:</span>
-                <ul>
-                  <li><strong>🐍 Python (3 года):</strong> боты Telegram и Discord, бэкенд, aiohttp, FastUI, автоматизация и парсеры.</li>
-                  <li><strong>☕ Java (2 года):</strong> плагины лёгкого и среднего уровня сложности для Minecraft (Paper / Spigot / Nexo).</li>
-                  <li><strong>🦀 Rust (2 года):</strong> скоростные утилиты для парсинга и обработки данных.</li>
-                  <li><strong>⚡ JavaScript (2 года):</strong> фронтенд, интерфейсы и скрипты.</li>
-                </ul>
-              </div>
-              <div class="dossier-item">
-                <span class="d-title">🌟 Связь:</span>
-                <p>Telegram: <strong>@retr0gradn1y</strong> &bull; Discord: <strong>morsonovich</strong></p>
-              </div>
-            </div>
-          </div>
-
-          <!-- socials -->
-          <div class="social-section">
-            <div class="social-label">СВЯЗЬ И РЕСУРСЫ</div>
-
-            <div class="social-grid">
-              
-              <a href="https://github.com/morsonovich" target="_blank" rel="noopener noreferrer" class="social-card-btn github" id="githubLink">
-                <div class="social-card-icon">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                    <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
-                  </svg>
-                </div>
-                <div class="social-card-info">
-                  <div class="social-name">GitHub</div>
-                  <div class="social-handle">github.com/morsonovich</div>
-                </div>
-                <div class="social-arrow">&rarr;</div>
-              </a>
-
-              <a href="https://t.me/retr0gradn1y" target="_blank" rel="noopener noreferrer" class="social-card-btn telegram" id="tgLink">
-                <div class="social-card-icon">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-                  </svg>
-                </div>
-                <div class="social-card-info">
-                  <div class="social-name">Telegram</div>
-                  <div class="social-handle">@retr0gradn1y</div>
-                </div>
-                <div class="social-arrow">&rarr;</div>
-              </a>
-
-              <button class="social-card-btn discord" id="discordCopyBtn" type="button">
-                <div class="social-card-icon">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                  </svg>
-                </div>
-                <div class="social-card-info">
-                  <div class="social-name">Discord</div>
-                  <div class="social-handle" id="discordHandleText">morsonovich (нажмите скопировать)</div>
-                </div>
-                <div class="social-copy-badge">COPY</div>
-              </button>
-
-              <a href="https://black-minecraft.com/members/retr0gradn1y.259287/" target="_blank" rel="noopener noreferrer" class="social-card-btn bmc" id="bmcLink">
-                <div class="social-card-icon bmc-icon">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                    <path d="M12 1L2 6.5v11L12 23l10-5.5v-11L12 1zm0 2.4l7.6 4.1-3.6 2-7.6-4.1 3.6-2zm-8 6l7 3.8v7.4l-7-3.8V9.4zm16 7.4l-7 3.8v-7.4l7-3.8v7.4z"/>
-                  </svg>
-                </div>
-                <div class="social-card-info">
-                  <div class="social-name">BlackMinecraft</div>
-                  <div class="social-handle">retr0gradn1y.259287</div>
-                </div>
-                <div class="social-arrow">&rarr;</div>
-              </a>
-
-            </div>
-          </div>
-
-          <!-- views -->
-          <div class="footer-stats">
-            <div class="counter-badge">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="2">
-                <ellipse cx="12" cy="12" rx="9" ry="5"/>
-                <circle cx="12" cy="12" r="2.5" fill="var(--accent)"/>
-              </svg>
-              <span id="viewCountText">2,480</span>
-              <span class="views-text">просмотров</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- view: projects -->
-    <section class="portfolio-view" id="viewProjects">
-      <div class="showcase-container">
-        
-        <div class="showcase-header">
-          <div class="showcase-title-wrap">
-            <span class="showcase-kicker">ПРОЕКТЫ</span>
-            <h2 class="showcase-heading">Мои проекты и плагины</h2>
-          </div>
-          <p class="showcase-desc">Плагины для серверов Minecraft, парсеры на Rust, боты и веб-сервисы.</p>
+          </span>
         </div>
 
-        <!-- filter & search -->
-        <div class="filter-controls-row">
-          <div class="filter-pills" id="projectFilterPills">
-            <button class="filter-pill active" data-filter="all">Все (6)</button>
-            <button class="filter-pill" data-filter="minecraft">Minecraft (4)</button>
-                        <button class="filter-pill" data-filter="rust">Rust (1)</button>
-            <button class="filter-pill" data-filter="rpg">RPG & Механики (1)</button>
-          </div>
+        <div class="typing-container">
+          <span id="roleText">Артём • Морсонович</span>
+          <span class="blinking-cursor">|</span>
+        </div>
 
-          <div class="search-input-wrap">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="m21 21-4.35-4.35"/>
+        <!-- skills pills -->
+        <div class="badge-row">
+          <span class="badge-item py">🐍 Python (3 года)</span>
+          <span class="badge-item jv">☕ Java (2 года)</span>
+          <span class="badge-item rs">🦀 Rust (2 года)</span>
+          <span class="badge-item js">⚡ JavaScript (2 года)</span>
+          <span class="badge-item mint">⭐ Ex-MintStudio</span>
+        </div>
+
+        <!-- collapsible dossier -->
+        <button class="dossier-toggle-btn" id="dossierToggleBtn" type="button">
+          <span>🌟 Подробное досье обо мне</span>
+          <svg class="dossier-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+
+        <div class="dossier-panel" id="dossierPanel">
+          <div class="dossier-inner">
+            <div class="dossier-item">
+              <span class="d-title">🌟 Приветствие:</span>
+              <p>Привет! Зовут меня Артём, но в больших кругах меня зовут Морс, Морсонович.</p>
+            </div>
+            <div class="dossier-item">
+              <span class="d-title">🌟 Опыт и статус:</span>
+              <p>Бывший создатель студии <strong>MintStudio</strong> (разработка плагинов для Minecraft).</p>
+            </div>
+            <div class="dossier-item">
+              <span class="d-title">🌟 Стек разработки:</span>
+              <ul>
+                <li><strong>🐍 Python (3 года):</strong> Создание ботов Telegram, Discord, бэкенд сайтов, HTML/CSS/JS, FastUI.</li>
+                <li><strong>⚡ JavaScript (2 года):</strong> Создание фронтенда сайтов, интерфейсы и скрипты.</li>
+                <li><strong>☕ Java (2 года):</strong> Создание плагинов лёгкого и среднего уровня сложности для Minecraft.</li>
+                <li><strong>🦀 Rust (2 года):</strong> Создание плагинов для парсинга данных, скоростные утилиты.</li>
+              </ul>
+            </div>
+            <div class="dossier-item">
+              <span class="d-title">🌟 Связь:</span>
+              <p>Telegram: <strong>@retr0gradn1y</strong> &bull; Discord: <strong>morsonovich</strong></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- socials -->
+        <div class="social-section">
+          <div class="social-label">СВЯЗЬ И РЕСУРСЫ</div>
+
+          <div class="social-grid">
+            
+            <a href="https://github.com/morsonovich" target="_blank" rel="noopener noreferrer" class="social-card-btn github" id="githubLink">
+              <div class="social-card-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                  <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
+                </svg>
+              </div>
+              <div class="social-card-info">
+                <div class="social-name">GitHub</div>
+                <div class="social-handle">github.com/morsonovich</div>
+              </div>
+              <div class="social-arrow">&rarr;</div>
+            </a>
+
+            <a href="https://t.me/retr0gradn1y" target="_blank" rel="noopener noreferrer" class="social-card-btn telegram" id="tgLink">
+              <div class="social-card-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                </svg>
+              </div>
+              <div class="social-card-info">
+                <div class="social-name">Telegram</div>
+                <div class="social-handle">@retr0gradn1y</div>
+              </div>
+              <div class="social-arrow">&rarr;</div>
+            </a>
+
+            <button class="social-card-btn discord" id="discordCopyBtn" type="button">
+              <div class="social-card-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                </svg>
+              </div>
+              <div class="social-card-info">
+                <div class="social-name">Discord</div>
+                <div class="social-handle" id="discordHandleText">morsonovich (нажмите скопировать)</div>
+              </div>
+              <div class="social-copy-badge">COPY</div>
+            </button>
+
+            <a href="https://black-minecraft.com/members/retr0gradn1y.259287/" target="_blank" rel="noopener noreferrer" class="social-card-btn bmc" id="bmcLink">
+              <div class="social-card-icon bmc-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                  <path d="M12 1L2 6.5v11L12 23l10-5.5v-11L12 1zm0 2.4l7.6 4.1-3.6 2-7.6-4.1 3.6-2zm-8 6l7 3.8v7.4l-7-3.8V9.4zm16 7.4l-7 3.8v-7.4l7-3.8v7.4z"/>
+                </svg>
+              </div>
+              <div class="social-card-info">
+                <div class="social-name">BlackMinecraft</div>
+                <div class="social-handle">retr0gradn1y.259287</div>
+              </div>
+              <div class="social-arrow">&rarr;</div>
+            </a>
+
+          </div>
+        </div>
+
+        <div class="footer-stats">
+          <div class="counter-badge">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#00f0ff" stroke-width="2">
+              <ellipse cx="12" cy="12" rx="9" ry="5"/>
+              <circle cx="12" cy="12" r="2.5" fill="#00f0ff"/>
             </svg>
-            <input type="text" id="projectSearchInput" placeholder="Поиск по названию или стеку..." aria-label="Поиск">
-          </div>
-        </div>
-
-        <!-- projects grid -->
-        <div class="projects-grid" id="projectsGrid">
-          
-          <!-- project: anticheat -->
-          <article class="project-card tilt-card" data-category="minecraft" data-project-id="anticheat">
-            <div class="project-body">
-              <div class="project-meta-top">
-                <span class="project-type">Java • PaperMC • PacketEvents</span>
-                <span class="project-badge status-release">Релиз</span>
-              </div>
-              <h3 class="project-title">MintAntiCheat</h3>
-              <p class="project-summary">Самописный античит под Paper/Spigot. Ловит спидхак, флай, кликеры через пакеты без просадки TPS сервака.</p>
-              <div class="project-tags">
-                <span class="tag">Java 21</span>
-                <span class="tag">PaperMC</span>
-                <span class="tag">PacketEvents</span>
-                <span class="tag">Heuristics</span>
-                <span class="tag">Admin GUI</span>
-              </div>
-              <div class="project-footer">
-                <button class="card-btn detail-btn" type="button" data-modal="anticheat">
-                  <span>Подробнее</span>
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- project: morspvo -->
-          <article class="project-card tilt-card" data-category="minecraft" data-project-id="morspvo">
-            <div class="project-body">
-              <div class="project-meta-top">
-                <span class="project-type">Java • Nexo & ItemsAdder</span>
-                <span class="project-badge status-exclusive">ПВО и рейды</span>
-              </div>
-              <h3 class="project-title">MORSPVO & MTownyRaid</h3>
-              <p class="project-summary">ПВО комплекс и рейдовые механики для Towny. 54-слотовый радар в GUI, зенитки, ракеты перехвата и кастомные текстуры под Nexo/ItemsAdder.</p>
-              <div class="project-tags">
-                <span class="tag">Java</span>
-                <span class="tag">Nexo Pack</span>
-                <span class="tag">ItemsAdder</span>
-                <span class="tag">Radar Math</span>
-                <span class="tag">Sound FX</span>
-              </div>
-              <div class="project-footer">
-                <button class="card-btn detail-btn" type="button" data-modal="morspvo">
-                  <span>Подробнее</span>
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-                <a href="https://black-minecraft.com/members/retr0gradn1y.259287/" target="_blank" rel="noopener noreferrer" class="card-btn-icon" title="BlackMinecraft">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 1L2 6.5v11L12 23l10-5.5v-11L12 1zm0 2.4l7.6 4.1-3.6 2-7.6-4.1 3.6-2zm-8 6l7 3.8v7.4l-7-3.8V9.4zm16 7.4l-7 3.8v-7.4l7-3.8v7.4z"/></svg>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- project: towny -->
-          <article class="project-card tilt-card" data-category="minecraft" data-project-id="towny">
-            <div class="project-body">
-              <div class="project-meta-top">
-                <span class="project-type">Java • Towny Ecosystem</span>
-                <span class="project-badge status-gold">6 Модулей</span>
-              </div>
-              <h3 class="project-title">MintTowny — Модульная империя</h3>
-              <p class="project-summary">Связка из 6 модулей для Towny серверов: Babel, Camps, Colonists, Blueprint, Builds и Levels.</p>
-              <div class="project-tags">
-                <span class="tag">Java 21</span>
-                <span class="tag">Towny API</span>
-                <span class="tag">Citizens NPC</span>
-                <span class="tag">FAWE</span>
-                <span class="tag">SQLite</span>
-              </div>
-              <div class="project-footer">
-                <button class="card-btn detail-btn" type="button" data-modal="towny">
-                  <span>Подробнее</span>
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- project: guns -->
-          <article class="project-card tilt-card" data-category="minecraft" data-project-id="guns">
-            <div class="project-body">
-              <div class="project-meta-top">
-                <span class="project-type">Java • Nexo • Оружие</span>
-                <span class="project-badge status-release">Оружие</span>
-              </div>
-              <h3 class="project-title">MorsGuns</h3>
-              <p class="project-summary">Механика пушек: баллистика, отдача, разброс пуль, звуки затвора и интеграция с ресурспаками.</p>
-              <div class="project-tags">
-                <span class="tag">Java</span>
-                <span class="tag">Raycasting</span>
-                <span class="tag">3D Models</span>
-                <span class="tag">Sound Design</span>
-                <span class="tag">Recoil Engine</span>
-              </div>
-              <div class="project-footer">
-                <button class="card-btn detail-btn" type="button" data-modal="guns">
-                  <span>Подробнее</span>
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- project: metaupgrades -->
-          <article class="project-card tilt-card" data-category="rpg" data-project-id="metaupgrades">
-            <div class="project-body">
-              <div class="project-meta-top">
-                <span class="project-type">Java • RPG Механики</span>
-                <span class="project-badge status-gold">RPG Древо</span>
-              </div>
-              <h3 class="project-title">MetaUpgrades</h3>
-              <p class="project-summary">RPG дерево прокачки персонажа с кастомным интерфейсом, эффектами и удобным конфигом в YAML.</p>
-              <div class="project-tags">
-                <span class="tag">Java</span>
-                <span class="tag">Custom GUI Canvas</span>
-                <span class="tag">Particle FX</span>
-                <span class="tag">Skill Tree</span>
-                <span class="tag">YAML Engine</span>
-              </div>
-              <div class="project-footer">
-                <button class="card-btn detail-btn" type="button" data-modal="metaupgrades">
-                  <span>Подробнее</span>
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- project: rust -->
-          <article class="project-card tilt-card" data-category="rust" data-project-id="rustparser">
-            <div class="project-body">
-              <div class="project-meta-top">
-                <span class="project-type">Rust • CLI & Tools</span>
-                <span class="project-badge status-rust">CLI утилиты</span>
-              </div>
-              <h3 class="project-title">Rust Data Parsers</h3>
-              <p class="project-summary">Утилиты на расте для быстрого парсинга и обработки больших объемов данных.</p>
-              <div class="project-tags">
-                <span class="tag">Rust 2021</span>
-                <span class="tag">Tokio Async</span>
-                <span class="tag">Serde</span>
-                <span class="tag">Zero-Cost</span>
-                <span class="tag">Memory-Safe</span>
-              </div>
-              <div class="project-footer">
-                <button class="card-btn detail-btn" type="button" data-modal="rustparser">
-                  <span>Подробнее</span>
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-              </div>
-            </div>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- view: skills -->
-    <section class="portfolio-view" id="viewSkills">
-      <div class="skills-container">
-        
-        <div class="showcase-header">
-          <div class="showcase-title-wrap">
-            <span class="showcase-kicker">СТЕК</span>
-            <h2 class="showcase-heading">Технологии и стек</h2>
-          </div>
-          <p class="showcase-desc">Языки, библиотеки и инструменты, на которых пишу код.</p>
-        </div>
-
-        <div class="skills-grid">
-          
-          <!-- skill: python -->
-          <div class="skill-card tilt-card">
-            <div class="skill-header">
-              <div class="skill-icon py-color">🐍</div>
-              <div class="skill-meta">
-                <h3 class="skill-title">Python</h3>
-                <span class="skill-exp">3 года опыта</span>
-              </div>
-              <span class="skill-percent">95%</span>
-            </div>
-            <div class="skill-progress-bar">
-              <div class="skill-fill py-fill" style="width: 95%;"></div>
-            </div>
-            <p class="skill-description">Боты Telegram и Discord, бэкенды на aiohttp/FastUI, парсеры и скрипты автоматизации.</p>
-            <div class="skill-tags">
-              <span>Asyncio</span><span>aiohttp</span><span>aiogram 3</span><span>discord.py</span><span>FastUI</span><span>PostgreSQL</span>
-            </div>
-          </div>
-
-          <!-- skill: java -->
-          <div class="skill-card tilt-card">
-            <div class="skill-header">
-              <div class="skill-icon jv-color">☕</div>
-              <div class="skill-meta">
-                <h3 class="skill-title">Java / PaperMC</h3>
-                <span class="skill-exp">2 года опыта</span>
-              </div>
-              <span class="skill-percent">90%</span>
-            </div>
-            <div class="skill-progress-bar">
-              <div class="skill-fill jv-fill" style="width: 90%;"></div>
-            </div>
-            <p class="skill-description">Плагины для Minecraft, пакеты через PacketEvents, кастомные GUI, интеграции с Nexo/ItemsAdder.</p>
-            <div class="skill-tags">
-              <span>Java 21</span><span>PaperMC API</span><span>PacketEvents</span><span>ProtocolLib</span><span>HikariCP</span><span>Maven</span>
-            </div>
-          </div>
-
-          <!-- skill: rust -->
-          <div class="skill-card tilt-card">
-            <div class="skill-header">
-              <div class="skill-icon rs-color">🦀</div>
-              <div class="skill-meta">
-                <h3 class="skill-title">Rust</h3>
-                <span class="skill-exp">2 года опыта</span>
-              </div>
-              <span class="skill-percent">80%</span>
-            </div>
-            <div class="skill-progress-bar">
-              <div class="skill-fill rs-fill" style="width: 80%;"></div>
-            </div>
-            <p class="skill-description">Быстрые парсеры, многопоточные утилиты, работа с сетевыми протоколами без пауз GC.</p>
-            <div class="skill-tags">
-              <span>Tokio</span><span>Serde</span><span>Rayon</span><span>CLI Tools</span><span>Concurrency</span>
-            </div>
-          </div>
-
-          <!-- skill: js -->
-          <div class="skill-card tilt-card">
-            <div class="skill-header">
-              <div class="skill-icon js-color">⚡</div>
-              <div class="skill-meta">
-                <h3 class="skill-title">JavaScript / Frontend</h3>
-                <span class="skill-exp">2 года опыта</span>
-              </div>
-              <span class="skill-percent">85%</span>
-            </div>
-            <div class="skill-progress-bar">
-              <div class="skill-fill js-fill" style="width: 85%;"></div>
-            </div>
-            <p class="skill-description">Адаптивная верстка, работа с Canvas, Web Audio API, WebSockets и анимации.</p>
-            <div class="skill-tags">
-              <span>ES6+</span><span>Canvas API</span><span>Web Audio</span><span>WebSockets</span><span>CSS3</span>
-            </div>
-          </div>
-
-          <!-- skill: security -->
-          <div class="skill-card tilt-card">
-            <div class="skill-header">
-              <div class="skill-icon sec-color">🛡️</div>
-              <div class="skill-meta">
-                <h3 class="skill-title">Аудит и безопасность</h3>
-                <span class="skill-exp">Анализ байткода и трафика</span>
-              </div>
-              <span class="skill-percent">85%</span>
-            </div>
-            <div class="skill-progress-bar">
-              <div class="skill-fill sec-fill" style="width: 85%;"></div>
-            </div>
-            <p class="skill-description">Декомпиляция плагинов, проверка на уязвимости, патчинг байткода и защита от эксплойтов.</p>
-            <div class="skill-tags">
-              <span>CFR</span><span>Recaf</span><span>Bytecode</span><span>Packet Inspection</span>
-            </div>
-          </div>
-
-          <!-- skill: devops -->
-          <div class="skill-card tilt-card">
-            <div class="skill-header">
-              <div class="skill-icon devops-color">⚙️</div>
-              <div class="skill-meta">
-                <h3 class="skill-title">Инфраструктура и БД</h3>
-                <span class="skill-exp">Серверы и базы</span>
-              </div>
-              <span class="skill-percent">80%</span>
-            </div>
-            <div class="skill-progress-bar">
-              <div class="skill-fill devops-fill" style="width: 80%;"></div>
-            </div>
-            <p class="skill-description">Настройка Linux серверов, Docker контейнеры, Git, работа с SQLite и PostgreSQL.</p>
-            <div class="skill-tags">
-              <span>Linux</span><span>Docker</span><span>Git</span><span>PostgreSQL</span><span>SQLite</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- view: mintstudio -->
-    <section class="portfolio-view" id="viewMint">
-      <div class="mint-container">
-        
-        <div class="showcase-header">
-          <div class="showcase-title-wrap">
-            <span class="showcase-kicker">MINTSTUDIO</span>
-            <h2 class="showcase-heading">Студия разработки MintStudio</h2>
-          </div>
-          <p class="showcase-desc">Разработка плагинов и игровых механик для серверов Minecraft.</p>
-        </div>
-
-        <div class="mint-cards-grid">
-          
-          <div class="mint-card tilt-card">
-            <div class="mint-card-header">
-              <div class="mint-card-icon">⚡</div>
-              <span class="mint-card-badge">Core Engine</span>
-            </div>
-            <h3 class="mint-card-title">Серверное ядро и плагины</h3>
-            <p class="mint-card-desc">Разработка самописных плагинов для PaperMC и Spigot с глубокой оптимизацией TPS, кастомными GUI инвентарями и работой с PacketEvents.</p>
-            <div class="mint-card-tags">
-              <span>PaperMC</span><span>PacketEvents</span><span>Custom GUI</span><span>High TPS</span>
-            </div>
-          </div>
-
-          <div class="mint-card tilt-card">
-            <div class="mint-card-header">
-              <div class="mint-card-icon">🎯</div>
-              <span class="mint-card-badge">Warfare</span>
-            </div>
-            <h3 class="mint-card-title">Оружие и боевые комплексы</h3>
-            <p class="mint-card-desc">Создание продвинутых радарных систем в GUI (54 слота), зенитно-ракетных комплексов ПВО и огнестрельного оружия под Nexo и ItemsAdder.</p>
-            <div class="mint-card-tags">
-              <span>MORSPVO</span><span>MorsGuns</span><span>Nexo 3D</span><span>Radar Math</span>
-            </div>
-          </div>
-
-          <div class="mint-card tilt-card">
-            <div class="mint-card-header">
-              <div class="mint-card-icon">🏰</div>
-              <span class="mint-card-badge">Ecosystem</span>
-            </div>
-            <h3 class="mint-card-title">Towny экосистема и механики</h3>
-            <p class="mint-card-desc">Комплекс из 6 модулей для серверов Towny: защитные башни Babel, военные лагеря, колонисты-NPC, постройка чертежей через FAWE и уровни города.</p>
-            <div class="mint-card-tags">
-              <span>MintTowny</span><span>Towny API</span><span>Citizens NPC</span><span>FAWE</span>
-            </div>
-          </div>
-
-          <div class="mint-card tilt-card">
-            <div class="mint-card-header">
-              <div class="mint-card-icon">🛡️</div>
-              <span class="mint-card-badge">Security</span>
-            </div>
-            <h3 class="mint-card-title">Безопасность и античит</h3>
-            <p class="mint-card-desc">Собственные решения для защиты серверов от нечестной игры: детект пакетных аномалий, эвристика кликов и защита от чит-клиентов.</p>
-            <div class="mint-card-tags">
-              <span>MintAntiCheat</span><span>Heuristics</span><span>Bytecode</span><span>Exploit Fix</span>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- stats banner -->
-        <div class="mint-stats-banner tilt-card">
-          <div class="mint-stat-col">
-            <span class="mint-stat-val">15+</span>
-            <span class="mint-stat-sub">Плагинов</span>
-          </div>
-          <div class="mint-stat-sep"></div>
-          <div class="mint-stat-col">
-            <span class="mint-stat-val">50,000+</span>
-            <span class="mint-stat-sub">Игроков на серверах</span>
-          </div>
-          <div class="mint-stat-sep"></div>
-          <div class="mint-stat-col">
-            <span class="mint-stat-val">99.8%</span>
-            <span class="mint-stat-sub">Аптайм</span>
-          </div>
-          <div class="mint-stat-sep"></div>
-          <div class="mint-stat-col">
-            <span class="mint-stat-val">100%</span>
-            <span class="mint-stat-sub">Свой код</span>
+            <span id="viewCountText">1,341</span>
+            <span class="views-text">просмотров</span>
           </div>
         </div>
 
       </div>
-    </section>
-
-    <!-- view: terminal -->
-    <section class="portfolio-view" id="viewTerminal">
-      <div class="terminal-container">
-        
-        <div class="terminal-window">
-          
-          <div class="terminal-titlebar">
-            <div class="terminal-traffic-lights">
-              <span class="light red"></span>
-              <span class="light yellow"></span>
-              <span class="light green"></span>
-            </div>
-            <div class="terminal-title">mors@morsonovich:~ (zsh)</div>
-            <div class="terminal-actions">
-              <button class="term-action-btn" id="clearTermBtn" title="Очистить">Clear</button>
-            </div>
-          </div>
-
-          <div class="terminal-screen" id="terminalScreen">
-            <div class="terminal-output" id="terminalOutput">
-              <div class="term-line welcome-ascii">
-███    ███  ██████  ██████  ███████  ██████  ███    ██  ██████  ██    ██ ██  ██████ ██   ██ 
-████  ████ ██    ██ ██   ██ ██      ██    ██ ████   ██ ██    ██ ██    ██ ██ ██      ██   ██ 
-██ ████ ██ ██    ██ ██████  ███████ ██    ██ ██ ██  ██ ██    ██ ██    ██ ██ ██      ███████ 
-██  ██  ██ ██    ██ ██   ██      ██ ██    ██ ██  ██ ██ ██    ██  ██  ██  ██ ██      ██   ██ 
-██      ██  ██████  ██   ██ ███████  ██████  ██   ████  ██████    ████   ██  ██████ ██   ██ 
-</div>
-              <div class="term-line text-cyan">Linux morsonovich 6.10.7-arch1-1 (x86_64) • Developer Workspace</div>
-              <div class="term-line text-muted">Введите <span class="term-highlight">help</span> для списка команд. Быстрые: <span class="term-highlight">projects</span>, <span class="term-highlight">skills</span>, <span class="term-highlight">matrix</span>.</div>
-              <div class="term-divider"></div>
-            </div>
-
-            <form class="terminal-input-row" id="terminalForm" autocomplete="off">
-              <span class="term-prompt">mors@pc:~$</span>
-              <input type="text" id="terminalInput" class="term-input" autofocus spellcheck="false" autocomplete="off" aria-label="Команда">
-            </form>
-          </div>
-
-        </div>
-
-        <div class="term-hints-row">
-          <span>Команды:</span>
-          <button class="term-chip" data-cmd="help">help</button>
-          <button class="term-chip" data-cmd="whoami">whoami</button>
-          <button class="term-chip" data-cmd="projects">projects</button>
-          <button class="term-chip" data-cmd="skills">skills</button>
-          <button class="term-chip" data-cmd="matrix">matrix</button>
-          <button class="term-chip" data-cmd="contact">contact</button>
-          <button class="term-chip" data-cmd="clear">clear</button>
-        </div>
-
-      </div>
-    </section>
-
+    </div>
   </main>
 
-  <!-- modal: project detail -->
-  <div class="modal-overlay" id="projectModalOverlay" aria-hidden="true">
-    <div class="modal-card tilt-card" id="projectModalCard">
-      
-      <button class="modal-close-btn" id="closeProjectModalBtn" aria-label="Закрыть">&times;</button>
-      
-      <div class="modal-content">
-        <div class="modal-meta-top">
-          <span class="modal-category" id="modalCategory">Категория</span>
-          <span class="modal-status-badge" id="modalBadge">Статус</span>
-        </div>
-
-        <h3 class="modal-title" id="modalTitle">Название проекта</h3>
-        <p class="modal-desc" id="modalDesc">Описание проекта.</p>
-
-        <div class="modal-section-title">ОСОБЕННОСТИ:</div>
-        <ul class="modal-features-list" id="modalFeaturesList">
-        </ul>
-
-        <div class="modal-section-title">СТЕК:</div>
-        <div class="modal-tags-wrap" id="modalTagsWrap">
-        </div>
-
-        <div class="modal-actions-row">
-          <a href="#" target="_blank" rel="noopener noreferrer" class="modal-action-btn primary" id="modalLinkBtn">
-            <span>Открыть репозиторий / ресурс</span>
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
-          </a>
-          <button class="modal-action-btn secondary" id="modalOrderBtn" type="button">
-            <span>Заказать подобное</span>
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
-  <!-- modal: contact -->
-  <div class="modal-overlay" id="contactModalOverlay" aria-hidden="true">
-    <div class="modal-card tilt-card contact-modal-card">
-      
-      <button class="modal-close-btn" id="closeContactModalBtn" aria-label="Закрыть">&times;</button>
-      
-      <div class="contact-modal-header">
-        <div class="contact-icon-badge">📬</div>
-        <h3 class="contact-modal-title">Связаться / Заказ</h3>
-        <p class="contact-modal-desc">Выберите тему, чтобы сразу перейти в Telegram с готовым запросом.</p>
-      </div>
-
-      <div class="service-selector-grid">
-        <label class="service-option active">
-          <input type="radio" name="serviceType" value="minecraft_plugin" checked>
-          <div class="service-option-card">
-            <span class="service-icon">🎮</span>
-            <div class="service-info">
-              <span class="service-title">Плагин для Minecraft</span>
-              <span class="service-sub">Paper / Spigot / Nexo / GUI</span>
-            </div>
-          </div>
-        </label>
-
-        <label class="service-option">
-          <input type="radio" name="serviceType" value="bot_development">
-          <div class="service-option-card">
-            <span class="service-icon">🤖</span>
-            <div class="service-info">
-              <span class="service-title">Telegram / Discord бот</span>
-              <span class="service-sub">Бэкенд, автоматизация</span>
-            </div>
-          </div>
-        </label>
-
-        <label class="service-option">
-          <input type="radio" name="serviceType" value="web_service">
-          <div class="service-option-card">
-            <span class="service-icon">⚡</span>
-            <div class="service-info">
-              <span class="service-title">Веб-сервис / Бэкенд</span>
-              <span class="service-sub">FastUI, REST API, WebSockets</span>
-            </div>
-          </div>
-        </label>
-
-        <label class="service-option">
-          <input type="radio" name="serviceType" value="audit_consult">
-          <div class="service-option-card">
-            <span class="service-icon">🛡️</span>
-            <div class="service-info">
-              <span class="service-title">Аудит кода / Консультация</span>
-              <span class="service-sub">Оптимизация TPS, фикс багов</span>
-            </div>
-          </div>
-        </label>
-      </div>
-
-      <div class="contact-actions-footer">
-        <a href="https://t.me/retr0gradn1y" target="_blank" rel="noopener noreferrer" class="contact-main-btn tg-btn" id="sendTgMsgBtn">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-          </svg>
-          <span>Написать в Telegram @retr0gradn1y</span>
-        </a>
-
-        <button class="contact-main-btn copy-btn" id="modalCopyDiscordBtn" type="button">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-          </svg>
-          <span>Скопировать Discord: morsonovich</span>
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <script src="script.js?v=2.1"></script>
+  <script src="script.js?v=nocache_20261011_3"></script>
 </body>
 </html>
