@@ -1359,9 +1359,8 @@ body {
 }
 
 .project-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
+  display: inline-flex;
+  align-items: center;
   font-family: 'Space Grotesk', sans-serif;
   font-size: 11px;
   font-weight: 700;
@@ -1831,11 +1830,15 @@ body {
 .welcome-ascii {
   color: var(--accent);
   white-space: pre;
+  font-family: 'JetBrains Mono', Consolas, monospace !important;
   font-weight: 700;
-  font-size: 11px;
-  line-height: 1.15;
+  font-size: 9.5px;
+  line-height: 1.12;
+  letter-spacing: 0;
+  font-variant-ligatures: none;
   overflow-x: auto;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px var(--accent-glow);
 }
 
 .text-cyan { color: var(--accent); }
@@ -1990,15 +1993,12 @@ body {
 }
 
 .modal-status-badge {
-  position: absolute;
-  top: 16px;
-  left: 16px;
   font-family: 'Space Grotesk', sans-serif;
   font-size: 11px;
   font-weight: 700;
-  padding: 5px 12px;
+  padding: 4px 12px;
   border-radius: 20px;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 240, 255, 0.12);
   border: 1px solid var(--accent);
   color: var(--accent);
   backdrop-filter: blur(10px);
@@ -2289,59 +2289,9 @@ body {
 }
 
 /* oneko cat pet */
-#onekoCat {
-  position: fixed;
-  width: 42px;
-  height: 42px;
-  pointer-events: auto;
-  cursor: pointer;
-  z-index: 999999;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  background-size: 336px 168px;
-  background-repeat: no-repeat;
-  filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.8)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.95));
-  user-select: none;
-  will-change: left, top, background-position;
-  opacity: 1;
-  transition: opacity 0.3s ease;
-}
 
-.cat-speech-bubble {
-  position: fixed;
-  z-index: 1000000;
-  background: #fff;
-  color: #000;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 12px;
-  padding: 6px 12px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-  pointer-events: none;
-  opacity: 0;
-  transform: scale(0.8) translateY(10px);
-  transition: all 0.25s var(--ease-bounce);
-}
 
-.cat-speech-bubble::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 6px 6px 0;
-  border-style: solid;
-  border-color: #fff transparent;
-  display: block;
-  width: 0;
-}
 
-.cat-speech-bubble.show {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
 
 /* responsive */
 @media (max-width: 900px) {
@@ -2423,4 +2373,92 @@ body {
     padding: 8px 12px;
     font-size: 16px;
   }
+}
+
+/* mintstudio cards grid */
+.mint-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .mint-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mint-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s var(--ease-smooth);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.mint-card:hover {
+  border-color: var(--card-border-hover);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px var(--accent-glow);
+  transform: translateY(-3px);
+}
+
+.mint-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.mint-card-icon {
+  font-size: 26px;
+}
+
+.mint-card-badge {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mint-card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.mint-card-desc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 18px;
+  flex: 1;
+}
+
+.mint-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mint-card-tags span {
+  font-size: 11px;
+  font-weight: 600;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3px 8px;
+  border-radius: 6px;
 }

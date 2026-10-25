@@ -66,8 +66,8 @@
         <span class="online-text">ONLINE</span>
       </div>
       <div class="presence-badge" title="Статус">
-        <span class="presence-icon">⚡</span>
-        <span class="presence-text">TeleCord • in dev</span>
+        <span class="presence-icon">🛡️</span>
+        <span class="presence-text">MintStudio • dev</span>
       </div>
     </div>
 
@@ -80,7 +80,7 @@
       <button class="nav-tab" data-tab="projects" id="tabProjects">
         <span class="tab-icon">🚀</span>
         <span class="tab-label">Проекты</span>
-        <span class="tab-count">7</span>
+        <span class="tab-count">6</span>
       </button>
       <button class="nav-tab" data-tab="skills" id="tabSkills">
         <span class="tab-icon">⚡</span>
@@ -196,8 +196,8 @@
           <div class="activity-chip">
             <div class="activity-pulse-dot"></div>
             <div class="activity-details">
-              <span class="activity-title">Разрабатываю: <strong>TeleCord v2.0</strong></span>
-              <span class="activity-subtitle">WebSocket Engine • Discord & Telegram Bridge</span>
+              <span class="activity-title">Разрабатываю: <strong>MORSPVO & MTownyRaid</strong></span>
+              <span class="activity-subtitle">Nexo / ItemsAdder • Towny Warfare Ecosystem</span>
             </div>
           </div>
 
@@ -368,10 +368,9 @@
         <!-- filter & search -->
         <div class="filter-controls-row">
           <div class="filter-pills" id="projectFilterPills">
-            <button class="filter-pill active" data-filter="all">Все (7)</button>
+            <button class="filter-pill active" data-filter="all">Все (6)</button>
             <button class="filter-pill" data-filter="minecraft">Minecraft (4)</button>
-            <button class="filter-pill" data-filter="python">Python & Боты (1)</button>
-            <button class="filter-pill" data-filter="rust">Rust (1)</button>
+                        <button class="filter-pill" data-filter="rust">Rust (1)</button>
             <button class="filter-pill" data-filter="rpg">RPG & Механики (1)</button>
           </div>
 
@@ -387,50 +386,12 @@
         <!-- projects grid -->
         <div class="projects-grid" id="projectsGrid">
           
-          <!-- project: telecord -->
-          <article class="project-card tilt-card" data-category="python" data-project-id="telecord">
-            <div class="card-media-wrap">
-              <img src="media/images/telecord_preview.jpg" alt="TeleCord" class="project-img" loading="lazy">
-              <div class="card-media-overlay"></div>
-              <span class="project-badge status-progress">В разработке • v2.0</span>
-            </div>
-            <div class="project-body">
-              <div class="project-meta-top">
-                <span class="project-type">Python • aiohttp • WebSockets</span>
-                <span class="project-date">2026</span>
-              </div>
-              <h3 class="project-title">TeleCord</h3>
-              <p class="project-summary">Мост между Telegram и Discord. Синхронизирует сообщения и статус активности, сканирует запущенные процессы и раздает события через вебсокеты.</p>
-              <div class="project-tags">
-                <span class="tag">Python 3.12</span>
-                <span class="tag">aiohttp</span>
-                <span class="tag">WebSockets</span>
-                <span class="tag">Discord RPC</span>
-                <span class="tag">Asyncio</span>
-              </div>
-              <div class="project-footer">
-                <button class="card-btn detail-btn" type="button" data-modal="telecord">
-                  <span>Подробнее</span>
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-                <a href="https://github.com/morsonovich" target="_blank" rel="noopener noreferrer" class="card-btn-icon" title="GitHub">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
-                </a>
-              </div>
-            </div>
-          </article>
-
           <!-- project: anticheat -->
           <article class="project-card tilt-card" data-category="minecraft" data-project-id="anticheat">
-            <div class="card-media-wrap">
-              <img src="media/images/anticheat_preview.jpg" alt="MintAntiCheat" class="project-img" loading="lazy">
-              <div class="card-media-overlay"></div>
-              <span class="project-badge status-release">Релиз</span>
-            </div>
             <div class="project-body">
               <div class="project-meta-top">
                 <span class="project-type">Java • PaperMC • PacketEvents</span>
-                <span class="project-date">2025</span>
+                <span class="project-badge status-release">Релиз</span>
               </div>
               <h3 class="project-title">MintAntiCheat</h3>
               <p class="project-summary">Самописный античит под Paper/Spigot. Ловит спидхак, флай, кликеры через пакеты без просадки TPS сервака.</p>
@@ -452,15 +413,10 @@
 
           <!-- project: morspvo -->
           <article class="project-card tilt-card" data-category="minecraft" data-project-id="morspvo">
-            <div class="card-media-wrap">
-              <img src="media/images/morspvo_preview.jpg" alt="MORSPVO" class="project-img" loading="lazy">
-              <div class="card-media-overlay"></div>
-              <span class="project-badge status-exclusive">ПВО и рейды</span>
-            </div>
             <div class="project-body">
               <div class="project-meta-top">
                 <span class="project-type">Java • Nexo & ItemsAdder</span>
-                <span class="project-date">2025</span>
+                <span class="project-badge status-exclusive">ПВО и рейды</span>
               </div>
               <h3 class="project-title">MORSPVO & MTownyRaid</h3>
               <p class="project-summary">ПВО комплекс и рейдовые механики для Towny. 54-слотовый радар в GUI, зенитки, ракеты перехвата и кастомные текстуры под Nexo/ItemsAdder.</p>
@@ -485,15 +441,10 @@
 
           <!-- project: towny -->
           <article class="project-card tilt-card" data-category="minecraft" data-project-id="towny">
-            <div class="card-media-wrap">
-              <img src="media/images/towny_preview.jpg" alt="MintTowny" class="project-img" loading="lazy">
-              <div class="card-media-overlay"></div>
-              <span class="project-badge status-gold">6 Модулей</span>
-            </div>
             <div class="project-body">
               <div class="project-meta-top">
                 <span class="project-type">Java • Towny Ecosystem</span>
-                <span class="project-date">2024-2025</span>
+                <span class="project-badge status-gold">6 Модулей</span>
               </div>
               <h3 class="project-title">MintTowny — Модульная империя</h3>
               <p class="project-summary">Связка из 6 модулей для Towny серверов: Babel, Camps, Colonists, Blueprint, Builds и Levels.</p>
@@ -515,15 +466,10 @@
 
           <!-- project: guns -->
           <article class="project-card tilt-card" data-category="minecraft" data-project-id="guns">
-            <div class="card-media-wrap">
-              <img src="media/images/morspvo_preview.jpg" alt="MorsGuns" class="project-img" loading="lazy">
-              <div class="card-media-overlay"></div>
-              <span class="project-badge status-release">Оружие</span>
-            </div>
             <div class="project-body">
               <div class="project-meta-top">
                 <span class="project-type">Java • Nexo • Оружие</span>
-                <span class="project-date">2025</span>
+                <span class="project-badge status-release">Оружие</span>
               </div>
               <h3 class="project-title">MorsGuns</h3>
               <p class="project-summary">Механика пушек: баллистика, отдача, разброс пуль, звуки затвора и интеграция с ресурспаками.</p>
@@ -545,15 +491,10 @@
 
           <!-- project: metaupgrades -->
           <article class="project-card tilt-card" data-category="rpg" data-project-id="metaupgrades">
-            <div class="card-media-wrap">
-              <img src="media/images/towny_preview.jpg" alt="MetaUpgrades" class="project-img" loading="lazy">
-              <div class="card-media-overlay"></div>
-              <span class="project-badge status-gold">RPG Древо</span>
-            </div>
             <div class="project-body">
               <div class="project-meta-top">
                 <span class="project-type">Java • RPG Механики</span>
-                <span class="project-date">2025</span>
+                <span class="project-badge status-gold">RPG Древо</span>
               </div>
               <h3 class="project-title">MetaUpgrades</h3>
               <p class="project-summary">RPG дерево прокачки персонажа с кастомным интерфейсом, эффектами и удобным конфигом в YAML.</p>
@@ -575,15 +516,10 @@
 
           <!-- project: rust -->
           <article class="project-card tilt-card" data-category="rust" data-project-id="rustparser">
-            <div class="card-media-wrap">
-              <img src="media/images/telecord_preview.jpg" alt="Rust Data Parsers" class="project-img" loading="lazy">
-              <div class="card-media-overlay"></div>
-              <span class="project-badge status-rust">CLI утилиты</span>
-            </div>
             <div class="project-body">
               <div class="project-meta-top">
                 <span class="project-type">Rust • CLI & Tools</span>
-                <span class="project-date">2025-2026</span>
+                <span class="project-badge status-rust">CLI утилиты</span>
               </div>
               <h3 class="project-title">Rust Data Parsers</h3>
               <p class="project-summary">Утилиты на расте для быстрого парсинга и обработки больших объемов данных.</p>
@@ -746,47 +682,58 @@
         <div class="showcase-header">
           <div class="showcase-title-wrap">
             <span class="showcase-kicker">MINTSTUDIO</span>
-            <h2 class="showcase-heading">История MintStudio</h2>
+            <h2 class="showcase-heading">Студия разработки MintStudio</h2>
           </div>
-          <p class="showcase-desc">Моя студия по разработке плагинов и механик для серверов.</p>
+          <p class="showcase-desc">Разработка плагинов и игровых механик для серверов Minecraft.</p>
         </div>
 
-        <!-- timeline -->
-        <div class="timeline-wrap">
+        <div class="mint-cards-grid">
           
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content tilt-card">
-              <div class="timeline-badge">2023</div>
-              <h3 class="timeline-title">Первые плагины</h3>
-              <p>Создание первых кастомных скриптов и плагинов для приватных Minecraft серверов. Изучение пакетного протокола и кастомных GUI.</p>
+          <div class="mint-card tilt-card">
+            <div class="mint-card-header">
+              <div class="mint-card-icon">⚡</div>
+              <span class="mint-card-badge">Core Engine</span>
+            </div>
+            <h3 class="mint-card-title">Серверное ядро и плагины</h3>
+            <p class="mint-card-desc">Разработка самописных плагинов для PaperMC и Spigot с глубокой оптимизацией TPS, кастомными GUI инвентарями и работой с PacketEvents.</p>
+            <div class="mint-card-tags">
+              <span>PaperMC</span><span>PacketEvents</span><span>Custom GUI</span><span>High TPS</span>
             </div>
           </div>
 
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content tilt-card">
-              <div class="timeline-badge">2024</div>
-              <h3 class="timeline-title">Основание MintStudio</h3>
-              <p>Основание студии MintStudio. Выпуск плагинов: <strong>MintAntiCheat</strong>, <strong>MintTownyBabel</strong>, <strong>MintAlchemy</strong>, <strong>MintDrugs</strong>, <strong>MintAnomalies</strong>, <strong>MintSpheres</strong>. Выход на BlackMinecraft.</p>
+          <div class="mint-card tilt-card">
+            <div class="mint-card-header">
+              <div class="mint-card-icon">🎯</div>
+              <span class="mint-card-badge">Warfare</span>
+            </div>
+            <h3 class="mint-card-title">Оружие и боевые комплексы</h3>
+            <p class="mint-card-desc">Создание продвинутых радарных систем в GUI (54 слота), зенитно-ракетных комплексов ПВО и огнестрельного оружия под Nexo и ItemsAdder.</p>
+            <div class="mint-card-tags">
+              <span>MORSPVO</span><span>MorsGuns</span><span>Nexo 3D</span><span>Radar Math</span>
             </div>
           </div>
 
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content tilt-card">
-              <div class="timeline-badge">2025</div>
-              <h3 class="timeline-title">MORSPVO, MTownyRaid и MorsGuns</h3>
-              <p>Разработка радарных систем с отслеживанием воздушных целей в GUI, зенитных комплексов и оружия под Nexo и ItemsAdder.</p>
+          <div class="mint-card tilt-card">
+            <div class="mint-card-header">
+              <div class="mint-card-icon">🏰</div>
+              <span class="mint-card-badge">Ecosystem</span>
+            </div>
+            <h3 class="mint-card-title">Towny экосистема и механики</h3>
+            <p class="mint-card-desc">Комплекс из 6 модулей для серверов Towny: защитные башни Babel, военные лагеря, колонисты-NPC, постройка чертежей через FAWE и уровни города.</p>
+            <div class="mint-card-tags">
+              <span>MintTowny</span><span>Towny API</span><span>Citizens NPC</span><span>FAWE</span>
             </div>
           </div>
 
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content tilt-card">
-              <div class="timeline-badge">2026</div>
-              <h3 class="timeline-title">TeleCord и новые проекты</h3>
-              <p>Разработка TeleCord (мост между Telegram и Discord), утилит на Rust и микросервисов.</p>
+          <div class="mint-card tilt-card">
+            <div class="mint-card-header">
+              <div class="mint-card-icon">🛡️</div>
+              <span class="mint-card-badge">Security</span>
+            </div>
+            <h3 class="mint-card-title">Безопасность и античит</h3>
+            <p class="mint-card-desc">Собственные решения для защиты серверов от нечестной игры: детект пакетных аномалий, эвристика кликов и защита от чит-клиентов.</p>
+            <div class="mint-card-tags">
+              <span>MintAntiCheat</span><span>Heuristics</span><span>Bytecode</span><span>Exploit Fix</span>
             </div>
           </div>
 
@@ -839,14 +786,14 @@
           <div class="terminal-screen" id="terminalScreen">
             <div class="terminal-output" id="terminalOutput">
               <div class="term-line welcome-ascii">
-  __  __                                            _      _     
- |  \/  | ___  _ __ ___  ___  _ __   _____   ___   (_) ___| |__  
- | |\/| |/ _ \| '__/ __|/ _ \| '_ \ / _ \ \ / / |  | |/ __| '_ \ 
- | |  | | (_) | |  \__ \ (_) | | | | (_) \ V /| |__| | (__| | | |
- |_|  |_|\___/|_|  |___/\___/|_| |_|\___/ \_/  \____/ \___|_| |_|
-              </div>
-              <div class="term-line text-cyan">Linux morsonovich 6.10.7-arch1-1 (x86_64)</div>
-              <div class="term-line text-muted">Введите <span class="term-highlight">help</span> для списка команд. Быстрые: <span class="term-highlight">projects</span>, <span class="term-highlight">skills</span>, <span class="term-highlight">cat</span>, <span class="term-highlight">matrix</span>.</div>
+███    ███  ██████  ██████  ███████  ██████  ███    ██  ██████  ██    ██ ██  ██████ ██   ██ 
+████  ████ ██    ██ ██   ██ ██      ██    ██ ████   ██ ██    ██ ██    ██ ██ ██      ██   ██ 
+██ ████ ██ ██    ██ ██████  ███████ ██    ██ ██ ██  ██ ██    ██ ██    ██ ██ ██      ███████ 
+██  ██  ██ ██    ██ ██   ██      ██ ██    ██ ██  ██ ██ ██    ██  ██  ██  ██ ██      ██   ██ 
+██      ██  ██████  ██   ██ ███████  ██████  ██   ████  ██████    ████   ██  ██████ ██   ██ 
+</div>
+              <div class="term-line text-cyan">Linux morsonovich 6.10.7-arch1-1 (x86_64) • Developer Workspace</div>
+              <div class="term-line text-muted">Введите <span class="term-highlight">help</span> для списка команд. Быстрые: <span class="term-highlight">projects</span>, <span class="term-highlight">skills</span>, <span class="term-highlight">matrix</span>.</div>
               <div class="term-divider"></div>
             </div>
 
@@ -864,7 +811,6 @@
           <button class="term-chip" data-cmd="whoami">whoami</button>
           <button class="term-chip" data-cmd="projects">projects</button>
           <button class="term-chip" data-cmd="skills">skills</button>
-          <button class="term-chip" data-cmd="cat">cat</button>
           <button class="term-chip" data-cmd="matrix">matrix</button>
           <button class="term-chip" data-cmd="contact">contact</button>
           <button class="term-chip" data-cmd="clear">clear</button>
@@ -881,16 +827,10 @@
       
       <button class="modal-close-btn" id="closeProjectModalBtn" aria-label="Закрыть">&times;</button>
       
-      <div class="modal-banner-wrap">
-        <img src="" alt="" id="modalImg" class="modal-img">
-        <div class="modal-banner-gradient"></div>
-        <span class="modal-status-badge" id="modalBadge">Статус</span>
-      </div>
-
       <div class="modal-content">
         <div class="modal-meta-top">
           <span class="modal-category" id="modalCategory">Категория</span>
-          <span class="modal-year" id="modalYear">2026</span>
+          <span class="modal-status-badge" id="modalBadge">Статус</span>
         </div>
 
         <h3 class="modal-title" id="modalTitle">Название проекта</h3>
@@ -995,9 +935,6 @@
 
     </div>
   </div>
-
-  <!-- oneko speech bubble -->
-  <div id="catSpeechBubble" class="cat-speech-bubble" aria-hidden="true">Мяу! 🐾</div>
 
   <script src="script.js?v=2.1"></script>
 </body>
