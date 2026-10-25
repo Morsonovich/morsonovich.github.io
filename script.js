@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // cache cleanup
+  // Cache cleanup
   if ('caches' in window) {
     try {
-      caches.keys().then(keys => keys.forEach(k => caches.delete(k))).catch(() => { });
-    } catch (e) { }
+      caches.keys().then(keys => keys.forEach(k => caches.delete(k))).catch(() => {});
+    } catch (e) {}
   }
 
-  // sound effects (web audio)
+  // ==========================================
+  // UI SOUND EFFECTS (WEB AUDIO API)
+  // ==========================================
   let audioCtx = null;
   let sfxEnabled = localStorage.getItem('mors_sfx_enabled') !== 'false';
 
@@ -32,15 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(850, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(1100, ctx.currentTime + 0.035);
-        gain.gain.setValueAtTime(0.04, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.035);
+        osc.frequency.setValueAtTime(920, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1180, ctx.currentTime + 0.025);
+        gain.gain.setValueAtTime(0.025, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.025);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start();
-        osc.stop(ctx.currentTime + 0.035);
-      } catch (e) { }
+        osc.stop(ctx.currentTime + 0.025);
+      } catch (e) {}
     },
     click() {
       if (!sfxEnabled) return;
@@ -50,15 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(600, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(280, ctx.currentTime + 0.06);
-        gain.gain.setValueAtTime(0.08, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+        osc.frequency.setValueAtTime(540, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(240, ctx.currentTime + 0.045);
+        gain.gain.setValueAtTime(0.06, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.045);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start();
-        osc.stop(ctx.currentTime + 0.06);
-      } catch (e) { }
+        osc.stop(ctx.currentTime + 0.045);
+      } catch (e) {}
     },
     tab() {
       if (!sfxEnabled) return;
@@ -68,34 +70,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(400, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.09);
-        gain.gain.setValueAtTime(0.06, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.09);
+        osc.frequency.setValueAtTime(420, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(760, ctx.currentTime + 0.07);
+        gain.gain.setValueAtTime(0.045, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.07);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start();
-        osc.stop(ctx.currentTime + 0.09);
-      } catch (e) { }
+        osc.stop(ctx.currentTime + 0.07);
+      } catch (e) {}
     },
     modal() {
       if (!sfxEnabled) return;
       try {
         const ctx = getAudioContext();
         if (!ctx) return;
-        [520, 680, 880].forEach((freq, idx) => {
+        [480, 640].forEach((freq, idx) => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.04);
-          gain.gain.setValueAtTime(0.05, ctx.currentTime + idx * 0.04);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.04 + 0.12);
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.035);
+          gain.gain.setValueAtTime(0.04, ctx.currentTime + idx * 0.035);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.035 + 0.09);
           osc.connect(gain);
           gain.connect(ctx.destination);
-          osc.start(ctx.currentTime + idx * 0.04);
-          osc.stop(ctx.currentTime + idx * 0.04 + 0.12);
+          osc.start(ctx.currentTime + idx * 0.035);
+          osc.stop(ctx.currentTime + idx * 0.035 + 0.09);
         });
-      } catch (e) { }
+      } catch (e) {}
     },
     meow() {
       if (!sfxEnabled) return;
@@ -108,43 +110,68 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = ctx.currentTime;
         osc.frequency.setValueAtTime(450, now);
         osc.frequency.exponentialRampToValueAtTime(750, now + 0.1);
-        osc.frequency.exponentialRampToValueAtTime(500, now + 0.28);
+        osc.frequency.exponentialRampToValueAtTime(500, now + 0.26);
         gain.gain.setValueAtTime(0.01, now);
-        gain.gain.linearRampToValueAtTime(0.09, now + 0.08);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+        gain.gain.linearRampToValueAtTime(0.07, now + 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.26);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start(now);
-        osc.stop(now + 0.28);
-      } catch (e) { }
+        osc.stop(now + 0.26);
+      } catch (e) {}
     }
   };
 
-  // sfx toggle
+  // SFX Toggle button
   const sfxToggleBtn = document.getElementById('sfxToggleBtn');
-  const sfxIcon = document.getElementById('sfxIcon');
+  const sfxSvgOn = document.getElementById('sfxSvgOn');
+  const sfxSvgOff = document.getElementById('sfxSvgOff');
+
+  function syncSfxUi() {
+    if (!sfxToggleBtn) return;
+    sfxToggleBtn.classList.toggle('active', sfxEnabled);
+    if (sfxSvgOn) sfxSvgOn.style.display = sfxEnabled ? 'block' : 'none';
+    if (sfxSvgOff) sfxSvgOff.style.display = sfxEnabled ? 'none' : 'block';
+  }
+  syncSfxUi();
+
   if (sfxToggleBtn) {
-    if (!sfxEnabled) {
-      sfxToggleBtn.classList.remove('active');
-      if (sfxIcon) sfxIcon.textContent = '🔇';
-    }
     sfxToggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       sfxEnabled = !sfxEnabled;
       localStorage.setItem('mors_sfx_enabled', sfxEnabled);
-      sfxToggleBtn.classList.toggle('active', sfxEnabled);
-      if (sfxIcon) sfxIcon.textContent = sfxEnabled ? '🔊' : '🔇';
+      syncSfxUi();
       if (sfxEnabled) sfx.click();
-      showToast(sfxEnabled ? 'Звуковые эффекты включены' : 'Звуковые эффекты выключены');
+      showToast(sfxEnabled ? 'UI SFX: Включены' : 'UI SFX: Выключены');
     });
   }
 
-  // hover sounds
-  document.querySelectorAll('button, .nav-tab, .social-card-btn, .filter-pill, .term-chip').forEach(el => {
+  document.querySelectorAll('button, .nav-tab, .social-card-btn, .filter-pill, .term-chip, .bento-proj-item').forEach(el => {
     el.addEventListener('mouseenter', () => sfx.hover());
   });
 
-  // title ticker animation (35% chance for 'Писька :D', otherwise 'Morsonovich')
+  // ==========================================
+  // SPOTLIGHT CARDS CURSOR TRACKING
+  // ==========================================
+  document.addEventListener('mousemove', (e) => {
+    const cards = document.querySelectorAll('.spotlight-card');
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      if (
+        e.clientX >= rect.left - 120 &&
+        e.clientX <= rect.right + 120 &&
+        e.clientY >= rect.top - 120 &&
+        e.clientY <= rect.bottom + 120
+      ) {
+        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+      }
+    });
+  }, { passive: true });
+
+  // ==========================================
+  // TITLE TICKER & LOCAL CLOCK
+  // ==========================================
   let titleWord = Math.random() < 0.35 ? 'Писька :D' : 'Morsonovich';
   let titleCharIndex = 1;
   let titleIsDeleting = false;
@@ -173,7 +200,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   updateTitleTicker();
 
-  // video autoplay
+  const localClockBadge = document.getElementById('localClockBadge');
+  function updateClock() {
+    if (!localClockBadge) return;
+    const now = new Date();
+    localClockBadge.textContent = now.toTimeString().slice(0, 8);
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // ==========================================
+  // VIDEO AUTOPLAY
+  // ==========================================
   const bgVideo = document.getElementById('backgroundVideo');
   if (bgVideo) {
     bgVideo.muted = true;
@@ -189,13 +227,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // audio player & unlock
+  // ==========================================
+  // AUDIO PLAYER, DECK & SPECTRUM VISUALIZER
+  // ==========================================
   const bgAudio = document.getElementById('bgAudio');
   const musicToggleBtn = document.getElementById('musicToggleBtn');
   const musicStatusText = document.getElementById('musicStatusText');
   const volumeSlider = document.getElementById('volumeSlider');
   const volValText = document.getElementById('volValText');
   const enterOverlay = document.getElementById('enterOverlay');
+
+  // Bento Audio Deck elements
+  const deckPlayBtn = document.getElementById('deckPlayBtn');
+  const deckStateBadge = document.getElementById('deckStateBadge');
+  const deckPauseIcon = document.getElementById('deckPauseIcon');
+  const deckPlayIcon = document.getElementById('deckPlayIcon');
+  const audioSeekSlider = document.getElementById('audioSeekSlider');
+  const audioCurrentTime = document.getElementById('audioCurrentTime');
+  const audioDurationTime = document.getElementById('audioDurationTime');
+  const audioSpectrumCanvas = document.getElementById('audioSpectrumCanvas');
+
+  function formatTime(sec) {
+    if (!sec || !isFinite(sec)) return '00:00';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
 
   if (bgAudio) {
     const savedVol = localStorage.getItem('mors_audio_volume');
@@ -217,21 +274,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let isPlaying = false;
   let hasUnlocked = false;
+  let isSeeking = false;
 
   function hideOverlay() {
     if (enterOverlay && !enterOverlay.classList.contains('hidden')) {
       enterOverlay.classList.add('hidden');
       setTimeout(() => {
         enterOverlay.style.display = 'none';
-      }, 500);
+      }, 460);
     }
   }
 
+  function syncAudioUiState(playing) {
+    isPlaying = playing;
+    if (musicToggleBtn) musicToggleBtn.classList.toggle('playing', playing);
+    if (musicStatusText) {
+      musicStatusText.textContent = playing
+        ? 'MORGENSHTERN — Бременские музыканты'
+        : 'Музыка на паузе';
+    }
+    if (deckStateBadge) {
+      deckStateBadge.textContent = playing ? 'PLAYING' : 'PAUSED';
+      deckStateBadge.classList.toggle('paused', !playing);
+    }
+    if (deckPauseIcon) deckPauseIcon.style.display = playing ? 'block' : 'none';
+    if (deckPlayIcon) deckPlayIcon.style.display = playing ? 'none' : 'block';
+  }
+
   function handlePlaybackSuccess() {
-    isPlaying = true;
     hideOverlay();
-    if (musicStatusText) musicStatusText.textContent = 'MORGENSHTERN — Бременские музыканты';
-    if (musicToggleBtn) musicToggleBtn.classList.add('playing');
+    syncAudioUiState(true);
     if (bgVideo && bgVideo.paused) {
       bgVideo.play().catch(() => {});
     }
@@ -245,6 +317,18 @@ document.addEventListener('DOMContentLoaded', () => {
     return Promise.resolve();
   }
 
+  function toggleMusicPlayback() {
+    sfx.click();
+    if (!bgAudio) return;
+    if (isPlaying) {
+      bgAudio.pause();
+      syncAudioUiState(false);
+    } else {
+      hasUnlocked = true;
+      startMusic().then(handlePlaybackSuccess).catch(console.error);
+    }
+  }
+
   function unlockAndPlay() {
     if (hasUnlocked && isPlaying) return;
     getAudioContext();
@@ -252,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hasUnlocked = true;
       handlePlaybackSuccess();
       sfx.click();
-    }).catch(err => {
+    }).catch(() => {
       setTimeout(() => {
         startMusic().then(() => {
           hasUnlocked = true;
@@ -280,15 +364,24 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   if (bgAudio) {
+    bgAudio.addEventListener('loadedmetadata', () => {
+      if (audioDurationTime) audioDurationTime.textContent = formatTime(bgAudio.duration);
+    });
+    bgAudio.addEventListener('timeupdate', () => {
+      if (audioCurrentTime) audioCurrentTime.textContent = formatTime(bgAudio.currentTime);
+      if (audioDurationTime && bgAudio.duration) {
+        audioDurationTime.textContent = formatTime(bgAudio.duration);
+      }
+      if (audioSeekSlider && !isSeeking && bgAudio.duration) {
+        audioSeekSlider.value = ((bgAudio.currentTime / bgAudio.duration) * 100).toFixed(2);
+      }
+    });
     bgAudio.addEventListener('playing', () => {
-      isPlaying = true;
       handlePlaybackSuccess();
     });
     bgAudio.addEventListener('pause', () => {
       if (hasUnlocked) {
-        isPlaying = false;
-        if (musicToggleBtn) musicToggleBtn.classList.remove('playing');
-        if (musicStatusText) musicStatusText.textContent = 'Музыка на паузе';
+        syncAudioUiState(false);
       }
     });
     bgAudio.addEventListener('ended', () => {
@@ -300,21 +393,72 @@ document.addEventListener('DOMContentLoaded', () => {
   if (musicToggleBtn) {
     musicToggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      sfx.click();
-      if (!bgAudio) return;
-      if (isPlaying) {
-        bgAudio.pause();
-        isPlaying = false;
-        if (musicStatusText) musicStatusText.textContent = 'Музыка на паузе';
-        if (musicToggleBtn) musicToggleBtn.classList.remove('playing');
-      } else {
-        hasUnlocked = true;
-        startMusic().then(handlePlaybackSuccess).catch(console.error);
+      toggleMusicPlayback();
+    });
+  }
+
+  if (deckPlayBtn) {
+    deckPlayBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMusicPlayback();
+    });
+  }
+
+  if (audioSeekSlider && bgAudio) {
+    audioSeekSlider.addEventListener('pointerdown', () => { isSeeking = true; });
+    audioSeekSlider.addEventListener('pointerup', () => { isSeeking = false; });
+    audioSeekSlider.addEventListener('input', (e) => {
+      if (bgAudio.duration) {
+        const pct = parseFloat(e.target.value) / 100;
+        bgAudio.currentTime = pct * bgAudio.duration;
       }
     });
   }
 
-  // theme switcher
+  // Audio Spectrum Canvas Animation
+  if (audioSpectrumCanvas) {
+    const sCtx = audioSpectrumCanvas.getContext('2d');
+    const barCount = 34;
+    const barHeights = new Array(barCount).fill(3);
+
+    function renderSpectrum(ts) {
+      const w = audioSpectrumCanvas.width;
+      const h = audioSpectrumCanvas.height;
+      sCtx.clearRect(0, 0, w, h);
+
+      const accentColor = getComputedStyle(document.body).getPropertyValue('--accent').trim() || '#00e5ff';
+      const vol = bgAudio ? bgAudio.volume : 0.65;
+      const gap = 3;
+      const barWidth = (w - gap * (barCount - 1) - 16) / barCount;
+
+      for (let i = 0; i < barCount; i++) {
+        let target = 3;
+        if (isPlaying && vol > 0.01) {
+          const wave1 = Math.sin(ts * 0.008 + i * 0.42) * 0.5 + 0.5;
+          const wave2 = Math.cos(ts * 0.013 - i * 0.27) * 0.5 + 0.5;
+          const centerWeight = 1 - Math.abs(i - barCount / 2) / (barCount / 1.6);
+          target = Math.max(4, (wave1 * 0.6 + wave2 * 0.4) * (h - 10) * Math.max(0.3, centerWeight) * Math.min(1, vol + 0.25));
+        }
+        barHeights[i] += (target - barHeights[i]) * 0.22;
+        const bh = Math.max(3, barHeights[i]);
+        const x = 8 + i * (barWidth + gap);
+        const y = h - bh - 4;
+
+        sCtx.fillStyle = accentColor;
+        sCtx.globalAlpha = isPlaying ? 0.85 : 0.28;
+        sCtx.beginPath();
+        sCtx.roundRect(x, y, barWidth, bh, 1.5);
+        sCtx.fill();
+      }
+      sCtx.globalAlpha = 1;
+      requestAnimationFrame(renderSpectrum);
+    }
+    requestAnimationFrame(renderSpectrum);
+  }
+
+  // ==========================================
+  // THEME SWITCHER
+  // ==========================================
   const themePickerBtn = document.getElementById('themePickerBtn');
   const themePopover = document.getElementById('themePopover');
   const themeChoices = document.querySelectorAll('.theme-choice');
@@ -344,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const theme = btn.dataset.setTheme;
         applyTheme(theme);
         themePopover.classList.remove('open');
-        showToast('Тема: ' + theme);
+        showToast('Акцентная тема: ' + theme.toUpperCase());
       });
     });
 
@@ -355,7 +499,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // tabs navigation
+  // ==========================================
+  // WORKSPACE MODE SWITCH (BENTO vs CARD ONLY)
+  // ==========================================
+  const bentoLayout = document.getElementById('bentoLayout');
+  const modeBentoBtn = document.getElementById('modeBentoBtn');
+  const modeCardBtn = document.getElementById('modeCardBtn');
+
+  if (modeBentoBtn && modeCardBtn && bentoLayout) {
+    modeBentoBtn.addEventListener('click', () => {
+      sfx.click();
+      bentoLayout.classList.remove('card-only-mode');
+      modeBentoBtn.classList.add('active');
+      modeCardBtn.classList.remove('active');
+    });
+
+    modeCardBtn.addEventListener('click', () => {
+      sfx.click();
+      bentoLayout.classList.add('card-only-mode');
+      modeCardBtn.classList.add('active');
+      modeBentoBtn.classList.remove('active');
+    });
+  }
+
+  // ==========================================
+  // TABS NAVIGATION
+  // ==========================================
   const navTabs = document.querySelectorAll('.nav-tab');
   const portfolioViews = {
     bio: document.getElementById('viewBio'),
@@ -400,6 +569,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  document.querySelectorAll('[data-goto-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      switchTab(btn.dataset.gotoTab);
+    });
+  });
+
+  const brandHomeBtn = document.getElementById('brandHomeBtn');
+  if (brandHomeBtn) {
+    brandHomeBtn.addEventListener('click', () => switchTab('bio'));
+  }
+
   const exploreProjectsBtn = document.getElementById('exploreProjectsBtn');
   if (exploreProjectsBtn) {
     exploreProjectsBtn.addEventListener('click', () => switchTab('projects'));
@@ -410,15 +590,17 @@ document.addEventListener('DOMContentLoaded', () => {
     switchTab(initialHash);
   }
 
-  // typewriter effect
+  // ==========================================
+  // TYPEWRITER EFFECT
+  // ==========================================
   const roleTextElem = document.getElementById('roleText');
   const roles = [
-    'Артём • Морсонович',
-    'Экс-создатель студии MintStudio',
-    'Python разработчик (3 года)',
-    'Java / Minecraft разработчик (2 года)',
-    'Rust разработчик (2 года)',
-    'JavaScript разработчик (2 года)'
+    'Артём • Морс • Морсонович',
+    'Ex-создатель студии MintStudio',
+    'Python Developer (3 года опыта)',
+    'Java / PaperMC Developer (2 года опыта)',
+    'Rust Developer (2 года опыта)',
+    'JavaScript Developer (2 года опыта)'
   ];
   let roleIndex = 0;
   let charIndex = 0;
@@ -435,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
       charIndex++;
     }
 
-    let speed = isDeleting ? 25 : 50;
+    let speed = isDeleting ? 22 : 45;
 
     if (!isDeleting && charIndex === currentRole.length) {
       speed = 2200;
@@ -443,14 +625,16 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (isDeleting && charIndex === 0) {
       isDeleting = false;
       roleIndex = (roleIndex + 1) % roles.length;
-      speed = 300;
+      speed = 280;
     }
 
     setTimeout(typeWriter, speed);
   }
   typeWriter();
 
-  // dossier accordion
+  // ==========================================
+  // DOSSIER ACCORDION
+  // ==========================================
   const dossierToggleBtn = document.getElementById('dossierToggleBtn');
   const dossierPanel = document.getElementById('dossierPanel');
 
@@ -463,27 +647,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3d tilt
-  const tiltCards = document.querySelectorAll('.tilt-card');
-  tiltCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      if (window.innerWidth < 850) return;
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -6;
-      const rotateY = ((x - centerX) / centerX) * 6;
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-    });
-  });
-
-  // projects filter & search
+  // ==========================================
+  // PROJECTS FILTER & SEARCH
+  // ==========================================
   const filterPills = document.querySelectorAll('#projectFilterPills .filter-pill');
   const projectCards = document.querySelectorAll('.project-card');
   const projectSearchInput = document.getElementById('projectSearchInput');
@@ -498,11 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const matchesCategory = currentFilter === 'all' || category.includes(currentFilter);
       const matchesQuery = !query || text.includes(query);
 
-      if (matchesCategory && matchesQuery) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
+      card.style.display = (matchesCategory && matchesQuery) ? 'flex' : 'none';
     });
   }
 
@@ -520,133 +682,344 @@ document.addEventListener('DOMContentLoaded', () => {
     projectSearchInput.addEventListener('input', applyProjectFilters);
   }
 
-  // project details modal
+  // ==========================================
+  // PROJECT TECHNICAL CASE STUDY MODAL (ZERO PHOTOS)
+  // ==========================================
   const projectData = {
     telecord: {
+      codeId: 'PRJ-01',
       title: 'TeleCord — Discord & Telegram Bridge',
-      category: 'Python • aiohttp • WebSockets',
+      category: 'Python 3.12 • aiohttp • WebSockets',
       year: '2026',
-      badge: 'В разработке • v2.0',
-      img: 'media/images/telecord_preview.jpg',
-      desc: 'Шлюз для синхронизации Discord и Telegram. Транслирует сообщения, статусы активности, мониторит запущенные процессы и пушит события в реальном времени через вебсокеты.',
+      badge: 'v2.0 • В разработке',
+      desc: 'Асинхронный шлюз для двусторонней синхронизации Discord и Telegram. Транслирует сообщения, вложения и статусы активности (Rich Presence), сканирует запущенные процессы на ПК и раздаёт события в реальном времени по WebSockets.',
+      specs: [
+        { label: 'АРХИТЕКТУРА', val: 'Async Event Loop' },
+        { label: 'ПРОТОКОЛ', val: 'WebSockets + RPC' },
+        { label: 'ЗАДЕРЖКА', val: '< 15 ms' }
+      ],
+      codeFile: 'telecord/bridge/ws_engine.py',
+      codeLang: 'Python 3.12 (aiohttp)',
+      codeSnippet: `class TeleCordBridge:
+    def __init__(self, tg_client: Bot, dc_rpc: PresenceMonitor):
+        self.tg = tg_client
+        self.rpc = dc_rpc
+        self.ws_Subscribers: set[web.WebSocketResponse] = set()
+
+    async def broadcast_event(self, event_type: str, payload: dict) -> None:
+        packet = {"op": event_type, "ts": time.time(), "d": payload}
+        dead = []
+        for ws in self.ws_Subscribers:
+            try:
+                await ws.send_json(packet)
+            except ConnectionResetError:
+                dead.append(ws)
+        for ws in dead:
+            self.ws_Subscribers.discard(ws)`,
       features: [
-        'Двусторонняя синхронизация через WebSockets с минимальной задержкой',
-        'Веб-панель с кастомными анимированными рамками аватарок',
-        'Автоматический трекинг процессов и игр',
-        'Поддержка Discord Nitro бейджей и вебхуков Telegram',
-        'Асинхронный бэкенд на Python (aiohttp)'
+        'Двусторонняя синхронизация сообщений и медиа между Telegram и Discord с минимальным пингом',
+        'Автоматический мониторинг запущенных процессов и игр с трансляцией в статус',
+        'Раздача живой телеметрии на веб-клиенты через WebSockets',
+        'Поддержка кастомных профилей, бейджей и вебхуков',
+        'Неблокирующий бэкенд на Python 3.12 (aiohttp + asyncio)'
       ],
       tags: ['Python 3.12', 'aiohttp', 'WebSockets', 'Telegram API', 'discord.py', 'asyncio'],
       link: 'https://github.com/morsonovich'
     },
     anticheat: {
+      codeId: 'PRJ-02',
       title: 'MintAntiCheat',
-      category: 'Java • PaperMC • PacketEvents',
+      category: 'Java 21 • PaperMC • PacketEvents',
       year: '2025',
-      badge: 'Релиз',
-      img: 'media/images/anticheat_preview.jpg',
-      desc: 'Самописный серверный античит для Minecraft (Paper / Spigot). Перехватывает пакеты через PacketEvents и вычисляет аномалии движения и кликов без нагрузки на сервер.',
-      features: [
-        'Детекты на Fly, Speed, Step, Jesus, NoSlow',
-        'Анализ распределения CPS и клик-паттернов (AutoClicker, Killaura)',
-        'Инспектор инвентаря и перемещений в GUI для админов',
-        'Логирование и алерты в Discord вебхуки',
-        'Стабильные 20.0 TPS при высоком онлайне'
+      badge: 'Релиз • 20.0 TPS',
+      desc: 'Серверный античит для Minecraft (Paper / Spigot), работающий напрямую с сетевыми пакетами через PacketEvents. Вычисляет аномалии движения, ротации и CPS-распределения вне основного потока сервера.',
+      specs: [
+        { label: 'ПЕРЕХВАТ', val: 'Netty PacketEvents' },
+        { label: 'НАГРУЗКА', val: '< 0.04 ms / tick' },
+        { label: 'ДЕТЕКТЫ', val: 'Movement + Combat' }
       ],
-      tags: ['Java 21', 'PaperMC', 'PacketEvents', 'Heuristics', 'Admin GUI'],
+      codeFile: 'me/mors/anticheat/check/impl/FlightPrediction.java',
+      codeLang: 'Java 21 (PaperMC)',
+      codeSnippet: `@Override
+public void onPacketReceive(PacketReceiveEvent event) {
+    if (!WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) return;
+    PlayerData data = profileManager.get(event.getUser());
+    double deltaY = data.getMoveProcessor().getDeltaY();
+    double predicted = (data.getMoveProcessor().getLastDeltaY() - 0.08D) * 0.9800000190734863D;
+
+    if (!data.isExempt() && Math.abs(deltaY - predicted) > 1e-4) {
+        if (increaseBuffer() > MAX_THRESHOLD) flag(data, String.format("dY=%.4f", deltaY));
+    } else {
+        decayBuffer(0.25);
+    }
+}`,
+      features: [
+        'Предиктивный анализ физики движения: Fly, Speed, Step, Jesus, NoSlow',
+        'Статистический анализ интервалов кликов и углов атаки (AutoClicker, Killaura, Reach)',
+        'Встроенный GUI-инспектор для администраторов с историей флагов и пингом игрока',
+        'Мгновенные уведомления в Discord через Webhook с деталями срабатывания',
+        'Стабильные 20.0 TPS даже при высоком онлайне за счёт выноса математики из main thread'
+      ],
+      tags: ['Java 21', 'PaperMC', 'PacketEvents', 'Heuristics', 'Netty', 'Admin GUI'],
       link: 'https://github.com/morsonovich'
     },
     morspvo: {
+      codeId: 'PRJ-03',
       title: 'MORSPVO & MTownyRaid',
-      category: 'Java • Nexo & ItemsAdder',
+      category: 'Java • Nexo & ItemsAdder • Towny',
       year: '2025',
       badge: 'ПВО и рейды',
-      img: 'media/images/morspvo_preview.jpg',
-      desc: 'Плагин ПВО и боевых механик для Towny. Реализует радарный экран в GUI (54 слота), зенитно-ракетные комплексы, перехват воздушных целей и звуки сирен.',
-      features: [
-        'Радарный экран в инвентаре с азимутом и дистанцией до цели',
-        'Управляемые ракеты перехвата и ПВО комплексы',
-        'Кастомные 3D-модели, текстуры и звуки сирены под Nexo / ItemsAdder',
-        'Интеграция с Towny и клановыми рейдами'
+      desc: 'Военно-технический плагин ПВО и рейдовых механик для серверов Towny. Реализует 54-слотовый радарный экран в GUI инвентаря, зенитно-ракетные комплексы, ракеты перехвата и кастомные 3D-модели.',
+      specs: [
+        { label: 'ИНТЕРФЕЙС', val: '54-Slot Radar GUI' },
+        { label: 'РЕСУРСПАК', val: 'Nexo & ItemsAdder' },
+        { label: 'НАВЕДЕНИЕ', val: '3D Vector Homing' }
       ],
-      tags: ['Java', 'Nexo Pack', 'ItemsAdder', 'Radar Math', 'Sound FX'],
+      codeFile: 'me/mors/pvo/radar/RadarSession.java',
+      codeLang: 'Java 21',
+      codeSnippet: `public void updateRadarMatrix(Inventory radarGui, Location stationLoc, double range) {
+    for (TrackedTarget target : airspaceTracker.getTargetsInRadius(stationLoc, range)) {
+        double dx = target.getLocation().getX() - stationLoc.getX();
+        double dz = target.getLocation().getZ() - stationLoc.getZ();
+        int col = Math.clamp(4 + (int) Math.round((dx / range) * 4.0), 0, 8);
+        int row = Math.clamp(2 + (int) Math.round((dz / range) * 2.5), 0, 5);
+        radarGui.setItem(row * 9 + col, buildTargetBlip(target, stationLoc));
+    }
+}`,
+      features: [
+        'Динамический 54-слотовый радар в GUI с расчётом азимута, высоты и скорости цели',
+        'Зенитно-ракетные комплексы с перехватом воздушных целей и баллистических угроз',
+        'Полная интеграция с 3D-моделями, текстурами и звуками сирен через Nexo / ItemsAdder',
+        'Связка с дипломатией Towny: автоматическое определение союзников и вражеских наций'
+      ],
+      tags: ['Java', 'Nexo Pack', 'ItemsAdder', 'Towny API', 'Radar Math', 'Sound FX'],
       link: 'https://black-minecraft.com/members/retr0gradn1y.259287/'
     },
     towny: {
+      codeId: 'PRJ-04',
       title: 'MintTowny — Модульная империя',
-      category: 'Java • Towny Advanced',
-      year: '2024-2025',
-      badge: '6 плагинов',
-      img: 'media/images/towny_preview.jpg',
-      desc: 'Связка из 6 модулей для Towny серверов: Babel, Camps, Colonists, Blueprint, Builds и Levels.',
-      features: [
-        'MintTownyBabel: постройка башен с зональными баффами',
-        'MintTownyCamps: военные лагеря для осад и рейдов',
-        'MintTownyColonists: NPC-рабочие и сборщики ресурсов',
-        'MintTownyBlueprint: постройка зданий по чертежам через FAWE',
-        'MintTownyLevels: дерево развития города'
+      category: 'Java 21 • Towny Advanced Ecosystem',
+      year: '2024–2025',
+      badge: '6 Модулей',
+      desc: 'Комплекс из 6 взаимосвязанных плагинов, расширяющих экономику, градостроительство и военные механики серверов на базе Towny Advanced.',
+      specs: [
+        { label: 'МОДУЛИ', val: '6 Плагинов в связке' },
+        { label: 'СХЕМЫ', val: 'FAWE Async Paste' },
+        { label: 'БАЗА ДАННЫХ', val: 'SQLite / HikariCP' }
       ],
-      tags: ['Java 21', 'Towny API', 'Citizens', 'FAWE', 'SQLite'],
+      codeFile: 'me/mors/towny/blueprint/AsyncStructureBuilder.java',
+      codeLang: 'Java 21 (FAWE + Towny)',
+      codeSnippet: `public CompletableFuture<BuildStageResult> pasteStageAsync(Town town, Clipboard stageClip, BlockVector3 origin) {
+    return CompletableFuture.supplyAsync(() -> {
+        try (EditSession session = WorldEdit.getInstance().newEditSession(adapWorld)) {
+            Operation op = new ClipboardHolder(stageClip).createPaste(session)
+                .to(origin).ignoreAirBlocks(true).build();
+            Operations.complete(op);
+            return BuildStageResult.success(town.getUUID());
+        }
+    }, faweExecutor);
+}`,
+      features: [
+        'MintTownyBabel: постройка Вавилонских башен с глобальными и зональными баффами',
+        'MintTownyCamps: развёртывание временных осадных лагерей во время войн',
+        'MintTownyColonists: NPC-рабочие на базе Citizens для добычи и логистики ресурсов',
+        'MintTownyBlueprint & Builds: поэтапная постройка зданий по чертежам через FAWE',
+        'MintTownyLevels: древо развития города, лимитов жителей и бонусов территории'
+      ],
+      tags: ['Java 21', 'Towny API', 'Citizens NPC', 'FAWE', 'SQLite', 'HikariCP'],
       link: 'https://github.com/morsonovich'
     },
     guns: {
+      codeId: 'PRJ-05',
       title: 'MorsGuns',
-      category: 'Java • Оружие и баллистика',
+      category: 'Java • Raycasting & Ballistics',
       year: '2025',
-      badge: 'Оружие',
-      img: 'media/images/morspvo_preview.jpg',
-      desc: 'Модульный оружейный движок с физикой пули, процедурной отдачей, кастомными звуками перезарядки и 3D-моделями.',
-      features: [
-        'Raycast баллистика с рикошетом и разбросом',
-        'Процедурные кривые отдачи',
-        'Кастомные звуки затвора, выстрелов и вспышки',
-        'Поддержка Nexo и ItemsAdder'
+      badge: 'Оружейный движок',
+      desc: 'Модульный оружейный движок для Minecraft с расчётом траектории выстрела, процедурной отдачей камеры, разбросом от движения и поддержкой 3D-моделей.',
+      specs: [
+        { label: 'БАЛЛИСТИКА', val: 'RayTrace + Penetration' },
+        { label: 'ОТДАЧА', val: 'Packet Camera Recoil' },
+        { label: 'МОДЕЛИ', val: 'Nexo / ItemsAdder' }
       ],
-      tags: ['Java', 'Raycasting', 'Nexo', 'ItemsAdder', '3D Models'],
+      codeFile: 'me/mors/guns/mechanic/WeaponFireHandler.java',
+      codeLang: 'Java 21',
+      codeSnippet: `Vector spreadDir = applyGaussianSpread(player.getEyeLocation().getDirection(),
+    weapon.getBaseSpread() * (player.isSprinting() ? 1.65 : 1.0));
+RayTraceResult hit = world.rayTrace(eyeLoc, spreadDir, weapon.getRange(),
+    FluidCollisionMode.NEVER, true, 0.12, ent -> !ent.equals(player));
+sendRecoilPacket(player, weapon.getVerticalRecoil(), weapon.getHorizontalRecoil());`,
+      features: [
+        'Высокоточный Raycast с учётом хитбоксов, хедшотов и прострела тонких блоков',
+        'Плавная процедурная отдача камеры через пакеты ротации',
+        'Кастомные звуки выстрелов, затвора, падения гильз и перезарядки',
+        'Настройка любого оружия через чистые YAML-конфигурации без перекомпиляции'
+      ],
+      tags: ['Java', 'Raycasting', 'Nexo', 'ItemsAdder', '3D Models', 'Sound Design'],
       link: 'https://github.com/morsonovich'
     },
     metaupgrades: {
+      codeId: 'PRJ-06',
       title: 'MetaUpgrades',
-      category: 'Java • RPG механики',
+      category: 'Java • RPG Skill Tree GUI',
       year: '2025',
-      badge: 'RPG древо',
-      img: 'media/images/towny_preview.jpg',
-      desc: 'Разветвленное древо навыков персонажа с отрисовкой связей в кастомном инвентаре, частицами и удобным YAML-конфигом.',
-      features: [
-        'Визуальное дерево прокачки в GUI',
-        'Эффекты частиц и звуки при изучении перков',
-        'Удобный конфиг в YAML',
-        'Интеграция с Vault, PlayerPoints и PlaceholderAPI'
+      badge: 'RPG Древо',
+      desc: 'Система прокачки персонажа с визуальным древом навыков в кастомном интерфейсе, проверкой зависимостей узлов, эффектами частиц и поддержкой внешних валют.',
+      specs: [
+        { label: 'ГРАФ', val: 'Directed Skill Tree' },
+        { label: 'РЕНДЕР', val: 'Custom GUI Canvas' },
+        { label: 'ХРАНЕНИЕ', val: 'Async SQL / YAML' }
       ],
-      tags: ['Java', 'GUI Canvas', 'Skill Tree', 'Vault', 'YAML'],
+      codeFile: 'me/mors/upgrades/tree/SkillGraph.java',
+      codeLang: 'Java 21',
+      codeSnippet: `public UnlockStatus tryUnlockNode(Player player, String nodeId) {
+    SkillNode node = nodes.get(nodeId);
+    PlayerSkills profile = storage.getProfile(player.getUniqueId());
+    if (!profile.containsAll(node.requiredParents())) return UnlockStatus.LOCKED_PARENT;
+    if (!economy.withdraw(player, node.cost())) return UnlockStatus.INSUFFICIENT_FUNDS;
+    profile.unlock(nodeId);
+    node.applyModifiers(player);
+    return UnlockStatus.SUCCESS;
+}`,
+      features: [
+        'Отрисовка связей между открытыми и закрытыми ветками навыков прямо в инвентаре',
+        'Гибкая система условий: уровень, валюта Vault / PlayerPoints, родительские перки',
+        'Визуальные эффекты частиц и звуковое сопровождение при прокачке',
+        'Экспорт плейсхолдеров в PlaceholderAPI для скорбордов и табов'
+      ],
+      tags: ['Java', 'GUI Canvas', 'Skill Tree', 'Vault API', 'PlaceholderAPI', 'YAML'],
       link: 'https://github.com/morsonovich'
     },
-    rustparser: {
-      title: 'Rust Data Parsers',
-      category: 'Rust • CLI & Tools',
-      year: '2025-2026',
-      badge: 'CLI утилиты',
-      img: 'media/images/telecord_preview.jpg',
-      desc: 'Небольшие утилиты на расте для быстрого парсинга, валидации и перегона тяжелых массивов данных (JSON, бинарные дампы, логи).',
-      features: [
-        'Высокая скорость работы и низкое потребление памяти',
-        'Асинхронная обработка на Tokio',
-        'Быстрый парсинг JSON/дампов без GC пауз',
-        'Кроссплатформенная сборка'
+    anomalies: {
+      codeId: 'PRJ-07',
+      title: 'MintAnomalies & MintSpheres',
+      category: 'Java • PaperMC • Particle Physics',
+      year: '2024',
+      badge: 'MintStudio Релиз',
+      desc: 'Комплекс плагинов для анархии и сталкер/RPG серверов: генерация динамических аномальных зон с векторной физикой, спавн редких артефактов и боевые сферы с кастомными NBT/PDC-атрибутами.',
+      specs: [
+        { label: 'ФИЗИКА', val: 'Vector Force Fields' },
+        { label: 'ЧАСТИЦЫ', val: 'Async Packet Spawn' },
+        { label: 'ДАННЫЕ', val: 'PDC / Custom NBT' }
       ],
-      tags: ['Rust', 'Tokio', 'Serde', 'CLI'],
+      codeFile: 'me/mors/anomalies/zone/GravitationalAnomaly.java',
+      codeLang: 'Java',
+      codeSnippet: `for (LivingEntity target : center.getNearbyLivingEntities(radius)) {
+    Vector delta = center.toVector().subtract(target.getLocation().toVector());
+    double dist = Math.max(0.75, delta.length());
+    target.setVelocity(target.getVelocity().add(delta.normalize().multiply(pullForce / dist)));
+}`,
+      features: [
+        'Несколько типов аномалий: гравитационные воронки, термические, кислотные и радиационные зоны',
+        'Спавн артефактов и боевых сфер (MintSpheres) с уникальными пассивными бонусами в левой руке',
+        'Отрисовка сложных геометрических фигур из частиц без просадки FPS и TPS'
+      ],
+      tags: ['Java', 'PaperMC', 'Particle Math', 'PersistentDataContainer', 'RPG'],
+      link: 'https://black-minecraft.com/members/retr0gradn1y.259287/'
+    },
+    alchemy: {
+      codeId: 'PRJ-08',
+      title: 'MintAlchemy & MintDrugs',
+      category: 'Java • Spigot / Paper • Brewing Engine',
+      year: '2024',
+      badge: 'MintStudio Релиз',
+      desc: 'Система многоэтапной алхимии и кастомной варки для RP и анархия-серверов. Включает контроль температуры котла, времени выдержки, чистоты продукта и комбинированные эффекты.',
+      specs: [
+        { label: 'ДВИЖОК', val: 'Brewing State Machine' },
+        { label: 'КАЧЕСТВО', val: 'Purity % Rating' },
+        { label: 'КОНФИГ', val: 'Custom Recipes YAML' }
+      ],
+      codeFile: 'me/mors/alchemy/brew/CauldronProcess.java',
+      codeLang: 'Java',
+      codeSnippet: `public void tickBrewingStep() {
+    int currentHeat = heatSource.measureTemperature(block.getRelative(BlockFace.DOWN));
+    if (currentHeat >= activeStage.minHeat() && currentHeat <= activeStage.maxHeat()) {
+        purity = Math.min(100.0, purity + activeStage.purityGainPerTick());
+    } else {
+        purity = Math.max(0.0, purity - 1.5);
+    }
+}`,
+      features: [
+        'Пошаговые рецепты с интерактивной проверкой температуры, ингредиентов и времени перемешивания',
+        'Динамический расчёт чистоты и качества итогового предмета (влияет на силу и длительность баффов)',
+        'Кастомные визуальные и звуковые эффекты при применении'
+      ],
+      tags: ['Java', 'Spigot / Paper', 'State Machine', 'Custom Brewing', 'YAML'],
+      link: 'https://black-minecraft.com/members/retr0gradn1y.259287/'
+    },
+    rustparser: {
+      codeId: 'PRJ-09',
+      title: 'Rust Data Parsers & CLI Tools',
+      category: 'Rust 2021 • Tokio • Serde • Rayon',
+      year: '2025–2026',
+      badge: 'CLI Утилиты',
+      desc: 'Высокоскоростные утилиты и парсеры на Rust для потоковой обработки, фильтрации и агрегации тяжёлых массивов данных (большие JSON-выгрузки, логи серверов, дампы).',
+      specs: [
+        { label: 'МНОГОПОТОЧНОСТЬ', val: 'Tokio + Rayon' },
+        { label: 'ПАМЯТЬ', val: 'Zero-Copy Slices' },
+        { label: 'ПАУЗЫ GC', val: '0 ms (Native)' }
+      ],
+      codeFile: 'src/parser/stream_worker.rs',
+      codeLang: 'Rust 2021',
+      codeSnippet: `pub fn process_log_buffer<'a>(buf: &'a [u8], pattern: &str) -> Vec<LogEntry<'a>> {
+    buf.par_split(|&b| b == b'\n')
+       .filter(|line| !line.is_empty())
+       .filter_map(|line| serde_json::from_slice::<LogEntry<'a>>(line).ok())
+       .filter(|entry| entry.event.contains(pattern))
+       .collect()
+}`,
+      features: [
+        'Параллельный разбор многогигабайтных файлов за счёт Rayon и потокового чтения',
+        'Десериализация без лишних аллокаций памяти (Zero-Copy Serde)',
+        'Минимальный размер скомпилированного бинарника и кроссплатформенная сборка (Linux / Windows)'
+      ],
+      tags: ['Rust 2021', 'Tokio', 'Serde', 'Rayon', 'CLI', 'Zero-Copy'],
+      link: 'https://github.com/morsonovich'
+    },
+    pybots: {
+      codeId: 'PRJ-10',
+      title: 'Telegram & Discord Боты / FastUI Бэкенды',
+      category: 'Python • aiogram 3 • discord.py • FastUI',
+      year: '2023–2026',
+      badge: 'Production • 3 года',
+      desc: 'Разработка асинхронных ботов для Telegram и Discord, веб-бэкендов на aiohttp и реактивных админ-панелей на FastUI с привязкой к базам данных и игровым серверам.',
+      specs: [
+        { label: 'СТЕК БОТОВ', val: 'aiogram 3 + discord.py' },
+        { label: 'ВЕБ-СЛОЙ', val: 'aiohttp + FastUI' },
+        { label: 'БАЗЫ ДАННЫХ', val: 'PostgreSQL / SQLite' }
+      ],
+      codeFile: 'app/api/admin_panel.py',
+      codeLang: 'Python 3.12 (FastUI + aiohttp)',
+      codeSnippet: `@router.get("/api/nodes", response_model=FastUI, response_model_exclude_none=True)
+async def render_nodes_dashboard(repo: NodeRepository = Depends(get_repo)) -> list[AnyComponent]:
+    stats = await repo.fetch_cluster_metrics()
+    return [
+        c.Page(components=[
+            c.Heading(text="Cluster Telemetry", level=2),
+            c.Table(data=stats, data_model=NodeMetricSchema),
+        ])
+    ]`,
+      features: [
+        'Боты для магазинов, техподдержки, модерации и привязки аккаунтов Minecraft ↔ TG/Discord',
+        'Интеграция платёжных систем, вебхуков и очередей задач',
+        'Построение админ-дашбордов и внутренних сервисов на базе FastUI и aiohttp'
+      ],
+      tags: ['Python 3.12', 'aiogram 3', 'discord.py', 'FastUI', 'aiohttp', 'PostgreSQL'],
       link: 'https://github.com/morsonovich'
     }
   };
 
   const projectModalOverlay = document.getElementById('projectModalOverlay');
   const closeProjectModalBtn = document.getElementById('closeProjectModalBtn');
-  const modalImg = document.getElementById('modalImg');
+  const modalCodeId = document.getElementById('modalCodeId');
   const modalBadge = document.getElementById('modalBadge');
   const modalCategory = document.getElementById('modalCategory');
   const modalYear = document.getElementById('modalYear');
   const modalTitle = document.getElementById('modalTitle');
   const modalDesc = document.getElementById('modalDesc');
+  const modalSpecsGrid = document.getElementById('modalSpecsGrid');
+  const modalCodeFile = document.getElementById('modalCodeFile');
+  const modalCodeLang = document.getElementById('modalCodeLang');
+  const modalCodeSnippet = document.getElementById('modalCodeSnippet');
   const modalFeaturesList = document.getElementById('modalFeaturesList');
   const modalTagsWrap = document.getElementById('modalTagsWrap');
   const modalLinkBtn = document.getElementById('modalLinkBtn');
@@ -657,12 +1030,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!data) return;
     sfx.modal();
 
-    if (modalImg) modalImg.src = data.img;
+    if (modalCodeId) modalCodeId.textContent = data.codeId;
     if (modalBadge) modalBadge.textContent = data.badge;
     if (modalCategory) modalCategory.textContent = data.category;
     if (modalYear) modalYear.textContent = data.year;
     if (modalTitle) modalTitle.textContent = data.title;
     if (modalDesc) modalDesc.textContent = data.desc;
+
+    if (modalSpecsGrid && data.specs) {
+      modalSpecsGrid.innerHTML = data.specs.map(s => `
+        <div class="modal-spec-box">
+          <span class="ms-label">${s.label}</span>
+          <span class="ms-val">${s.val}</span>
+        </div>
+      `).join('');
+    }
+
+    if (modalCodeFile) modalCodeFile.textContent = data.codeFile || '';
+    if (modalCodeLang) modalCodeLang.textContent = data.codeLang || '';
+    if (modalCodeSnippet) modalCodeSnippet.textContent = data.codeSnippet || '';
 
     if (modalFeaturesList) {
       modalFeaturesList.innerHTML = data.features.map(f => `<li>${f}</li>`).join('');
@@ -707,7 +1093,133 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // contact modal
+  // ==========================================
+  // INTERACTIVE CODE ARCHITECTURE VIEWER (SKILLS TAB)
+  // ==========================================
+  const ideSnippets = {
+    python: `# telecord_bridge.py — Асинхронный WebSocket шлюз (Python 3.12 / aiohttp)
+import asyncio
+from aiohttp import web
+
+class PresenceHub:
+    def __init__(self) -> None:
+        self.clients: set[web.WebSocketResponse] = set()
+        self.current_state: dict = {"app": "TeleCord v2.0", "status": "online"}
+
+    async def ws_handler(self, request: web.Request) -> web.WebSocketResponse:
+        ws = web.WebSocketResponse(heartbeat=25.0)
+        await ws.prepare(request)
+        self.clients.add(ws)
+        await ws.send_json({"op": "HELLO", "state": self.current_state})
+        try:
+            async for msg in ws:
+                if msg.type == web.WSMsgType.TEXT:
+                    await self.dispatch(msg.json())
+        finally:
+            self.clients.discard(ws)
+        return ws`,
+
+    java: `// PacketCheck.java — Пакетный перехватчик движения (Java 21 / PaperMC / PacketEvents)
+package me.mors.anticheat.check;
+
+import com.github.retrooper.packetevents.event.PacketReceiveEvent;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
+
+public final class VelocityPredictionCheck extends AbstractPacketCheck {
+    @Override
+    public void handle(PacketReceiveEvent event, PlayerProfile profile) {
+        if (!WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) return;
+
+        double deltaXZ = profile.getMovement().getDeltaXZ();
+        double maxAllowed = profile.getMovement().calculateMaxSpeedAttribute();
+
+        if (deltaXZ > maxAllowed && !profile.hasTeleportedRecently()) {
+            if (incrementBuffer(1.25) >= 6.0) {
+                alertStaff(profile, String.format("Speed/DeltaXZ: %.3f > %.3f", deltaXZ, maxAllowed));
+            }
+        } else {
+            decayBuffer(0.15);
+        }
+    }
+}`,
+
+    rust: `// dump_parser.rs — Многопоточный парсер дампов без пауз GC (Rust 2021 / Rayon + Serde)
+use rayon::prelude::*;
+use serde::Deserialize;
+
+#[derive(Deserialize, Debug)]
+pub struct PacketRecord<'a> {
+    pub player_uuid: &'a str,
+    pub latency_ms: u32,
+    pub payload_Tag: &'a str,
+}
+
+pub fn filter_anomalous_packets<'a>(raw_blob: &'a [u8], max_ping: u32) -> Vec<PacketRecord<'a>> {
+    raw_blob
+        .par_split(|&byte| byte == b'\\n')
+        .filter(|line| !line.is_empty())
+        .filter_map(|line| serde_json::from_slice::<PacketRecord<'a>>(line).ok())
+        .filter(|rec| rec.latency_ms <= max_ping)
+        .collect()
+}`,
+
+    js: `// presence_socket.js — Реалтайм синхронизация статуса по WebSockets (ES6+)
+export class TeleCordSocket {
+  constructor(endpoint, onStateUpdate) {
+    this.endpoint = endpoint;
+    this.onStateUpdate = onStateUpdate;
+    this.connect();
+  }
+
+  connect() {
+    this.ws = new WebSocket(this.endpoint);
+    this.ws.addEventListener('message', (event) => {
+      const packet = JSON.parse(event.data);
+      if (packet.op === 'PRESENCE_SYNC' || packet.op === 'HELLO') {
+        this.onStateUpdate(packet.state || packet.d);
+      }
+    });
+    this.ws.addEventListener('close', () => setTimeout(() => this.connect(), 3000));
+  }
+}`
+  };
+
+  const ideTabs = document.querySelectorAll('#ideTabs .ide-tab');
+  const ideCodeContent = document.getElementById('ideCodeContent');
+  const copyIdeCodeBtn = document.getElementById('copyIdeCodeBtn');
+  let activeIdeLang = 'python';
+
+  function renderIdeCode(lang) {
+    activeIdeLang = lang;
+    if (ideCodeContent) {
+      ideCodeContent.textContent = ideSnippets[lang] || '';
+    }
+    ideTabs.forEach(t => {
+      t.classList.toggle('active', t.dataset.codeTab === lang);
+    });
+  }
+  renderIdeCode('python');
+
+  ideTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      sfx.click();
+      renderIdeCode(tab.dataset.codeTab);
+    });
+  });
+
+  if (copyIdeCodeBtn) {
+    copyIdeCodeBtn.addEventListener('click', () => {
+      sfx.click();
+      const code = ideSnippets[activeIdeLang] || '';
+      navigator.clipboard.writeText(code).then(() => {
+        showToast('Код скопирован в буфер обмена');
+      });
+    });
+  }
+
+  // ==========================================
+  // CONTACT MODAL & CLIPBOARD
+  // ==========================================
   const contactModalOverlay = document.getElementById('contactModalOverlay');
   const openContactBtn = document.getElementById('openContactBtn');
   const heroHireBtn = document.getElementById('heroHireBtn');
@@ -718,8 +1230,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const serviceMessages = {
     minecraft_plugin: 'Привет, Артём! Хочу заказать плагин для Minecraft. Давай обсудим ТЗ!',
-    bot_development: 'Привет! Мне нужен бот для Telegram/Discord с бэкендом. Когда сможем начать?',
-    web_service: 'Привет! Интересует разработка веб-сервиса / бэкенда. Какие сроки?',
+    bot_development: 'Привет! Мне нужен бот для Telegram/Discord с бэкендом. Когда сможем обсудить?',
+    web_service: 'Привет! Интересует разработка веб-бэкенда / парсера. Какие условия и сроки?',
     audit_consult: 'Привет! Нужен аудит кода или оптимизация TPS сервера. Готов обсудить детали.'
   };
 
@@ -768,7 +1280,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (modalOrderBtn) {
     modalOrderBtn.addEventListener('click', () => {
       closeProjectModal();
-      setTimeout(openContactModal, 250);
+      setTimeout(openContactModal, 220);
     });
   }
   if (closeContactModalBtn) closeContactModalBtn.addEventListener('click', closeContactModal);
@@ -778,7 +1290,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       if (projectModalOverlay && projectModalOverlay.classList.contains('open')) closeProjectModal();
@@ -786,7 +1297,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // toast
   function showToast(text) {
     let toast = document.querySelector('.copy-toast');
     if (!toast) {
@@ -814,31 +1324,40 @@ document.addEventListener('DOMContentLoaded', () => {
   if (discordCopyBtn) discordCopyBtn.addEventListener('click', copyDiscordAction);
   if (modalCopyDiscordBtn) modalCopyDiscordBtn.addEventListener('click', copyDiscordAction);
 
-  // fullscreen
+  // Fullscreen
   const fullscreenBtn = document.getElementById('fullscreenToggleBtn');
   if (fullscreenBtn) {
     fullscreenBtn.addEventListener('click', () => {
       sfx.click();
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(() => {});
-      } else {
-        if (document.exitFullscreen) document.exitFullscreen();
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
       }
     });
   }
 
-  // dev terminal
+  // ==========================================
+  // INTERACTIVE ZSH TERMINAL & MATRIX FX
+  // ==========================================
   const terminalScreen = document.getElementById('terminalScreen');
   const terminalOutput = document.getElementById('terminalOutput');
   const terminalForm = document.getElementById('terminalForm');
   const terminalInput = document.getElementById('terminalInput');
   const clearTermBtn = document.getElementById('clearTermBtn');
   const matrixCanvas = document.getElementById('matrixCanvas');
+  const bentoMatrixBtn = document.getElementById('bentoMatrixBtn');
+  const bentoCatBtn = document.getElementById('bentoCatBtn');
 
   let matrixRunning = false;
   let matrixInterval = null;
   const cmdHistory = [];
   let historyIdx = -1;
+
+  const availableCommands = [
+    'help', 'whoami', 'neofetch', 'projects', 'inspect',
+    'skills', 'mint', 'cat', 'matrix', 'theme', 'music', 'contact', 'clear', 'sudo'
+  ];
 
   function printTermLine(text, className = '') {
     if (!terminalOutput) return;
@@ -856,62 +1375,90 @@ document.addEventListener('DOMContentLoaded', () => {
     historyIdx = cmdHistory.length;
 
     printTermLine(`<span class="term-prompt">mors@pc:~$</span> ${escapeHtml(cmd)}`);
-    const parts = cmd.split(' ');
+    const parts = cmd.split(/\s+/);
     const mainCmd = parts[0].toLowerCase();
     const args = parts.slice(1);
 
     switch (mainCmd) {
       case 'help':
-        printTermLine('<span class="text-cyan">Доступные команды:</span>');
-        printTermLine('  <span class="term-highlight">whoami</span>       - обо мне и контакты');
-        printTermLine('  <span class="term-highlight">projects</span>     - список моих проектов');
-        printTermLine('  <span class="term-highlight">skills</span>       - навыки и технологии');
-        printTermLine('  <span class="term-highlight">cat</span>          - погладить котика');
-        printTermLine('  <span class="term-highlight">matrix</span>       - эффект матрицы');
-        printTermLine('  <span class="term-highlight">theme &lt;name&gt;</span> - сменить тему (cyan, purple, mint, red)');
-        printTermLine('  <span class="term-highlight">music</span>        - управление музыкой (play, pause, vol)');
-        printTermLine('  <span class="term-highlight">contact</span>      - ссылки для связи');
-        printTermLine('  <span class="term-highlight">clear</span>        - очистить консоль');
+        printTermLine('<span class="text-cyan">Доступные команды оболочки:</span>');
+        printTermLine('  <span class="term-highlight">whoami</span>            — досье обо мне и прямые контакты');
+        printTermLine('  <span class="term-highlight">neofetch</span>          — сводка о системе и стеке');
+        printTermLine('  <span class="term-highlight">projects</span>          — список всех 10 проектов с ID');
+        printTermLine('  <span class="term-highlight">inspect &lt;id&gt;</span>      — открыть тех. разбор проекта (напр. inspect telecord)');
+        printTermLine('  <span class="term-highlight">skills</span>            — языки программирования и специализация');
+        printTermLine('  <span class="term-highlight">mint</span>              — архив плагинов студии MintStudio');
+        printTermLine('  <span class="term-highlight">cat</span>               — позвать котика');
+        printTermLine('  <span class="term-highlight">matrix</span>            — переключить матричный фон');
+        printTermLine('  <span class="term-highlight">theme &lt;name&gt;</span>      — сменить тему (cyan | purple | mint | red)');
+        printTermLine('  <span class="term-highlight">music</span>             — управление треком (play | pause | vol &lt;0-100&gt;)');
+        printTermLine('  <span class="term-highlight">contact</span>           — ссылки на GitHub, Telegram, Discord, BlackMinecraft');
+        printTermLine('  <span class="term-highlight">clear</span>             — очистить окно терминала');
         break;
 
       case 'whoami':
-        printTermLine('👤 <span class="term-highlight">Артём (Морсонович / Морс)</span>');
-        printTermLine('   Стек: Python (3г), Java / Minecraft Paper (2г), Rust (2г), JS (2г)');
-        printTermLine('   Проекты: TeleCord, MintAntiCheat, MORSPVO, MintTowny, MorsGuns');
-        printTermLine('   Связь: TG @retr0gradn1y | Discord: morsonovich');
+        printTermLine('<span class="text-cyan">:: ДОСЬЕ // MORSONOVICH</span>');
+        printTermLine('  Имя:      <span class="term-highlight">Артём (Морс / Морсонович)</span>');
+        printTermLine('  Статус:   Бывший создатель студии <span class="term-highlight">MintStudio</span> (разработка плагинов для Minecraft)');
+        printTermLine('  Стек:     Python (3 года), Java (2 года), Rust (2 года), JavaScript (2 года)');
+        printTermLine('  Связь:    Telegram <span class="term-highlight">@retr0gradn1y</span> | Discord <span class="term-highlight">morsonovich</span>');
+        break;
+
+      case 'neofetch':
+        printTermLine('<span class="text-cyan">mors@morsonovich</span> —————————————————————');
+        printTermLine('  <span class="text-cyan">OS:</span>      Arch Linux x86_64 (Kernel 6.10.7)');
+        printTermLine('  <span class="text-cyan">Host:</span>    morsonovich.github.io');
+        printTermLine('  <span class="text-cyan">Focus:</span>   TeleCord v2.0 (WebSocket Bridge)');
+        printTermLine('  <span class="text-cyan">Plugins:</span> 15+ (MintAntiCheat, MORSPVO, MintTowny, MorsGuns...)');
+        printTermLine('  <span class="text-cyan">Audio:</span>   MORGENSHTERN — Бременские музыканты');
         break;
 
       case 'projects':
-        printTermLine('🚀 <span class="text-cyan">Проекты:</span>');
+        printTermLine('<span class="text-cyan">:: КАТАЛОГ ПРОЕКТОВ (для открытия введите: inspect &lt;id&gt;):</span>');
         Object.keys(projectData).forEach(id => {
           const p = projectData[id];
-          printTermLine(`  • <span class="term-highlight">${p.title}</span> [${p.year}] - ${p.category}`);
+          printTermLine(`  [${p.codeId}] <span class="term-highlight">${id.padEnd(13, ' ')}</span> — ${p.title} (${p.year})`);
         });
         break;
 
+      case 'inspect':
+        if (args[0] && projectData[args[0].toLowerCase()]) {
+          const targetId = args[0].toLowerCase();
+          printTermLine(`Открываю карточку архитектуры: <span class="text-cyan">${projectData[targetId].title}</span>...`);
+          openProjectModal(targetId);
+        } else {
+          printTermLine(`Укажите ID проекта: <span class="term-highlight">inspect &lt;${Object.keys(projectData).join(' | ')}&gt;</span>`);
+        }
+        break;
+
       case 'skills':
-        printTermLine('⚡ <span class="text-cyan">Стек:</span>');
-        printTermLine('  🐍 Python     [==================] 95% (aiohttp, asyncio, боты)');
-        printTermLine('  ☕ Java       [================= ] 90% (PaperMC, PacketEvents, GUI)');
-        printTermLine('  ⚡ JavaScript [================  ] 85% (ES6+, WebSockets, Canvas)');
-        printTermLine('  🦀 Rust       [===============   ] 80% (Tokio, CLI, парсеры)');
-        printTermLine('  🛡️ Security   [================  ] 85% (Античит, аудит плагинов)');
+        printTermLine('<span class="text-cyan">:: СТЕК РАЗРАБОТКИ:</span>');
+        printTermLine('  • <span class="term-highlight">Python (3 года):</span>     Telegram/Discord боты, aiohttp, FastUI, бэкенд, парсеры');
+        printTermLine('  • <span class="term-highlight">Java (2 года):</span>       Плагины Minecraft (Paper, Spigot, PacketEvents, Nexo)');
+        printTermLine('  • <span class="term-highlight">Rust (2 года):</span>       Скоростные утилиты парсинга данных, Tokio, Serde');
+        printTermLine('  • <span class="term-highlight">JavaScript (2 года):</span> Фронтенд сайтов, WebSockets, Canvas, интерфейсы');
+        break;
+
+      case 'mint':
+        printTermLine('<span class="text-cyan">:: АРХИВ MINTSTUDIO (2023–2025):</span>');
+        printTermLine('  Выпущено 15+ плагинов: MintAntiCheat, MORSPVO, MTownyRaid, MintTowny (6 модулей),');
+        printTermLine('  MorsGuns, MetaUpgrades, MintAlchemy, MintDrugs, MintAnomalies, MintSpheres.');
         break;
 
       case 'cat':
         triggerCatPlay();
-        printTermLine('🐾 <span class="text-cyan">Котик мяукнул и сделал сальто!</span>');
+        printTermLine('<span class="text-cyan">[OK]</span> Чёрный кот мяукнул и сделал кульбит.');
         break;
 
       case 'matrix':
         toggleMatrixRain();
-        printTermLine(matrixRunning ? '🟢 <span class="text-green">Матрица включена.</span>' : '⚪ Матрица выключена.');
+        printTermLine(matrixRunning ? '<span class="text-green">[ON] Матричный поток запущен.</span>' : '[OFF] Матричный поток остановлен.');
         break;
 
       case 'theme':
         if (args[0] && ['cyan', 'purple', 'mint', 'red'].includes(args[0].toLowerCase())) {
           applyTheme(args[0].toLowerCase());
-          printTermLine(`Тема переключена на <span class="text-cyan">${args[0]}</span>`);
+          printTermLine(`Акцентная тема изменена на <span class="text-cyan">${args[0].toLowerCase()}</span>`);
         } else {
           printTermLine('Использование: <span class="term-highlight">theme &lt;cyan | purple | mint | red&gt;</span>');
         }
@@ -920,26 +1467,28 @@ document.addEventListener('DOMContentLoaded', () => {
       case 'music':
         if (args[0] === 'pause') {
           if (bgAudio) bgAudio.pause();
-          printTermLine('Музыка на паузе.');
+          syncAudioUiState(false);
+          printTermLine('Аудиопоток поставлен на паузу.');
         } else if (args[0] === 'play') {
           startMusic().then(handlePlaybackSuccess).catch(() => {});
-          printTermLine('Воспроизведение.');
+          printTermLine('Воспроизведение: MORGENSHTERN — Бременские музыканты.');
         } else if (args[0] === 'vol' && args[1]) {
           const v = Math.max(0, Math.min(100, parseInt(args[1], 10))) / 100;
           if (bgAudio) bgAudio.volume = v;
           if (volumeSlider) volumeSlider.value = v;
           if (volValText) volValText.textContent = Math.round(v * 100) + '%';
-          printTermLine(`Громкость: ${Math.round(v * 100)}%`);
+          printTermLine(`Громкость установлена на ${Math.round(v * 100)}%`);
         } else {
           printTermLine('Использование: <span class="term-highlight">music play | pause | vol &lt;0-100&gt;</span>');
         }
         break;
 
       case 'contact':
-        printTermLine('📬 <span class="text-cyan">Контакты:</span>');
-        printTermLine('  Telegram: <a href="https://t.me/retr0gradn1y" target="_blank" style="color:var(--accent);">@retr0gradn1y</a>');
-        printTermLine('  Discord: <span class="term-highlight">morsonovich</span>');
-        printTermLine('  GitHub: <a href="https://github.com/morsonovich" target="_blank" style="color:var(--accent);">github.com/morsonovich</a>');
+        printTermLine('<span class="text-cyan">:: КОНТАКТЫ И РЕСУРСЫ:</span>');
+        printTermLine('  Telegram:       <a href="https://t.me/retr0gradn1y" target="_blank" style="color:var(--accent);">@retr0gradn1y</a>');
+        printTermLine('  Discord:        <span class="term-highlight">morsonovich</span>');
+        printTermLine('  GitHub:         <a href="https://github.com/morsonovich" target="_blank" style="color:var(--accent);">github.com/morsonovich</a>');
+        printTermLine('  BlackMinecraft: <a href="https://black-minecraft.com/members/retr0gradn1y.259287/" target="_blank" style="color:var(--accent);">retr0gradn1y.259287</a>');
         break;
 
       case 'clear':
@@ -947,11 +1496,11 @@ document.addEventListener('DOMContentLoaded', () => {
         break;
 
       case 'sudo':
-        printTermLine('🚫 <span class="text-red">[sudo] password for mors: Permission denied (publickey).</span>');
+        printTermLine('<span class="text-red">sudo: permission denied for user mors (authentication key required).</span>');
         break;
 
       default:
-        printTermLine(`Команда не найдена: <span class="text-red">${escapeHtml(cmd)}</span>. Введите <span class="term-highlight">help</span>`);
+        printTermLine(`zsh: command not found: <span class="text-red">${escapeHtml(cmd)}</span>. Введите <span class="term-highlight">help</span>.`);
         break;
     }
   }
@@ -970,17 +1519,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     terminalInput.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowUp') {
+        e.preventDefault();
         if (historyIdx > 0) {
           historyIdx--;
           terminalInput.value = cmdHistory[historyIdx] || '';
         }
       } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
         if (historyIdx < cmdHistory.length - 1) {
           historyIdx++;
           terminalInput.value = cmdHistory[historyIdx] || '';
         } else {
           historyIdx = cmdHistory.length;
           terminalInput.value = '';
+        }
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        const current = terminalInput.value.trim().toLowerCase();
+        if (!current) return;
+        const parts = current.split(/\s+/);
+        if (parts.length === 1) {
+          const match = availableCommands.find(c => c.startsWith(parts[0]));
+          if (match) terminalInput.value = match + (match === 'inspect' || match === 'theme' || match === 'music' ? ' ' : '');
+        } else if (parts[0] === 'inspect' && parts.length === 2) {
+          const projMatch = Object.keys(projectData).find(k => k.startsWith(parts[1]));
+          if (projMatch) terminalInput.value = `inspect ${projMatch}`;
         }
       }
     });
@@ -1001,7 +1564,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // matrix rain
+  // Matrix rain effect
   function toggleMatrixRain() {
     if (!matrixCanvas) return;
     matrixRunning = !matrixRunning;
@@ -1013,14 +1576,14 @@ document.addEventListener('DOMContentLoaded', () => {
       matrixCanvas.height = window.innerHeight;
 
       const chars = '0123456789ABCDEFﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ';
-      const fontSize = 16;
+      const fontSize = 15;
       const columns = Math.floor(matrixCanvas.width / fontSize);
       const drops = Array(columns).fill(1);
 
       matrixInterval = setInterval(() => {
-        ctx.fillStyle = 'rgba(5, 6, 12, 0.08)';
+        ctx.fillStyle = 'rgba(5, 6, 10, 0.08)';
         ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-        ctx.fillStyle = document.body.dataset.theme === 'red' ? '#ff2a55' : (document.body.dataset.theme === 'purple' ? '#c084fc' : '#00f0ff');
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--accent').trim() || '#00e5ff';
         ctx.font = fontSize + 'px monospace';
 
         for (let i = 0; i < drops.length; i++) {
@@ -1039,6 +1602,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  if (bentoMatrixBtn) {
+    bentoMatrixBtn.addEventListener('click', () => {
+      sfx.click();
+      toggleMatrixRain();
+      showToast(matrixRunning ? 'Matrix FX: Включен' : 'Matrix FX: Выключен');
+    });
+  }
+
   window.addEventListener('resize', () => {
     if (matrixRunning && matrixCanvas) {
       matrixCanvas.width = window.innerWidth;
@@ -1046,7 +1617,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // views counter
+  // Views counter
   const viewCountText = document.getElementById('viewCountText');
   if (viewCountText) {
     let savedViews = parseInt(localStorage.getItem('mors_visitor_count') || '2480', 10);
@@ -1055,7 +1626,9 @@ document.addEventListener('DOMContentLoaded', () => {
     viewCountText.textContent = savedViews.toLocaleString();
   }
 
-  // oneko cat pet
+  // ==========================================
+  // ONEKO BLACK CAT PET
+  // ==========================================
   let triggerCatPlay = () => {};
 
   (function initBlackCatPet() {
@@ -1065,7 +1638,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nekoEl = document.createElement('div');
     nekoEl.id = 'onekoCat';
     nekoEl.setAttribute('aria-label', 'Кот');
-    nekoEl.setAttribute('title', 'Кликните по котику!');
+    nekoEl.setAttribute('title', 'Кликните по котику');
 
     const catBubble = document.getElementById('catSpeechBubble');
     const SPRITE_SIZE = 42;
@@ -1111,29 +1684,29 @@ document.addEventListener('DOMContentLoaded', () => {
     function showCatBubble(text) {
       if (!catBubble) return;
       catBubble.textContent = text;
-      catBubble.style.left = (nekoPosX - 30) + 'px';
-      catBubble.style.top = (nekoPosY - 55) + 'px';
+      catBubble.style.left = (nekoPosX - 28) + 'px';
+      catBubble.style.top = (nekoPosY - 50) + 'px';
       catBubble.classList.add('show');
       setTimeout(() => {
         catBubble.classList.remove('show');
       }, 2000);
     }
 
-    triggerCatPlay = function() {
+    triggerCatPlay = function () {
       sfx.meow();
       const phrases = [
-        'Мяу! 🐾',
+        'Мяу!',
         'Муррр~',
-        'Морсонович',
-        'Поймал курсор!',
+        'Morsonovich',
+        '20.0 TPS',
         ':3'
       ];
       showCatBubble(phrases[Math.floor(Math.random() * phrases.length)]);
       nekoEl.style.transition = 'transform 0.4s ease';
-      nekoEl.style.transform = 'scale(1.25) rotate(360deg)';
+      nekoEl.style.transform = 'scale(1.22) rotate(360deg)';
       setTimeout(() => {
         nekoEl.style.transform = 'scale(1) rotate(0deg)';
-      }, 450);
+      }, 420);
     };
 
     nekoEl.addEventListener('click', (e) => {
@@ -1141,12 +1714,18 @@ document.addEventListener('DOMContentLoaded', () => {
       triggerCatPlay();
     });
 
+    if (bentoCatBtn) {
+      bentoCatBtn.addEventListener('click', () => {
+        triggerCatPlay();
+      });
+    }
+
     function resetIdleAnimation() {
       idleAnimation = null;
       idleAnimationFrame = 0;
     }
 
-    function handleIdle(timestamp) {
+    function handleIdle() {
       idleTime += 1;
       if (idleTime > 60 && Math.floor(Math.random() * 200) === 0 && idleAnimation === null) {
         const available = ['sleeping', 'scratchSelf'];
@@ -1190,7 +1769,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const distance = Math.hypot(diffX, diffY);
 
       if (distance < 32) {
-        handleIdle(timestamp);
+        handleIdle();
       } else {
         if (idleTime > 30 && alertUntil === 0) {
           alertUntil = timestamp + 220;
